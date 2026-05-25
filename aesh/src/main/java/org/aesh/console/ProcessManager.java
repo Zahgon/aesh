@@ -29,7 +29,9 @@ import org.aesh.terminal.Connection;
 public class ProcessManager {
 
     private Connection conn;
+
     private final Console console;
+
     private Executor<? extends CommandInvocation> executor;
 
     public ProcessManager(Console console) {
@@ -37,32 +39,18 @@ public class ProcessManager {
     }
 
     public void execute(Executor<? extends CommandInvocation> executor, Connection conn) {
-        this.conn = conn;
-        this.executor = executor;
-        executeNext();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasNext() {
-        return executor.hasNext();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void processFinished(Process process) {
-        if (hasNext()) {
-            executeNext();
-        } else {
-            //if there are commands that wasn't executed we need to clear their data
-            if (executor.hasSkipped())
-                executor.clearSkippedListData();
-            if (console.running())
-                console.read();
-            else
-                conn.close();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void executeNext() {
-        if (hasNext()) {
-            new Process(this, conn, executor.getNextExecution()).start();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

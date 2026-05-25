@@ -38,6 +38,7 @@ import java.util.List;
 public class GraphNode {
 
     private final String label;
+
     private final List<GraphNode> children = new ArrayList<>();
 
     private GraphNode(String label) {
@@ -48,7 +49,7 @@ public class GraphNode {
      * Creates a new graph node with the given label.
      */
     public static GraphNode of(String label) {
-        return new GraphNode(label);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -57,8 +58,7 @@ public class GraphNode {
      * @return this node for chaining
      */
     public GraphNode child(GraphNode node) {
-        children.add(node);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -67,21 +67,20 @@ public class GraphNode {
      * @return this node for chaining
      */
     public GraphNode child(String label) {
-        children.add(new GraphNode(label));
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the label of this node.
      */
     public String label() {
-        return label;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns an unmodifiable view of this node's children.
      */
     public List<GraphNode> children() {
-        return Collections.unmodifiableList(children);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

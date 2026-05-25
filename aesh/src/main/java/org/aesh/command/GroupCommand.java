@@ -17,12 +17,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command;
 
 import java.util.Collections;
 import java.util.List;
-
 import org.aesh.command.container.CommandContainer;
 import org.aesh.command.invocation.CommandInvocation;
 
@@ -34,7 +32,6 @@ public interface GroupCommand<CI extends CommandInvocation> extends Command<CI> 
     List<Command<CI>> getCommands();
 
     default List<CommandContainer<CI>> getParsedCommands() {
-        return Collections.emptyList();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

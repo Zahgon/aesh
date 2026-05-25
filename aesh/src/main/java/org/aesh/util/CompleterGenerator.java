@@ -28,7 +28,6 @@ import org.aesh.util.completer.CompleterCommand;
 public class CompleterGenerator {
 
     public static void main(String[] args) {
-        AeshRuntimeRunner.builder().command(CompleterCommand.class).args(args).execute();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

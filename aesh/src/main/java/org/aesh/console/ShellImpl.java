@@ -21,7 +21,6 @@ package org.aesh.console;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
 import org.aesh.command.shell.Shell;
 import org.aesh.readline.Readline;
 import org.aesh.readline.action.ActionDecoder;
@@ -39,6 +38,7 @@ import org.aesh.terminal.utils.Config;
 public class ShellImpl implements Shell {
 
     private Connection connection;
+
     private final PagingSupport pagingSupport;
 
     public ShellImpl(Connection connection) {
@@ -51,77 +51,54 @@ public class ShellImpl implements Shell {
     }
 
     void startCollectOutput() {
-        pagingSupport.reset();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // handle "a la" 'more' scrolling
     // Doesn't take into account wrapped lines (lines that are longer than the
     // terminal width. This could make a page to skip some lines.
     void printCollectedOutput() {
-        pagingSupport.printCollectedOutput();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void write(String msg, boolean page) {
-        if (connection.supportsAnsi() && page) {
-            pagingSupport.addContent(msg);
-        } else {
-            connection.write(msg);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void writeln(String msg, boolean page) {
-        if (connection.supportsAnsi() && page) {
-            pagingSupport.addContent(msg + Config.getLineSeparator());
-        } else {
-            connection.write(msg + Config.getLineSeparator());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void write(int[] out) {
-        connection.stdoutHandler().accept(out);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void write(char out) {
-        connection.write(String.valueOf(out));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String readLine() throws InterruptedException {
-        return readLine(new Prompt(""));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String readLine(Prompt prompt) throws InterruptedException {
-        printCollectedOutput();
-        pagingSupport.reset();
-        final String[] out = { null };
-        CountDownLatch latch = new CountDownLatch(1);
-        Readline readline = new Readline();
-        readline.readline(connection, prompt, event -> {
-            out[0] = event;
-            latch.countDown();
-        });
-        try {
-            // Wait until interrupted
-            latch.await();
-        } finally {
-            connection.setStdinHandler(null);
-        }
-        return out[0];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Key read(long timeout, TimeUnit unit) throws InterruptedException {
-        return doRead(timeout, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Key read() throws InterruptedException {
-        return doRead(0, null);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private Key doRead(long timeout, TimeUnit unit) throws InterruptedException {
@@ -156,34 +133,31 @@ public class ShellImpl implements Shell {
 
     @Override
     public Key read(Prompt prompt) throws InterruptedException {
-        if (prompt != null) {
-            connection.stdoutHandler().accept(prompt.getANSI());
-        }
-        return doRead(0, null);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean enableAlternateBuffer() {
-        return connection.put(Capability.enter_ca_mode);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean enableMainBuffer() {
-        return connection.put(Capability.exit_ca_mode);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Size size() {
-        return connection.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void clear() {
-        connection.put(Capability.clear_screen);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Connection connection() {
-        return connection;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

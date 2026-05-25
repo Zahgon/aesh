@@ -37,3 +37,8 @@ dependency-reduced-pom.xml
 
 .cachebro/*
 .cachebro/
+
+.aider*
+logs/
+.commit0_scripts/
+.github/workflows/

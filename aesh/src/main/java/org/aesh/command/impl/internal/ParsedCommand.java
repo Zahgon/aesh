@@ -11,38 +11,22 @@ public class ParsedCommand {
     }
 
     public ParsedOption findLongOption(String name) {
-        ProcessedOption po = processedCommand.findLongOption(name);
-        if (po != null)
-            return new ParsedOption(po);
-        else
-            return null;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Command command() {
-        return processedCommand.getCommand();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ParsedOption argument() {
-        if (processedCommand.hasArgument())
-            return new ParsedOption((ProcessedOption) processedCommand.getArgumentOptions().get(0));
-        else
-            return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ParsedOption arguments() {
-        if (processedCommand.hasArguments())
-            return new ParsedOption(processedCommand.getArguments());
-        else
-            return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ParsedOption findLongOptionNoActivatorCheck(String name) {
-        ProcessedOption processedOption = processedCommand.findLongOptionNoActivatorCheck(name);
-        if (processedOption != null)
-            return new ParsedOption(processedOption);
-        else
-            return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

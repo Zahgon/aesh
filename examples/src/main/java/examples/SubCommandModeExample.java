@@ -21,7 +21,6 @@ package examples;
 
 import java.util.List;
 import java.util.Map;
-
 import org.aesh.AeshConsoleRunner;
 import org.aesh.command.Command;
 import org.aesh.command.CommandDefinition;
@@ -77,79 +76,51 @@ import org.aesh.command.option.OptionList;
 public class SubCommandModeExample {
 
     public static void main(String[] args) {
-        AeshConsoleRunner.builder()
-                .command(AppCommand.class)
-                .prompt("[demo]$ ")
-                .addExitCommand()
-                .start();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    @GroupCommandDefinition(name = "app", description = "Application manager",
-            generateHelp = true,
-            groupCommands = {
-                    BuildCommand.class,
-                    DeployCommand.class,
-                    ConfigCommand.class,
-                    StatusCommand.class
-            })
+    @GroupCommandDefinition(name = "app", description = "Application manager", generateHelp = true, groupCommands = { BuildCommand.class, DeployCommand.class, ConfigCommand.class, StatusCommand.class })
     public static class AppCommand implements Command<CommandInvocation> {
 
-        @Option(name = "verbose", shortName = 'v', hasValue = false,
-                inherited = true, description = "Enable verbose output")
+        @Option(name = "verbose", shortName = 'v', hasValue = false, inherited = true, description = "Enable verbose output")
         private boolean verbose;
 
         @Override
         public CommandResult execute(CommandInvocation invocation) throws CommandException, InterruptedException {
-            invocation.enterSubCommandMode(this);
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     @CommandDefinition(name = "build", description = "Build the project", generateHelp = true)
     public static class BuildCommand implements Command<CommandInvocation> {
 
-        @Option(name = "target", shortName = 't',
-                allowedValues = { "jar", "war", "native" },
-                defaultValue = "jar",
-                description = "Build target type")
+        @Option(name = "target", shortName = 't', allowedValues = { "jar", "war", "native" }, defaultValue = "jar", description = "Build target type")
         private String target;
 
-        @Option(name = "clean", shortName = 'c', hasValue = false,
-                description = "Clean before building")
+        @Option(name = "clean", shortName = 'c', hasValue = false, description = "Clean before building")
         private boolean clean;
 
-        @Option(name = "parallel", shortName = 'p',
-                description = "Number of parallel threads")
+        @Option(name = "parallel", shortName = 'p', description = "Number of parallel threads")
         private int parallel;
 
         boolean verbose;
 
         @Override
         public CommandResult execute(CommandInvocation invocation) {
-            if (verbose) {
-                invocation.println("[VERBOSE] Starting build...");
-            }
-            invocation.println("Building " + target + (clean ? " (clean)" : "")
-                    + (parallel > 0 ? " with " + parallel + " threads" : ""));
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     @CommandDefinition(name = "deploy", description = "Deploy the application", generateHelp = true)
     public static class DeployCommand implements Command<CommandInvocation> {
 
-        @Option(name = "environment", shortName = 'e',
-                allowedValues = { "dev", "staging", "prod" },
-                description = "Target environment")
+        @Option(name = "environment", shortName = 'e', allowedValues = { "dev", "staging", "prod" }, description = "Target environment")
         private String environment;
 
-        @Option(name = "force", shortName = 'f', hasValue = false,
-                description = "Force deployment without confirmation")
+        @Option(name = "force", shortName = 'f', hasValue = false, description = "Force deployment without confirmation")
         private boolean force;
 
-        @OptionList(name = "tags",
-                allowedValues = { "v1", "v2", "latest" },
-                description = "Deployment tags")
+        @OptionList(name = "tags", allowedValues = { "v1", "v2", "latest" }, description = "Deployment tags")
         private List<String> tags;
 
         @Argument(description = "Application version to deploy")
@@ -159,73 +130,36 @@ public class SubCommandModeExample {
 
         @Override
         public CommandResult execute(CommandInvocation invocation) {
-            if (environment == null) {
-                invocation.println("Error: --environment is required");
-                return CommandResult.FAILURE;
-            }
-            StringBuilder sb = new StringBuilder();
-            sb.append("Deploying");
-            if (version != null)
-                sb.append(" v").append(version);
-            sb.append(" to ").append(environment);
-            if (force)
-                sb.append(" (forced)");
-            if (tags != null && !tags.isEmpty())
-                sb.append(" tags=").append(tags);
-            invocation.println(sb.toString());
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     @CommandDefinition(name = "config", description = "Manage configuration", generateHelp = true)
     public static class ConfigCommand implements Command<CommandInvocation> {
 
-        @OptionGroup(shortName = 'D', description = "Set a config property",
-                defaultValue = "true")
+        @OptionGroup(shortName = 'D', description = "Set a config property", defaultValue = "true")
         private Map<String, String> properties;
 
-        @Option(name = "list", shortName = 'l', hasValue = false,
-                description = "List all config properties")
+        @Option(name = "list", shortName = 'l', hasValue = false, description = "List all config properties")
         private boolean list;
 
         @Override
         public CommandResult execute(CommandInvocation invocation) {
-            if (list) {
-                invocation.println("Current configuration:");
-                invocation.println("  (no properties stored in this demo)");
-            }
-            if (properties != null && !properties.isEmpty()) {
-                invocation.println("Setting properties:");
-                properties.forEach((k, v) ->
-                        invocation.println("  " + k + " = " + v));
-            }
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     @CommandDefinition(name = "status", description = "Show application status", generateHelp = true)
     public static class StatusCommand implements Command<CommandInvocation> {
 
-        @Option(name = "format", shortName = 'f',
-                allowedValues = { "text", "json", "yaml" },
-                defaultValue = "text",
-                description = "Output format")
+        @Option(name = "format", shortName = 'f', allowedValues = { "text", "json", "yaml" }, defaultValue = "text", description = "Output format")
         private String format;
 
         boolean verbose;
 
         @Override
         public CommandResult execute(CommandInvocation invocation) {
-            if ("json".equals(format)) {
-                invocation.println("{\"status\": \"running\", \"uptime\": \"2h 15m\"}");
-            } else if ("yaml".equals(format)) {
-                invocation.println("status: running");
-                invocation.println("uptime: 2h 15m");
-            } else {
-                invocation.println("Status: running");
-                invocation.println("Uptime: 2h 15m");
-            }
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

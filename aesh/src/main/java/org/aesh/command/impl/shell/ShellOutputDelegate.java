@@ -1,7 +1,6 @@
 package org.aesh.command.impl.shell;
 
 import java.util.concurrent.TimeUnit;
-
 import org.aesh.command.impl.operator.OutputDelegate;
 import org.aesh.command.shell.Shell;
 import org.aesh.readline.prompt.Prompt;
@@ -16,6 +15,7 @@ import org.aesh.terminal.utils.Parser;
 public class ShellOutputDelegate implements Shell {
 
     private final Shell delegate;
+
     private final OutputDelegate output;
 
     public ShellOutputDelegate(Shell delegate, OutputDelegate output) {
@@ -29,68 +29,66 @@ public class ShellOutputDelegate implements Shell {
 
     @Override
     public void write(String out, boolean paging) {
-        doWrite(out);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void writeln(String out, boolean paging) {
-        doWrite(out + Config.getLineSeparator());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void write(int[] out) {
-        doWrite(Parser.fromCodePoints(out));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void write(char out) {
-        output.write(String.valueOf(out));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String readLine() throws InterruptedException {
-        return delegate.readLine();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String readLine(Prompt prompt) throws InterruptedException {
-        return delegate.readLine(prompt);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Key read() throws InterruptedException {
-        return delegate.read();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Key read(long timeout, TimeUnit unit) throws InterruptedException {
-        return delegate.read(timeout, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Key read(Prompt prompt) throws InterruptedException {
-        return delegate.read(prompt);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean enableAlternateBuffer() {
-        //do nothing when we're redirection output
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean enableMainBuffer() {
-        //do nothing when we're redirection output
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Size size() {
-        return delegate.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void clear() {
-        //do nothing when we're redirection output
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

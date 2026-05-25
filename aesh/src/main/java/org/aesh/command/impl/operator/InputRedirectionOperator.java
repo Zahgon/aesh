@@ -20,7 +20,6 @@
 package org.aesh.command.impl.operator;
 
 import java.io.IOException;
-
 import org.aesh.command.invocation.CommandInvocationConfiguration;
 import org.aesh.console.AeshContext;
 
@@ -30,7 +29,9 @@ import org.aesh.console.AeshContext;
 public class InputRedirectionOperator implements ConfigurationOperator {
 
     private CommandInvocationConfiguration config;
+
     private String argument;
+
     private final AeshContext context;
 
     public InputRedirectionOperator(AeshContext context) {
@@ -39,14 +40,11 @@ public class InputRedirectionOperator implements ConfigurationOperator {
 
     @Override
     public CommandInvocationConfiguration getConfiguration() throws IOException {
-        if (config == null) {
-            config = new CommandInvocationConfiguration(context, new InputDelegate(argument));
-        }
-        return config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setArgument(String arg) {
-        this.argument = arg;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

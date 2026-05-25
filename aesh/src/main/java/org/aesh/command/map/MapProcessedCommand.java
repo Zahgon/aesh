@@ -22,7 +22,6 @@ package org.aesh.command.map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.aesh.command.activator.CommandActivator;
 import org.aesh.command.impl.internal.ParsedCommand;
 import org.aesh.command.impl.internal.ProcessedCommand;
@@ -42,31 +41,19 @@ import org.aesh.terminal.utils.Parser;
 public class MapProcessedCommand<CI extends CommandInvocation> extends ProcessedCommand<MapCommand<CI>, CI> {
 
     private final MapProcessedOptionProvider provider;
+
     private List<ProcessedOption> currentOptions;
+
     private final boolean initialized;
+
     private final boolean lookup;
+
     private Mode mode;
 
     private static final MapProcessedOptionProvider EMPTY_PROVIDER = options -> Collections.emptyList();
 
-    MapProcessedCommand(String name,
-            List<String> aliases,
-            MapCommand<CI> command,
-            String description,
-            CommandValidator<MapCommand<CI>, CI> validator,
-            ResultHandler resultHandler,
-            boolean generateHelp,
-            boolean disableParsing,
-            String version,
-            ProcessedOption arguments,
-            List<ProcessedOption> options,
-            ProcessedOption argument,
-            CommandPopulator<Object, CI> populator,
-            MapProcessedOptionProvider provider,
-            CommandActivator activator,
-            boolean lookup) throws OptionParserException {
-        super(name, aliases, command, description, validator, resultHandler, generateHelp,
-                disableParsing, version, arguments, options, argument, populator, activator);
+    MapProcessedCommand(String name, List<String> aliases, MapCommand<CI> command, String description, CommandValidator<MapCommand<CI>, CI> validator, ResultHandler resultHandler, boolean generateHelp, boolean disableParsing, String version, ProcessedOption arguments, List<ProcessedOption> options, ProcessedOption argument, CommandPopulator<Object, CI> populator, MapProcessedOptionProvider provider, CommandActivator activator, boolean lookup) throws OptionParserException {
+        super(name, aliases, command, description, validator, resultHandler, generateHelp, disableParsing, version, arguments, options, argument, populator, activator);
         initialized = true;
         this.provider = provider == null ? EMPTY_PROVIDER : provider;
         this.lookup = lookup;
@@ -74,145 +61,53 @@ public class MapProcessedCommand<CI extends CommandInvocation> extends Processed
 
     @Override
     protected void updateOptionsInvocationProviders(InvocationProviders invocationProviders) {
-        //Only update static options.
-        for (ProcessedOption option : super.getOptions()) {
-            option.updateInvocationProviders(invocationProviders);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<ProcessedOption> getOptions() {
-        if (!initialized) {
-            return super.getOptions();
-        }
-        return getOptions(true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean hasAskIfNotSet() {
-        for (ProcessedOption opt : getOptions(false)) {
-            if (opt.askIfNotSet() && opt.hasValue() && opt.getValues().isEmpty() && !opt.hasDefaultValue()) {
-                return true;
-            }
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ProcessedOption searchAllOptions(String input) {
-        if (!initialized) {
-            return super.searchAllOptions(input);
-        }
-        if (lookup && !Mode.COMPLETION.equals(mode)) {
-            return null;
-        }
-        if (input.startsWith("--")) {
-            ProcessedOption currentOption = findLongOptionNoActivatorCheck(input.substring(2));
-            if (currentOption == null && input.contains("=")) {
-                currentOption = startWithLongOptionNoActivatorCheck(input.substring(2));
-            }
-            if (currentOption != null) {
-                currentOption.setLongNameUsed(true);
-            } //need to handle spaces in option names
-            else if (Parser.containsNonEscapedSpace(input)) {
-                return searchAllOptions(Parser.switchSpacesToEscapedSpacesInWord(input));
-            }
-
-            return currentOption;
-        } else {
-            return super.searchAllOptions(input);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ProcessedOption findLongOption(String name) {
-        if (!initialized) {
-            return super.findLongOption(name);
-        }
-        if (lookup && !Mode.COMPLETION.equals(mode)) {
-            return null;
-        }
-        for (ProcessedOption option : getOptions(false)) {
-            if (option.name() != null
-                    && option.name().equals(name)
-                    && option.isActivated(new ParsedCommand(this))) {
-                return option;
-            }
-        }
-        for (ProcessedOption option : getOptions(true)) {
-            if (option.name() != null
-                    && option.name().equals(name)
-                    && option.isActivated(new ParsedCommand(this))) {
-                return option;
-            }
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ProcessedOption findLongOptionNoActivatorCheck(String name) {
-        if (!initialized) {
-            return super.findLongOptionNoActivatorCheck(name);
-        }
-        if (lookup && !Mode.COMPLETION.equals(mode)) {
-            return null;
-        }
-        // First check in parent (static options).
-        for (ProcessedOption option : getOptions(false)) {
-            if (option.name() != null && option.name().equals(name)) {
-                return option;
-            }
-        }
-
-        // Then in dynamics
-        for (ProcessedOption option : getOptions(true)) {
-            if (option.name() != null && option.name().equals(name)) {
-                return option;
-            }
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void clearOptions() {
-        for (ProcessedOption processedOption : getCurrentOptions()) {
-            processedOption.clear();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     List<ProcessedOption> getCurrentOptions() {
-        List<ProcessedOption> allOptions = new ArrayList<>(super.getOptions());
-        if (currentOptions != null) {
-            allOptions.addAll(currentOptions);
-        }
-        return allOptions;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<ProcessedOption> getOptions(boolean dynamic) {
-        List<ProcessedOption> allOptions = new ArrayList<>(super.getOptions());
-        // During super construction, properties are retrieved. In this case
-        // provider is not already set.
-        if (provider != null && dynamic) {
-            if (currentOptions == null || currentOptions.isEmpty()) {
-                currentOptions = provider.getOptions(currentOptions);
-            }
-            allOptions.addAll(currentOptions);
-        }
-        return allOptions;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void clear() {
-        MapCommand cmd = getCommand();
-        mode = null;
-        cmd.resetAll();
-        super.clear();
-        // null after the currentOptions have been cleared by the super.clear();
-        currentOptions = null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMode(Mode mode) {
-        this.mode = mode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

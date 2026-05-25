@@ -27,6 +27,7 @@ import java.util.Set;
  * @author Aesh team
  */
 public enum OperatorType {
+
     PIPE("|", false, true),
     PIPE_AND_ERROR("|&"),
     REDIRECT_OUT(">", true, true),
@@ -42,7 +43,9 @@ public enum OperatorType {
     NONE("");
 
     private final String value;
+
     private final boolean hasArgument;
+
     private final boolean isConfiguration;
 
     OperatorType(String c, boolean hasArgument, boolean isConfiguration) {
@@ -58,42 +61,26 @@ public enum OperatorType {
     }
 
     public String value() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasArgument() {
-        return hasArgument;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isConfiguration() {
-        return isConfiguration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean matches(String text, int index) {
-        if (text.length() >= index + value.length()) {
-            for (int i = 0; i < value.length(); i++)
-                if (text.charAt(index + i) != value.charAt(i))
-                    return false;
-
-            return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static boolean isAppendOrRedirectInOrOut(OperatorType type) {
-        return type == APPEND_OUT || type == REDIRECT_OUT || type == REDIRECT_IN ||
-                type == REDIRECT_OUT_ALL || type == REDIRECT_OUT_ERROR ||
-                type == APPEND_OUT_ERROR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static OperatorType matches(Set<OperatorType> operators, String text, int index) {
-        OperatorType found = OperatorType.NONE;
-        for (OperatorType operator : operators) {
-            if (operator.matches(text, index)) {
-                if (found.value().length() < operator.value().length())
-                    found = operator;
-            }
-        }
-        return found;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

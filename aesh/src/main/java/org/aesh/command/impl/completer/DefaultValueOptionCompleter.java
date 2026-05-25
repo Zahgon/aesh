@@ -17,11 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.completer;
 
 import java.util.List;
-
 import org.aesh.command.completer.CompleterInvocation;
 import org.aesh.command.completer.OptionCompleter;
 import org.aesh.terminal.utils.Parser;
@@ -39,17 +37,14 @@ public class DefaultValueOptionCompleter implements OptionCompleter<CompleterInv
 
     @Override
     public void complete(CompleterInvocation completerData) {
-        completeDataWithoutValues(completerData);
-        completeDataWithValues(completerData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void completeDataWithoutValues(CompleterInvocation completerData) {
-        if (completerData.getGivenCompleteValue() == null ||
-                completerData.getGivenCompleteValue().length() == 0) {
+        if (completerData.getGivenCompleteValue() == null || completerData.getGivenCompleteValue().length() == 0) {
             completerData.addAllCompleterValues(defaultValues);
             return;
         }
-
         for (String value : defaultValues) {
             if (value.startsWith(completerData.getGivenCompleteValue())) {
                 completerData.addCompleterValue(value);
@@ -58,10 +53,8 @@ public class DefaultValueOptionCompleter implements OptionCompleter<CompleterInv
     }
 
     private void completeDataWithValues(CompleterInvocation completerData) {
-        if (completerData.getCompleterValues().size() == 1 &&
-                completerData.getCompleterValues().get(0).containSpaces()) {
-            String tmpData = Parser.switchSpacesToEscapedSpacesInWord(
-                    completerData.getCompleterValues().get(0).getCharacters());
+        if (completerData.getCompleterValues().size() == 1 && completerData.getCompleterValues().get(0).containSpaces()) {
+            String tmpData = Parser.switchSpacesToEscapedSpacesInWord(completerData.getCompleterValues().get(0).getCharacters());
             completerData.clearCompleterValues();
             completerData.addCompleterValue(tmpData);
             completerData.setAppendSpace(true);

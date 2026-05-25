@@ -23,13 +23,12 @@ import org.aesh.command.CommandResult;
 import org.aesh.command.invocation.CommandInvocation;
 
 /**
- *
  * @author Aesh team
  */
 public class AndOperator<T extends CommandInvocation> extends EndOperator<T> {
 
     @Override
     public boolean canExecuteNext(CommandResult result) {
-        return result.isSuccess();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

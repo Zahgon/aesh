@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.container;
 
 import org.aesh.command.Command;
@@ -35,6 +34,7 @@ import org.aesh.command.parser.CommandLineParserException;
 public class AeshCommandContainer<CI extends CommandInvocation> extends DefaultCommandContainer<CI> {
 
     private CommandLineParser<CI> parser;
+
     private String errorMessage;
 
     public AeshCommandContainer(CommandLineParser<CI> parser) {
@@ -55,37 +55,34 @@ public class AeshCommandContainer<CI extends CommandInvocation> extends DefaultC
 
     @Override
     public CommandLineParser<CI> getParser() {
-        return parser;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean haveBuildError() {
-        return errorMessage != null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getBuildErrorMessage() {
-        return errorMessage;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void close() {
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void addChild(CommandContainer<CI> commandContainer) throws CommandLineParserException {
-        getParser().addChildParser(commandContainer.getParser());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void addLazyChild(String name, Class<? extends Command> clazz) throws CommandLineParserException {
-        ((AeshCommandLineParser<CI>) getParser()).addLazyChild(name, clazz);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "AeshCommandContainer{" +
-                "parser=" + parser +
-                ", errorMessage='" + errorMessage + '\'' +
-                '}';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

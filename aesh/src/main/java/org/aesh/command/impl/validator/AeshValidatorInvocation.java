@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.validator;
 
 import org.aesh.command.validator.ValidatorInvocation;
@@ -29,7 +28,9 @@ import org.aesh.console.AeshContext;
 public class AeshValidatorInvocation<C> implements ValidatorInvocation<Object, C> {
 
     private final Object value;
+
     private final C command;
+
     private final AeshContext aeshContext;
 
     public AeshValidatorInvocation(Object value, C command, AeshContext aeshContext) {
@@ -40,16 +41,16 @@ public class AeshValidatorInvocation<C> implements ValidatorInvocation<Object, C
 
     @Override
     public Object getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public C getCommand() {
-        return command;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AeshContext getAeshContext() {
-        return aeshContext;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

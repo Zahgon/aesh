@@ -25,6 +25,6 @@ package org.aesh.command.converter;
 public interface ConverterInvocationProvider {
 
     default ConverterInvocation enhanceConverterInvocation(ConverterInvocation converterInvocation) {
-        return converterInvocation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

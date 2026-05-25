@@ -52,15 +52,16 @@ package org.aesh.util.progress;
  */
 public enum ProgressBarStyle {
 
-    ASCII('#', '-', '[', ']', '#'),
-    UNICODE('\u2588', '\u2591', '\u2502', '\u2502', '\u2588'),
-    SIMPLE('=', ' ', '[', ']', '='),
-    ARROW('=', ' ', '[', ']', '>');
+    ASCII('#', '-', '[', ']', '#'), UNICODE('\u2588', '\u2591', '\u2502', '\u2502', '\u2588'), SIMPLE('=', ' ', '[', ']', '='), ARROW('=', ' ', '[', ']', '>');
 
     private final char fillChar;
+
     private final char emptyChar;
+
     private final char leftBracket;
+
     private final char rightBracket;
+
     private final char tipChar;
 
     ProgressBarStyle(char fillChar, char emptyChar, char leftBracket, char rightBracket, char tipChar) {
@@ -72,22 +73,22 @@ public enum ProgressBarStyle {
     }
 
     public char fillChar() {
-        return fillChar;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char emptyChar() {
-        return emptyChar;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char leftBracket() {
-        return leftBracket;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char rightBracket() {
-        return rightBracket;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char tipChar() {
-        return tipChar;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

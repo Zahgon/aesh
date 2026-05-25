@@ -23,7 +23,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.aesh.command.Command;
 import org.aesh.command.DefaultValueProvider;
 import org.aesh.command.impl.context.CommandContext;
@@ -60,51 +59,15 @@ public class AeshCommandPopulator<O extends Object, CI extends CommandInvocation
      * @throws CommandLineParserException any incorrectness in the parser will abort the populate
      */
     @Override
-    public void populateObject(ProcessedCommand<Command<CI>, CI> processedCommand, InvocationProviders invocationProviders,
-            AeshContext aeshContext, CommandLineParser.Mode mode)
-            throws CommandLineParserException, OptionValidatorException {
-        if (processedCommand.parserExceptions().size() > 0 && mode == CommandLineParser.Mode.VALIDATE)
-            throw processedCommand.parserExceptions().get(0);
-        DefaultValueProvider dvp = processedCommand.getDefaultValueProvider();
-        boolean doValidate = mode == CommandLineParser.Mode.VALIDATE;
-        for (ProcessedOption option : processedCommand.getOptions()) {
-            if (option.getValues() != null && option.getValues().size() > 0)
-                option.injectValueIntoField(getObject(), invocationProviders, aeshContext, doValidate);
-            else if (applyDynamicDefault(dvp, option, invocationProviders, aeshContext, doValidate)) {
-                // dynamic default applied
-            } else if (option.getDefaultValues().size() > 0 && option.selectorType() == SelectorType.NO_OP) {
-                option.injectValueIntoField(getObject(), invocationProviders, aeshContext, doValidate);
-            } else if (option.getOptionType().equals(OptionType.GROUP) && option.getProperties().size() > 0)
-                option.injectValueIntoField(getObject(), invocationProviders, aeshContext, doValidate);
-            else
-                option.resetField(getObject());
-        }
-        //arguments
-        if (processedCommand.getArguments() != null &&
-                (processedCommand.getArguments().getValues().size() > 0 ||
-                        processedCommand.getArguments().getDefaultValues().size() > 0))
-            processedCommand.getArguments().injectValueIntoField(getObject(), invocationProviders, aeshContext,
-                    doValidate);
-        else if (processedCommand.getArguments() != null) {
-            if (!applyDynamicDefault(dvp, processedCommand.getArguments(), invocationProviders, aeshContext, doValidate))
-                processedCommand.getArguments().resetField(getObject());
-        }
-        // arguments (singular)
-        for (ProcessedOption argOpt : processedCommand.getArgumentOptions()) {
-            if (argOpt.getValues().size() > 0 || argOpt.getDefaultValues().size() > 0)
-                argOpt.injectValueIntoField(getObject(), invocationProviders, aeshContext, doValidate);
-            else if (!applyDynamicDefault(dvp, argOpt, invocationProviders, aeshContext, doValidate))
-                argOpt.resetField(getObject());
-        }
+    public void populateObject(ProcessedCommand<Command<CI>, CI> processedCommand, InvocationProviders invocationProviders, AeshContext aeshContext, CommandLineParser.Mode mode) throws CommandLineParserException, OptionValidatorException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Query the dynamic default value provider for this option. If a non-null value is returned,
      * add it as the option value and inject it. Returns true if a dynamic default was applied.
      */
-    private boolean applyDynamicDefault(DefaultValueProvider dvp, ProcessedOption option,
-            InvocationProviders invocationProviders, AeshContext aeshContext,
-            boolean doValidate) throws CommandLineParserException, OptionValidatorException {
+    private boolean applyDynamicDefault(DefaultValueProvider dvp, ProcessedOption option, InvocationProviders invocationProviders, AeshContext aeshContext, boolean doValidate) throws CommandLineParserException, OptionValidatorException {
         if (dvp == null)
             return false;
         try {
@@ -121,25 +84,11 @@ public class AeshCommandPopulator<O extends Object, CI extends CommandInvocation
     }
 
     @Override
-    public void populateObject(ProcessedCommand<Command<CI>, CI> processedCommand,
-            InvocationProviders invocationProviders,
-            AeshContext aeshContext,
-            CommandLineParser.Mode mode,
-            CommandContext commandContext) throws CommandLineParserException, OptionValidatorException {
-        // First, do the standard population
-        populateObject(processedCommand, invocationProviders, aeshContext, mode);
-
-        // Then inject values if we have a command context
-        if (commandContext != null && commandContext.isInSubCommandMode()) {
-            // Inject @ParentCommand fields
-            injectParentCommands(processedCommand, commandContext);
-            // Inject inherited option values
-            injectInheritedValues(processedCommand, commandContext, invocationProviders, aeshContext);
-        }
+    public void populateObject(ProcessedCommand<Command<CI>, CI> processedCommand, InvocationProviders invocationProviders, AeshContext aeshContext, CommandLineParser.Mode mode, CommandContext commandContext) throws CommandLineParserException, OptionValidatorException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private void injectParentCommands(ProcessedCommand<Command<CI>, CI> processedCommand,
-            CommandContext commandContext) {
+    private void injectParentCommands(ProcessedCommand<Command<CI>, CI> processedCommand, CommandContext commandContext) {
         java.util.function.BiConsumer<Object, Object> injector = processedCommand.getParentCommandInjector();
         if (injector != null) {
             Command<?> parent = commandContext.getParentCommand();
@@ -171,36 +120,28 @@ public class AeshCommandPopulator<O extends Object, CI extends CommandInvocation
      * with the same name and compatible type, and that field was not explicitly set
      * by the user, inject the inherited value.
      */
-    private void injectInheritedValues(ProcessedCommand<Command<CI>, CI> processedCommand,
-            CommandContext commandContext,
-            InvocationProviders invocationProviders,
-            AeshContext aeshContext) {
+    private void injectInheritedValues(ProcessedCommand<Command<CI>, CI> processedCommand, CommandContext commandContext, InvocationProviders invocationProviders, AeshContext aeshContext) {
         java.util.Map<String, ProcessedOption> inheritedOptions = commandContext.getAllInheritedOptions();
-
         if (inheritedOptions.isEmpty()) {
             return;
         }
-
         for (ProcessedOption currentOpt : processedCommand.getOptions()) {
             if (currentOpt.getValues() == null || currentOpt.getValues().isEmpty()) {
                 ProcessedOption inheritedOpt = inheritedOptions.get(currentOpt.getFieldName());
                 if (inheritedOpt == null && currentOpt.name() != null) {
                     inheritedOpt = inheritedOptions.get(currentOpt.name());
                 }
-
                 if (inheritedOpt != null) {
                     Object inheritedValue = commandContext.getInheritedValue(currentOpt.getFieldName(), Object.class);
                     if (inheritedValue == null && currentOpt.name() != null) {
                         inheritedValue = commandContext.getInheritedValue(currentOpt.name(), Object.class);
                     }
-
                     if (inheritedValue != null) {
                         currentOpt.setFieldValue(getObject(), inheritedValue);
                     }
                 }
             }
         }
-
         for (ProcessedOption currentArg : processedCommand.getArgumentOptions()) {
             if (currentArg.getValues() == null || currentArg.getValues().isEmpty()) {
                 ProcessedOption inheritedArg = inheritedOptions.get(currentArg.getFieldName());
@@ -243,7 +184,6 @@ public class AeshCommandPopulator<O extends Object, CI extends CommandInvocation
      *        populator.populateObject(instance, parser.parse(line));
      *        }
      */
-
     private void resetField(Object instance, String fieldName, boolean hasValue) {
         try {
             Field field = getField(instance.getClass(), fieldName);
@@ -289,7 +229,6 @@ public class AeshCommandPopulator<O extends Object, CI extends CommandInvocation
 
     @Override
     public O getObject() {
-        return instance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -20,7 +20,6 @@
 package org.aesh;
 
 import java.io.IOException;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandDefinition;
 import org.aesh.command.CommandResult;
@@ -40,52 +39,34 @@ import org.aesh.terminal.Connection;
  * @author Aesh team
  */
 public class AeshConsoleRunner {
+
     private AeshCommandRegistryBuilder<CommandInvocation> registryBuilder;
+
     private Settings settings;
+
     private Prompt prompt;
+
     private ReadlineConsole console;
+
     private Connection connection;
 
     private AeshConsoleRunner() {
     }
 
     public static AeshConsoleRunner builder() {
-        return new AeshConsoleRunner();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshConsoleRunner commands(Class<? extends Command>... commands) {
-        if (commands != null) {
-            ensureRegistryBuilderInitialized();
-            try {
-                registryBuilder.commands(commands);
-            } catch (CommandRegistryException e) {
-                throw new RuntimeException("Error when adding commands: " + e.getMessage(), e);
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshConsoleRunner command(Class<? extends Command> command) {
-        if (command != null) {
-            ensureRegistryBuilderInitialized();
-            try {
-                registryBuilder.command(command);
-            } catch (CommandRegistryException e) {
-                throw new RuntimeException("Error when adding command: " + e.getMessage(), e);
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshConsoleRunner commandRegistryBuilder(AeshCommandRegistryBuilder<CommandInvocation> commandRegistryBuilder) {
-        if (registryBuilder != null) {
-            throw new RuntimeException("Cannot set CommandRegistryBuilder after it has been initialized. " +
-                    "CommandRegistryBuilder must be set before adding any commands.");
-        }
-        if (commandRegistryBuilder != null) {
-            this.registryBuilder = commandRegistryBuilder;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void ensureRegistryBuilderInitialized() {
@@ -95,58 +76,31 @@ public class AeshConsoleRunner {
     }
 
     public AeshConsoleRunner settings(Settings settings) {
-        if (settings != null)
-            this.settings = settings;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshConsoleRunner connection(Connection connection) {
-        this.connection = connection;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshConsoleRunner prompt(String prompt) {
-        if (prompt != null)
-            this.prompt = new Prompt(prompt);
-        if (console != null && console.running())
-            console.setPrompt(this.prompt);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshConsoleRunner prompt(Prompt prompt) {
-        if (prompt != null)
-            this.prompt = prompt;
-        if (console != null && console.running())
-            console.setPrompt(this.prompt);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshConsoleRunner addExitCommand() {
-        ensureRegistryBuilderInitialized();
-        try {
-            registryBuilder.command(ExitCommand.class);
-        } catch (CommandRegistryException e) {
-            throw new RuntimeException("Error when adding exit command: " + e.getMessage(), e);
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void start() {
-        if (console == null) {
-            init();
-            if (prompt != null)
-                console.setPrompt(prompt);
-            try {
-                console.start();
-            } catch (IOException e) {
-                throw new RuntimeException("Exception while starting the console: " + e.getMessage());
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void stop() {
-        if (console != null && console.running())
-            console.stop();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
@@ -160,53 +114,31 @@ public class AeshConsoleRunner {
                 throw new RuntimeException("Error creating command registry: " + e.getMessage(), e);
             }
         }
-
         // Check if both builder and settings.commandRegistry have commands
-        if (builtRegistry != null && !builtRegistry.getAllCommandNames().isEmpty() &&
-                settings != null && settings.commandRegistry() != null &&
-                !settings.commandRegistry().getAllCommandNames().isEmpty()) {
-            throw new RuntimeException(
-                    "Cannot define commands in both AeshConsoleRunner (via command() or commandRegistryBuilder()) " +
-                            "and Settings.commandRegistry(). Please use only one method to specify commands.");
+        if (builtRegistry != null && !builtRegistry.getAllCommandNames().isEmpty() && settings != null && settings.commandRegistry() != null && !settings.commandRegistry().getAllCommandNames().isEmpty()) {
+            throw new RuntimeException("Cannot define commands in both AeshConsoleRunner (via command() or commandRegistryBuilder()) " + "and Settings.commandRegistry(). Please use only one method to specify commands.");
         }
-
         // Determine which registry to use
         CommandRegistry<CommandInvocation> finalRegistry = null;
         if (builtRegistry != null && !builtRegistry.getAllCommandNames().isEmpty()) {
             finalRegistry = builtRegistry;
-        } else if (settings != null && settings.commandRegistry() != null &&
-                !settings.commandRegistry().getAllCommandNames().isEmpty()) {
+        } else if (settings != null && settings.commandRegistry() != null && !settings.commandRegistry().getAllCommandNames().isEmpty()) {
             finalRegistry = settings.commandRegistry();
         }
-
         // Validate that we have at least one command
         if (finalRegistry == null || finalRegistry.getAllCommandNames().isEmpty()) {
             throw new RuntimeException("No commands added, nothing to run");
         }
-
         try {
             if (settings == null) {
-                settings = SettingsBuilder.builder()
-                        .commandRegistry(finalRegistry)
-                        .enableAlias(false)
-                        .enableExport(false)
-                        .enableMan(false)
-                        .persistHistory(false)
-                        .connection(connection)
-                        .build();
-            }
-            // User added their own settings object, but we need to add or replace the registry
-            else if (settings.commandRegistry() == null ||
-                    settings.commandRegistry().getAllCommandNames().isEmpty()) {
-                SettingsBuilder settingsBuilder = new SettingsBuilder(settings)
-                        .commandRegistry(finalRegistry);
-
+                settings = SettingsBuilder.builder().commandRegistry(finalRegistry).enableAlias(false).enableExport(false).enableMan(false).persistHistory(false).connection(connection).build();
+            } else // User added their own settings object, but we need to add or replace the registry
+            if (settings.commandRegistry() == null || settings.commandRegistry().getAllCommandNames().isEmpty()) {
+                SettingsBuilder settingsBuilder = new SettingsBuilder(settings).commandRegistry(finalRegistry);
                 if (connection != null)
                     settingsBuilder.connection(connection);
-
                 settings = settingsBuilder.build();
             }
-
             console = new ReadlineConsole(settings);
         } catch (Exception e) {
             throw new RuntimeException("Error when initializing console: " + e.getMessage(), e);
@@ -215,10 +147,10 @@ public class AeshConsoleRunner {
 
     @CommandDefinition(name = "exit", description = "exit the program", aliases = { "quit" })
     public static class ExitCommand implements Command {
+
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) {
-            commandInvocation.stop();
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

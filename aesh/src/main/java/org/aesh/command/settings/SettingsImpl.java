@@ -25,7 +25,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.function.Consumer;
-
 import org.aesh.command.CommandNotFoundHandler;
 import org.aesh.command.activator.CommandActivatorProvider;
 import org.aesh.command.activator.OptionActivatorProvider;
@@ -52,57 +51,104 @@ import org.aesh.terminal.utils.Config;
  *
  * @author Aesh team
  */
-public class SettingsImpl<CI extends CommandInvocation>
-        implements Settings<CI> {
+public class SettingsImpl<CI extends CommandInvocation> implements Settings<CI> {
 
     private EditMode.Mode editMode = EditMode.Mode.EMACS;
+
     private File historyFile;
+
     private FileAccessPermission historyFilePermission;
+
     private int historySize = 500;
+
     private boolean historyDisabled = false;
+
     private boolean historyPersistent = true;
+
     private String bellStyle;
+
     private InputStream inputStream;
+
     private PrintStream stdOut;
+
     private PrintStream stdErr;
+
     private boolean readInputrc = true;
+
     private File inputrc;
+
     private boolean isLogging = false;
+
     private String logFile;
+
     private boolean disableCompletion = false;
+
     private QuitHandler quitHandler;
+
     private File aliasFile;
+
     private boolean aliasEnabled = true;
+
     private boolean persistAlias = true;
+
     private boolean enableOperatorParser = true;
+
     private boolean manEnabled = true;
+
     private AeshContext aeshContext;
+
     private boolean exportEnabled = true;
+
     private File exportFile;
+
     private boolean persistExport = true;
+
     private boolean exportUsesSystemEnvironment = false;
+
     private Resource resource;
+
     private String execute;
+
     private Resource executeFileAtStart;
+
     private CommandActivatorProvider commandActivatorProvider;
+
     private OptionActivatorProvider optionActivatorProvider;
+
     private CommandRegistry<CI> commandRegistry;
+
     private CommandInvocationProvider<CI> commandInvocationProvider;
+
     private CommandNotFoundHandler commandNotFoundHandler;
+
     private CompleterInvocationProvider completerInvocationProvider;
+
     private ConverterInvocationProvider converterInvocationProvider;
+
     private ValidatorInvocationProvider validatorInvocationProvider;
+
     private ManProvider manProvider;
+
     private Connection connection;
+
     private InvocationProviders invocationProviders;
+
     private ExportChangeListener exportListener;
+
     private boolean redrawPrompt = true;
+
     private boolean echoCtrl = true;
+
     private Consumer<Void> interruptHandler;
+
     private String[] scanPackages;
+
     private boolean enableSearchPaging;
+
     private AliasManager aliasManager;
+
     private Consumer<Void> connectionClosedHandler;
+
     private SubCommandModeSettings subCommandModeSettings;
 
     SettingsImpl() {
@@ -160,23 +206,7 @@ public class SettingsImpl<CI extends CommandInvocation>
     }
 
     public void resetToDefaults() {
-        editMode = EditMode.Mode.EMACS;
-        historyFile = null;
-        historyFilePermission = null;
-        historySize = 500;
-        historyDisabled = false;
-        historyPersistent = true;
-        bellStyle = null;
-        inputStream = null;
-        setStdOut(null);
-        setStdErr(null);
-        readInputrc = true;
-        isLogging = false;
-        logFile = null;
-        disableCompletion = false;
-        setQuitHandler(null);
-        setAliasEnabled(true);
-        aliasManager = null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -187,11 +217,11 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public EditMode.Mode mode() {
-        return editMode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMode(EditMode.Mode editMode) {
-        this.editMode = editMode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -201,28 +231,21 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public EditMode editMode() {
-        if (readInputrc) {
-            try {
-                return EditModeBuilder.builder().parseInputrc(new FileInputStream(inputrc())).create();
-            } catch (FileNotFoundException e) {
-                return EditModeBuilder.builder(mode()).create();
-            }
-        } else
-            return EditModeBuilder.builder(mode()).create();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return the historyFilePermission
      */
     public FileAccessPermission historyFilePermission() {
-        return historyFilePermission;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @param historyFilePermission the historyFilePermission to set
      */
     public void setHistoryFilePermission(FileAccessPermission historyFilePermission) {
-        this.historyFilePermission = historyFilePermission;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -233,15 +256,11 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public File historyFile() {
-        if (historyFile == null) {
-            return new File(System.getProperty("user.home") +
-                    Config.getPathSeparator() + ".aesh_history");
-        } else
-            return historyFile;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setHistoryFile(File historyFile) {
-        this.historyFile = historyFile;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -252,7 +271,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public int historySize() {
-        return historySize;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -262,7 +281,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      * @param historySize size
      */
     public void setHistorySize(int historySize) {
-        this.historySize = historySize;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -273,11 +292,11 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public String bellStyle() {
-        return bellStyle;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setBellStyle(String bellStyle) {
-        this.bellStyle = bellStyle;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -287,10 +306,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public InputStream stdIn() {
-        if (inputStream == null) {
-            inputStream = System.in;
-        }
-        return inputStream;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -299,7 +315,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      * @param inputStream input
      */
     public void setStdIn(InputStream inputStream) {
-        this.inputStream = inputStream;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -309,10 +325,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public PrintStream stdOut() {
-        if (stdOut == null)
-            return System.out;
-        else
-            return stdOut;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -321,7 +334,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      * @param stdOut output
      */
     public void setStdOut(PrintStream stdOut) {
-        this.stdOut = stdOut;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -331,10 +344,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public PrintStream stdErr() {
-        if (stdErr == null)
-            return System.err;
-        else
-            return stdErr;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -343,7 +353,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      * @param stdErr output
      */
     public void setStdErr(PrintStream stdErr) {
-        this.stdErr = stdErr;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -354,14 +364,11 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public File inputrc() {
-        if (inputrc == null) {
-            inputrc = new File(System.getProperty("user.home") + Config.getPathSeparator() + ".inputrc");
-        }
-        return inputrc;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setInputrc(File inputrc) {
-        this.inputrc = inputrc;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -371,7 +378,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public boolean logging() {
-        return isLogging;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -380,7 +387,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      * @param logging do log
      */
     public void setLogging(boolean logging) {
-        isLogging = logging;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -391,7 +398,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public boolean completionDisabled() {
-        return disableCompletion;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -401,7 +408,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      * @param disableCompletion dis
      */
     public void setDisableCompletion(boolean disableCompletion) {
-        this.disableCompletion = disableCompletion;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -411,10 +418,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public String logFile() {
-        if (logFile == null) {
-            logFile = Config.getTmpDir() + Config.getPathSeparator() + "aesh.log";
-        }
-        return logFile;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -423,7 +427,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      * @param logFile file
      */
     public void setLogFile(String logFile) {
-        this.logFile = logFile;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -434,7 +438,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public boolean readInputrc() {
-        return readInputrc;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -444,7 +448,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      * @param readInputrc specify
      */
     public void setReadInputrc(boolean readInputrc) {
-        this.readInputrc = readInputrc;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -455,7 +459,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public boolean historyDisabled() {
-        return historyDisabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -465,7 +469,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      * @param historyDisabled history
      */
     public void setHistoryDisabled(boolean historyDisabled) {
-        this.historyDisabled = historyDisabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -476,7 +480,7 @@ public class SettingsImpl<CI extends CommandInvocation>
      */
     @Override
     public boolean historyPersistent() {
-        return historyPersistent;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -486,349 +490,327 @@ public class SettingsImpl<CI extends CommandInvocation>
      * @param historyPersistent history
      */
     public void setHistoryPersistent(boolean historyPersistent) {
-        this.historyPersistent = historyPersistent;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setAliasFile(File file) {
-        this.aliasFile = file;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public File aliasFile() {
-        if (aliasFile == null)
-            aliasFile = new File(Config.getHomeDir() + Config.getPathSeparator() + ".aesh_aliases");
-
-        return aliasFile;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean aliasEnabled() {
-        return aliasEnabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setAliasEnabled(boolean enabled) {
-        aliasEnabled = enabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPersistAlias(boolean persist) {
-        persistAlias = persist;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean persistAlias() {
-        return persistAlias;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AliasManager aliasManager() {
-        return aliasManager;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setAliasManager(AliasManager aliasManager) {
-        this.aliasManager = aliasManager;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setQuitHandler(QuitHandler qh) {
-        quitHandler = qh;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public QuitHandler quitHandler() {
-        return quitHandler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void enableOperatorParser(boolean enable) {
-        enableOperatorParser = enable;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean operatorParserEnabled() {
-        return enableOperatorParser;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean manEnabled() {
-        return manEnabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setManEnabled(boolean enabled) {
-        this.manEnabled = enabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AeshContext aeshContext() {
-        if (aeshContext == null)
-            aeshContext = new DefaultAeshContext(resource().newInstance(Config.getUserDir()));
-        return aeshContext;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setAeshContext(AeshContext aeshContext) {
-        this.aeshContext = aeshContext;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public File exportFile() {
-        if (exportFile == null)
-            exportFile = new File(Config.getHomeDir() + Config.getPathSeparator() + ".aesh_export");
-        return exportFile;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setExportFile(File exportFile) {
-        if (exportFile != null)
-            this.exportFile = exportFile;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean exportEnabled() {
-        return exportEnabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setExportEnabled(boolean exportEnabled) {
-        this.exportEnabled = exportEnabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setPersistExport(boolean persistExport) {
-        this.persistExport = persistExport;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean persistExport() {
-        return persistExport;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setExportUsesSystemEnvironment(boolean isLoad) {
-        this.exportUsesSystemEnvironment = isLoad;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean exportUsesSystemEnvironment() {
-        return this.exportUsesSystemEnvironment;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setResource(Resource resource) {
-        this.resource = resource;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setExecuteAtStart(String execute) {
-        if (execute != null) {
-            if (execute.endsWith(Config.getLineSeparator()))
-                this.execute = execute;
-            else
-                this.execute = execute + Config.getLineSeparator();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String executeAtStart() {
-        return execute;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setExecuteFileAtStart(Resource executeFileAtStart) {
-        this.executeFileAtStart = executeFileAtStart;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Resource executeFileAtStart() {
-        return executeFileAtStart;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Resource resource() {
-        if (resource == null)
-            resource = new FileResource("");
-        return resource;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandRegistry<CI> commandRegistry() {
-        return commandRegistry;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandInvocationProvider<CI> commandInvocationProvider() {
-        return commandInvocationProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandNotFoundHandler commandNotFoundHandler() {
-        return commandNotFoundHandler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CompleterInvocationProvider completerInvocationProvider() {
-        return completerInvocationProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ConverterInvocationProvider converterInvocationProvider() {
-        return converterInvocationProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ValidatorInvocationProvider validatorInvocationProvider() {
-        return validatorInvocationProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public OptionActivatorProvider optionActivatorProvider() {
-        return optionActivatorProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ManProvider manProvider() {
-        return manProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandActivatorProvider commandActivatorProvider() {
-        return commandActivatorProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Connection connection() {
-        return connection;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCommandActivatorProvider(CommandActivatorProvider commandActivatorProvider) {
-        this.commandActivatorProvider = commandActivatorProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setOptionActivatorProvider(OptionActivatorProvider optionActivatorProvider) {
-        this.optionActivatorProvider = optionActivatorProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCommandRegistry(CommandRegistry<CI> commandRegistry) {
-        this.commandRegistry = commandRegistry;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCommandInvocationProvider(CommandInvocationProvider<CI> commandInvocationProvider) {
-        this.commandInvocationProvider = commandInvocationProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCommandNotFoundHandler(CommandNotFoundHandler commandNotFoundHandler) {
-        this.commandNotFoundHandler = commandNotFoundHandler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCompleterInvocationProvider(CompleterInvocationProvider completerInvocationProvider) {
-        this.completerInvocationProvider = completerInvocationProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setConverterInvocationProvider(ConverterInvocationProvider converterInvocationProvider) {
-        this.converterInvocationProvider = converterInvocationProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setValidatorInvocationProvider(ValidatorInvocationProvider validatorInvocationProvider) {
-        this.validatorInvocationProvider = validatorInvocationProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setManProvider(ManProvider manProvider) {
-        this.manProvider = manProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public InvocationProviders invocationProviders() {
-        return invocationProviders;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ExportChangeListener exportListener() {
-        return exportListener;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setExportListener(ExportChangeListener listener) {
-        this.exportListener = listener;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setConnection(Connection connection) {
-        this.connection = connection;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setInvocationProviders(InvocationProviders invocationProviders) {
-        this.invocationProviders = invocationProviders;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void echoCtrl(boolean echoCtrl) {
-        this.echoCtrl = echoCtrl;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isEchoCtrl() {
-        return echoCtrl;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setInterruptHandler(Consumer<Void> interruptHandler) {
-        this.interruptHandler = interruptHandler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Consumer<Void> getInterruptHandler() {
-        return interruptHandler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setConnectionClosedHandler(Consumer<Void> handler) {
-        this.connectionClosedHandler = handler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Consumer<Void> connectionClosedHandler() {
-        return connectionClosedHandler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void redrawPromptOnInterrupt(boolean redrawPrompt) {
-        this.redrawPrompt = redrawPrompt;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isRedrawPromptOnInterrupt() {
-        return redrawPrompt;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setScanForCommandPackages(String... packages) {
-        this.scanPackages = packages;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String[] getScanForCommandPackages() {
-        return scanPackages;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setEnableSearchInPaging(boolean enable) {
-        enableSearchPaging = enable;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean enableSearchInPaging() {
-        return enableSearchPaging;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public SubCommandModeSettings subCommandModeSettings() {
-        if (subCommandModeSettings == null) {
-            subCommandModeSettings = SubCommandModeSettings.defaults();
-        }
-        return subCommandModeSettings;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setSubCommandModeSettings(SubCommandModeSettings subCommandModeSettings) {
-        this.subCommandModeSettings = subCommandModeSettings;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

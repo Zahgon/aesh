@@ -34,12 +34,13 @@ import java.util.zip.ZipFile;
  * The most efficient way of iterating is used, see benchmark in test classes.
  *
  * @author Aesh team
- *
  */
 final class ZipFileIterator {
 
     private final ZipFile zipFile;
+
     private final String[] entryNameFilter;
+
     private final Enumeration<? extends ZipEntry> entries;
 
     private ZipEntry current;
@@ -54,30 +55,16 @@ final class ZipFileIterator {
     ZipFileIterator(final ZipFile zipFile, final String[] entryNameFilter) throws IOException {
         this.zipFile = zipFile;
         this.entryNameFilter = entryNameFilter;
-
         this.entries = zipFile.entries();
     }
 
     public ZipEntry getEntry() {
-        return current;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("emptyblock")
     public InputStream next() throws IOException {
-        while (entries.hasMoreElements()) {
-            current = entries.nextElement();
-            if (accept(current)) {
-                return zipFile.getInputStream(current);
-            }
-        }
-        // no more entries in this ZipFile, so close ZipFile
-        try {
-            // zipFile is never null here
-            zipFile.close();
-        } catch (IOException ex) {
-            // suppress IOException, otherwise close() is called twice
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean accept(final ZipEntry entry) {
@@ -94,5 +81,4 @@ final class ZipFileIterator {
         }
         return false;
     }
-
 }

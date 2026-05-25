@@ -33,20 +33,15 @@ import org.aesh.command.invocation.CommandInvocation;
 public class SimpleExample {
 
     public static void main(String[] args) {
-        AeshConsoleRunner.builder()
-                .command(HelloCommand.class)
-                .prompt("[simple@aesh]$ ")
-                .addExitCommand()
-                .start();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @CommandDefinition(name = "hello", description = "hello from aesh")
     public static class HelloCommand implements Command {
+
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) {
-            commandInvocation.println("Hello from Aesh!");
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
-
 }

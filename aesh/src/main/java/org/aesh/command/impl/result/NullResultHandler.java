@@ -30,17 +30,21 @@ public class NullResultHandler implements ResultHandler {
 
     @Override
     public void onSuccess() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void onFailure(CommandResult result) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void onValidationFailure(CommandResult result, Exception exception) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void onExecutionFailure(CommandResult result, CommandException exception) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

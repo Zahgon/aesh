@@ -22,7 +22,6 @@ package org.aesh.util;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-
 import org.aesh.io.Resource;
 
 /**
@@ -34,12 +33,6 @@ import org.aesh.io.Resource;
 public class FileUtils {
 
     public static void saveFile(Resource file, String text, boolean append) throws IOException {
-        if (file.isDirectory()) {
-            throw new IOException(file + ": Is a directory");
-        }
-
-        try (OutputStream out = file.write(append);) {
-            out.write(text.getBytes(StandardCharsets.UTF_8));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

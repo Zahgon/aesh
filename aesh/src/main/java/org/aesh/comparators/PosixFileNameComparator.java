@@ -20,36 +20,17 @@
 package org.aesh.comparators;
 
 import java.util.Comparator;
-
 import org.aesh.constants.AeshConstants;
 
 /**
  * @author Aesh team
  * @author Aesh team
  * @author Aesh team
- *
  */
 public class PosixFileNameComparator implements Comparator<String> {
+
     @Override
     public int compare(String o1, String o2) {
-        String o1WithoutDot = o1;
-        String o2WithoutDot = o2;
-
-        if (o1.indexOf(AeshConstants.DOT) == 0) {
-            o1WithoutDot = o1.substring(1);
-        }
-        if (o2.indexOf(AeshConstants.DOT) == 0) {
-            o2WithoutDot = o2.substring(1);
-        }
-
-        // if names are same when removed dot, make without dot first
-        // if names are same when ignored case, make lower case first (by default compareTo returns upper case first)
-        if (o1WithoutDot.compareTo(o2WithoutDot) == 0) {
-            return o2.compareTo(o1);
-        } else if (o1WithoutDot.compareToIgnoreCase(o2WithoutDot) == 0) {
-            return o2WithoutDot.compareTo(o1WithoutDot);
-        } else {
-            return o1WithoutDot.compareToIgnoreCase(o2WithoutDot);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

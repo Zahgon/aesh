@@ -67,9 +67,7 @@ public interface CommandContainer<CI extends CommandInvocation> extends AutoClos
 
     void emptyLine();
 
-    ProcessedCommand<Command<CI>, CI> parseAndPopulate(InvocationProviders invocationProviders,
-            AeshContext aeshContext)
-            throws CommandLineParserException, OptionValidatorException;
+    ProcessedCommand<Command<CI>, CI> parseAndPopulate(InvocationProviders invocationProviders, AeshContext aeshContext) throws CommandLineParserException, OptionValidatorException;
 
     /**
      * Parse and populate the command with CommandContext for parent command injection.
@@ -81,19 +79,11 @@ public interface CommandContainer<CI extends CommandInvocation> extends AutoClos
      * @throws CommandLineParserException on parse error
      * @throws OptionValidatorException on validation error
      */
-    default ProcessedCommand<Command<CI>, CI> parseAndPopulate(InvocationProviders invocationProviders,
-            AeshContext aeshContext,
-            org.aesh.command.impl.context.CommandContext commandContext)
-            throws CommandLineParserException, OptionValidatorException {
-        // Default implementation ignores context for backward compatibility
-        return parseAndPopulate(invocationProviders, aeshContext);
+    default ProcessedCommand<Command<CI>, CI> parseAndPopulate(InvocationProviders invocationProviders, AeshContext aeshContext, org.aesh.command.impl.context.CommandContext commandContext) throws CommandLineParserException, OptionValidatorException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    CommandContainerResult executeCommand(ParsedLine line, InvocationProviders invocationProviders,
-            AeshContext aeshContext,
-            CI commandInvocation)
-            throws CommandLineParserException, OptionValidatorException,
-            CommandValidatorException, CommandException, InterruptedException;
+    CommandContainerResult executeCommand(ParsedLine line, InvocationProviders invocationProviders, AeshContext aeshContext, CI commandInvocation) throws CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException, InterruptedException;
 
     void addLine(ParsedLine aeshLine);
 }

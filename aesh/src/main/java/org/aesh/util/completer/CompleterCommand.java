@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandDefinition;
 import org.aesh.command.CommandException;
@@ -55,35 +54,7 @@ public class CompleterCommand implements Command<CommandInvocation> {
 
     @Override
     public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-        if (help) {
-            commandInvocation.println(commandInvocation.getHelpInfo("completer"));
-            return CommandResult.SUCCESS;
-        }
-
-        Class<Command<CommandInvocation>> clazz = loadCommand(command);
-        if (clazz == null) {
-            commandInvocation.println("Could not load command: " + command);
-            return CommandResult.FAILURE;
-        }
-
-        CommandContainerBuilder<CommandInvocation> builder = new AeshCommandContainerBuilder<>();
-        try {
-            CommandContainer<CommandInvocation> container = builder.create(clazz);
-            String programName = container.getParser().getProcessedCommand().name().toLowerCase();
-
-            ShellCompletionGenerator generator = ShellCompletionGenerator.forShell(shell);
-            String script = generator.generate(container.getParser(), programName);
-
-            String filename = programName + shell.fileExtension();
-            Files.write(Paths.get(filename), script.getBytes(StandardCharsets.UTF_8),
-                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            commandInvocation.println("Completion script written to: " + filename);
-
-        } catch (CommandLineParserException | IOException e) {
-            throw new CommandException("Failed to generate completion script: " + e.getMessage(), e);
-        }
-
-        return CommandResult.SUCCESS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
@@ -93,7 +64,6 @@ public class CompleterCommand implements Command<CommandInvocation> {
         } catch (ClassNotFoundException | ClassCastException e) {
             // Class not found or wrong type, return null to let caller handle it
         }
-
         return null;
     }
 }

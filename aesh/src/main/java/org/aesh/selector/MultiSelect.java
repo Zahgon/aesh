@@ -22,11 +22,9 @@ package org.aesh.selector;
 import static org.aesh.terminal.utils.ANSI.CURSOR_START;
 import static org.aesh.terminal.utils.ANSI.MOVE_LINE_DOWN;
 import static org.aesh.terminal.utils.ANSI.MOVE_LINE_UP;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.aesh.command.shell.Shell;
 import org.aesh.terminal.Key;
 import org.aesh.terminal.utils.ANSI;
@@ -35,131 +33,38 @@ import org.aesh.terminal.utils.Config;
 public class MultiSelect {
 
     private final Shell shell;
+
     private boolean pagination;
+
     private final String message;
+
     private int maxDisplayedLines = 0;
+
     private List<SelectLine> lines;
+
     private Page page;
+
     private int focusLine = 0;
 
     public MultiSelect(Shell shell, List<String> defaultValues, String message) {
         this(shell, message);
         lines = new ArrayList<>(defaultValues.size());
-        for (String value : defaultValues)
-            lines.add(new SelectLine(value, shell.size().getWidth()));
-
+        for (String value : defaultValues) lines.add(new SelectLine(value, shell.size().getWidth()));
         pagination = lines.size() + 1 > shell.size().getHeight();
     }
 
     public MultiSelect(Shell shell, String message) {
         this.shell = shell;
         this.message = message;
-
         maxDisplayedLines = shell.size().getHeight() - 1;
     }
 
     public void setLines(List<SelectLine> lines) {
-        this.lines = new ArrayList<>(lines.size());
-        this.lines.addAll(lines);
-
-        pagination = lines.size() + 1 > shell.size().getHeight();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> doSelect() {
-        shell.write(ANSI.CURSOR_HIDE);
-        //lets use the other buffer
-        if (pagination) {
-            shell.write(ANSI.ALTERNATE_BUFFER);
-            //write header
-        }
-        //first we set the first item as focused and display page
-        lines.get(focusLine).focus();
-        page = new Page(focusLine, calcNumOfDisplayableLines());
-        displayPage(page.top(), page.bottom(), focusLine);
-
-        boolean waitingForEnter = true;
-
-        while (waitingForEnter) {
-            try {
-                Key in = shell.read();
-                if (in == Key.ENTER || in == Key.ENTER_2 || in == Key.CTRL_M) {
-                    waitingForEnter = false;
-                    if (!pagination)
-                        shell.write(ANSI.moveRowsDown(page.bottom() - focusLine));
-
-                    shell.write(ANSI.CURSOR_SHOW);
-                } else if (in == Key.SPACE) {
-                    lines.get(focusLine).select();
-                    shell.write(lines.get(focusLine).print());
-                    shell.write(ANSI.CURSOR_START);
-                } else if (in == Key.UP || in == Key.UP_2) {
-                    if (focusLine > page.top()) {
-                        moveUp();
-                    } else if (page.top() > 0) {
-                        page = new Page(page.top - 1, page.bottom() - 1);
-                        displayPage(page.top(), maxDisplayedLines, focusLine);
-                        moveUp();
-                    }
-                } else if (in == Key.PGUP || in == Key.PGUP_2) {
-                    //we're already at the bottom, let's try to move the focusLine to the bottom
-                    if (page.top() == 0) {
-                        //System.out.print("page.top="+page.top+", focusLine="+focusLine);
-                        if (focusLine > page.top()) {
-                            moveUp(focusLine);
-                        }
-                    }
-                    //try to move focusLine up with maxDisplayedLines
-                    else if (page.top() - maxDisplayedLines < 0) {
-                        int diffUp = page.top();
-                        if (diffUp > 0) {
-                            page = new Page(page.top - diffUp, page.bottom() - diffUp);
-                            updateFocusLineGoingUp();
-                        }
-                    } else if (page.top() - maxDisplayedLines >= 0) {
-                        page = new Page(page.top - maxDisplayedLines, page.bottom() - maxDisplayedLines);
-                        updateFocusLineGoingUp();
-                    }
-                } else if (in == Key.DOWN || in == Key.DOWN_2) {
-                    if (focusLine < page.bottom() - 1) {
-                        moveDown();
-                    } else if (page.bottom() < lines.size()) {
-                        page = new Page(page.top + 1, page.bottom() + 1);
-                        displayPage(page.top(), maxDisplayedLines, focusLine);
-                        moveDown();
-                    }
-                } else if (in == Key.PGDOWN || in == Key.PGDOWN_2) {
-                    //we're already at the bottom, let's try to move the focusLine to the bottom
-                    if (page.bottom() == lines.size()) {
-                        if (focusLine < page.bottom() - 1) {
-                            moveDown(page.bottom() - focusLine - 1);
-                        }
-                    }
-                    //try to move focusLine down with maxDisplayedLines
-                    else if (page.bottom() + maxDisplayedLines > lines.size()) {
-                        int diffDown = lines.size() - page.bottom();
-                        if (diffDown > 0) {
-                            page = new Page(page.top + diffDown, page.bottom() + diffDown);
-                            updateFocusLineGoingDown();
-                        }
-                    } else {
-                        page = new Page(page.top + maxDisplayedLines, page.bottom() + maxDisplayedLines);
-                        updateFocusLineGoingDown();
-                    }
-                }
-            } catch (InterruptedException e) {
-                if (!pagination)
-                    shell.write(ANSI.moveRowsDown(page.bottom() - focusLine));
-                shell.write(ANSI.CURSOR_SHOW);
-            }
-        }
-
-        //let's move back to the original buffer before returning
-        if (pagination)
-            shell.write(ANSI.MAIN_BUFFER);
-
-        shell.write(ANSI.CURSOR_SHOW);
-
-        return collectSelected();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void updateFocusLineGoingDown() {
@@ -240,7 +145,6 @@ public class MultiSelect {
         }
         if (pagination)
             shell.write(ANSI.CLEAR_SCREEN);
-
         shell.write(builder.toString());
         shell.write(CURSOR_START);
         if (focusLine < startLine + numberOfLines - 1) {
@@ -253,7 +157,9 @@ public class MultiSelect {
     }
 
     class Page {
+
         private int top;
+
         private int bottom;
 
         Page(int top, int bottom) {
@@ -262,28 +168,24 @@ public class MultiSelect {
         }
 
         public int top() {
-            return top;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void setTop(int top) {
-            this.top = top;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public int bottom() {
-            return bottom;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void setBottom(int bottom) {
-            this.bottom = bottom;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public String toString() {
-            return "Page{" +
-                    "top=" + top +
-                    ", bottom=" + bottom +
-                    '}';
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
-
 }

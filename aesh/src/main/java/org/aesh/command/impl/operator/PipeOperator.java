@@ -25,27 +25,26 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-
 import org.aesh.command.invocation.CommandInvocationConfiguration;
 import org.aesh.console.AeshContext;
 
 /**
- *
  * @author Aesh team
  */
-public class PipeOperator extends EndOperator implements
-        ConfigurationOperator, DataProvider {
+public class PipeOperator extends EndOperator implements ConfigurationOperator, DataProvider {
 
     private class OutputDelegateImpl extends OutputDelegate {
 
         @Override
         protected BufferedWriter buildWriter() throws IOException {
-            return new BufferedWriter(new OutputStreamWriter(stream));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     private ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
     private final AeshContext context;
+
     private CommandInvocationConfiguration config;
 
     public PipeOperator(AeshContext context) {
@@ -54,25 +53,16 @@ public class PipeOperator extends EndOperator implements
 
     @Override
     public CommandInvocationConfiguration getConfiguration() throws IOException {
-        if (config == null) {
-            config = new CommandInvocationConfiguration(context, new OutputDelegateImpl(), null);
-        }
-        return config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setArgument(String value) {
-        // NOOP
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BufferedInputStream getData() {
-        return new BufferedInputStream(new ByteArrayInputStream(stream.toByteArray())) {
-            @Override
-            public void close() throws IOException {
-                super.close();
-                stream.reset();
-            }
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

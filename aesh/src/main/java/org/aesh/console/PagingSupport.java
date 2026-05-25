@@ -25,7 +25,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
-
 import org.aesh.readline.Readline;
 import org.aesh.readline.ReadlineFlag;
 import org.aesh.readline.ReadlineRequest;
@@ -44,7 +43,6 @@ import org.aesh.terminal.utils.Config;
 import org.aesh.terminal.utils.Parser;
 
 /**
- *
  * @author Aesh team
  */
 public class PagingSupport {
@@ -52,15 +50,25 @@ public class PagingSupport {
     private class Paging {
 
         private boolean notFound;
+
         private boolean searchingMode;
+
         private int currentLine;
+
         private int allLines;
+
         private int lastScrolledLines;
+
         private List<String> lines;
+
         private final String[] splitLines;
+
         private int jumpIndex = -1;
+
         private String pattern;
+
         private int max;
+
         private boolean paging;
 
         // Starting Windows 10, alternate buffer is supported.
@@ -103,78 +111,35 @@ public class PagingSupport {
         }
 
         int getMax() {
-            return max;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         void pagingDone() {
-            if (paging && alternateSupported) {
-                //Print the output to main buffer (from start until the last scrolled position)
-                getConnection().write(ANSI.MAIN_BUFFER);
-                printScrolledLines();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         boolean needPrompt() {
-            return (currentLine > getMax() - 1 && jumpIndex == -1) || (endBuffer() && searchingMode);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         boolean inWorkflow() {
-            return allLines < lines.size() || searchingMode;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         void exit() {
-            lastScrolledLines = allLines;
-            allLines = lines.size();
-            searchingMode = false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         void pageDown() {
-            notFound = false;
-            currentLine = 0;
-            // Exit the workflow.
-            if (endBuffer()) {
-                exit();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         void pageUp() {
-            if (!alternateSupported) {
-                return;
-            }
-            clearScreen();
-            notFound = false;
-            currentLine = 0;
-            if (allLines > 2 * getMax()) {
-                //Move one screen up
-                allLines -= 2 * getMax();
-            } else {
-                //Move to the start of input
-                allLines = 0;
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         void previousMatch() {
-            if (!alternateSupported) {
-                return;
-            }
-            if (!searchingMode && searchHistory.size() != 0) {
-                int[] p = searchHistory.get(searchHistory.size() - 1);
-                pattern = Parser.fromCodePoints(p);
-                searchingMode = true;
-            }
-            if (searchingMode) {
-                if (allLines <= getMax()) {
-                    notFound = true;
-                }
-                int previous = previousMatch(pattern, lines, allLines - getMax() - 1);
-                if (previous >= 0) {
-                    jumpIndex = allLines - previous - 1;
-                    notFound = false;
-                    resetScreen();
-                } else {
-                    notFound = true;
-                }
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private int previousMatch(String pattern, List<String> lines, int currentLine) {
@@ -378,15 +343,19 @@ public class PagingSupport {
     private static final EnumMap<ReadlineFlag, Integer> RED_PATTERN_READLINE_FLAGS = new EnumMap<>(ReadlineFlag.class);
 
     static {
-        RED_PATTERN_READLINE_FLAGS.put(ReadlineFlag.NO_PROMPT_REDRAW_ON_INTR,
-                Integer.MAX_VALUE);
+        RED_PATTERN_READLINE_FLAGS.put(ReadlineFlag.NO_PROMPT_REDRAW_ON_INTR, Integer.MAX_VALUE);
     }
 
     private final History searchHistory = new InMemoryHistory();
+
     private Paging paging;
+
     private final Connection connection;
+
     private final Readline readline;
+
     private StringBuilder outputCollector;
+
     private final boolean search;
 
     public PagingSupport(Connection connection, boolean search) {
@@ -400,31 +369,24 @@ public class PagingSupport {
         this.search = search;
         Consumer<Size> consumer = connection.sizeHandler();
         connection.setSizeHandler(new Consumer<Size>() {
+
             @Override
             public void accept(Size t) {
-                if (consumer != null) {
-                    consumer.accept(t);
-                }
-                if (paging != null) {
-                    paging.redraw(t);
-                }
+                throw new UnsupportedOperationException("STUB: not implemented");
             }
         });
     }
 
     public boolean isPagingOutputActive() {
-        return paging != null && paging.paging;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void reset() {
-        outputCollector = null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void addContent(String content) {
-        if (outputCollector == null) {
-            outputCollector = new StringBuilder();
-        }
-        outputCollector.append(content);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private Connection getConnection() {
@@ -459,19 +421,7 @@ public class PagingSupport {
     }
 
     public void printCollectedOutput() {
-        if (getOutputCollector() == null || getOutputCollector().length() == 0) {
-            return;
-        }
-        String line = getOutputCollector().toString();
-        if (line.isEmpty()) {
-            return;
-        }
-        if (search) {
-            printAndSearchCollectedOuput(line);
-        } else {
-            printCollectedOutput(line);
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void printCollectedOutput(String line) {
@@ -491,23 +441,28 @@ public class PagingSupport {
                         Key k = read();
                         connection.write(ANSI.CURSOR_RESTORE);
                         connection.stdoutHandler().accept(ANSI.ERASE_LINE_FROM_CURSOR);
-                        if (k == null) { // interrupted, exit.
+                        if (k == null) {
+                            // interrupted, exit.
                             allLines = lines.length;
                         } else {
-                            switch (k) {
-                                case SPACE: {
-                                    currentLines = 0;
-                                    break;
-                                }
+                            switch(k) {
+                                case SPACE:
+                                    {
+                                        currentLines = 0;
+                                        break;
+                                    }
                                 case ENTER:
-                                case CTRL_M: { // On Mac, CTRL_M...
-                                    currentLines -= 1;
-                                    break;
-                                }
-                                case q: {
-                                    allLines = lines.length;
-                                    break;
-                                }
+                                case CTRL_M:
+                                    {
+                                        // On Mac, CTRL_M...
+                                        currentLines -= 1;
+                                        break;
+                                    }
+                                case q:
+                                    {
+                                        allLines = lines.length;
+                                        break;
+                                    }
                             }
                         }
                     } catch (InterruptedException ex) {
@@ -544,66 +499,78 @@ public class PagingSupport {
                         Key k = read();
                         getConnection().write(ANSI.CURSOR_RESTORE);
                         getConnection().stdoutHandler().accept(ANSI.ERASE_LINE_FROM_CURSOR);
-                        if (k == null) { // interrupted, exit.
+                        if (k == null) {
+                            // interrupted, exit.
                             paging.exit();
                         } else {
-                            switch (k) {
+                            switch(k) {
                                 case SPACE:
                                 case PGDOWN_2:
-                                case PGDOWN: {
-                                    paging.pageDown();
-                                    break;
-                                }
+                                case PGDOWN:
+                                    {
+                                        paging.pageDown();
+                                        break;
+                                    }
                                 case BACKSLASH:
                                 case PGUP_2:
-                                case PGUP: {
-                                    paging.pageUp();
-                                    break;
-                                }
-                                case N: {
-                                    paging.previousMatch();
-                                    break;
-                                }
-                                case n: {
-                                    paging.nextMatch();
-                                    break;
-                                }
-                                case SLASH: {
-                                    paging.search();
-                                    break;
-                                }
+                                case PGUP:
+                                    {
+                                        paging.pageUp();
+                                        break;
+                                    }
+                                case N:
+                                    {
+                                        paging.previousMatch();
+                                        break;
+                                    }
+                                case n:
+                                    {
+                                        paging.nextMatch();
+                                        break;
+                                    }
+                                case SLASH:
+                                    {
+                                        paging.search();
+                                        break;
+                                    }
                                 case SEMI_COLON:
                                 case UP_2:
-                                case UP: {
-                                    paging.lineUp();
-                                    break;
-                                }
+                                case UP:
+                                    {
+                                        paging.lineUp();
+                                        break;
+                                    }
                                 case DOWN:
                                 case DOWN_2:
                                 case ENTER:
-                                case CTRL_M: { // On Mac, CTRL_M...
-                                    paging.lineDown();
-                                    break;
-                                }
+                                case CTRL_M:
+                                    {
+                                        // On Mac, CTRL_M...
+                                        paging.lineDown();
+                                        break;
+                                    }
                                 case HOME:
                                 case HOME_2:
-                                case g: {
-                                    paging.goHome();
-                                    break;
-                                }
+                                case g:
+                                    {
+                                        paging.goHome();
+                                        break;
+                                    }
                                 case END:
                                 case END_2:
                                 case END_3:
-                                case G: {
-                                    paging.goEnd();
-                                    break;
-                                }
+                                case G:
+                                    {
+                                        paging.goEnd();
+                                        break;
+                                    }
                                 case Q:
                                 case ESC:
-                                case q: {
-                                    paging.exit();
-                                    break;
-                                }
+                                case q:
+                                    {
+                                        paging.exit();
+                                        break;
+                                    }
                             }
                         }
                     } catch (InterruptedException ex) {
@@ -634,10 +601,11 @@ public class PagingSupport {
         Consumer<Signal> prevHandler = getConnection().signalHandler();
         getConnection().setSignalHandler((signal) -> {
             // Interrupting the current reading thread.
-            switch (signal) {
-                case INT: {
-                    latch.countDown();
-                }
+            switch(signal) {
+                case INT:
+                    {
+                        latch.countDown();
+                    }
             }
         });
         try {
@@ -668,23 +636,17 @@ public class PagingSupport {
         Consumer<Signal> prevHandler = getConnection().signalHandler();
         getConnection().setSignalHandler((signal) -> {
             prevHandler.accept(signal);
-            switch (signal) {
-                case INT: {
-                    latch.countDown();
-                }
+            switch(signal) {
+                case INT:
+                    {
+                        latch.countDown();
+                    }
             }
         });
-        getReadline().readline(
-                ReadlineRequest.builder()
-                        .connection(getConnection())
-                        .prompt(new Prompt("/", (Character) null))
-                        .requestHandler(newLine -> {
-                            out[0] = newLine;
-                            latch.countDown();
-                        })
-                        .history(searchHistory)
-                        .flags(RED_PATTERN_READLINE_FLAGS)
-                        .build());
+        getReadline().readline(ReadlineRequest.builder().connection(getConnection()).prompt(new Prompt("/", (Character) null)).requestHandler(newLine -> {
+            out[0] = newLine;
+            latch.countDown();
+        }).history(searchHistory).flags(RED_PATTERN_READLINE_FLAGS).build());
         try {
             latch.await();
         } finally {

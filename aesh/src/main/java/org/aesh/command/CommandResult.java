@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command;
 
 /**
@@ -27,7 +26,9 @@ package org.aesh.command;
  * @author Aesh team
  */
 public class CommandResult {
+
     public static final CommandResult SUCCESS = new CommandResult(0);
+
     public static final CommandResult FAILURE = new CommandResult(-1);
 
     private final int result;
@@ -40,13 +41,7 @@ public class CommandResult {
      *         different from -1 and 0
      */
     public static CommandResult valueOf(final int result) {
-        if (result == 0) {
-            return SUCCESS;
-        } else if (result == -1) {
-            return FAILURE;
-        } else {
-            return new CommandResult(result);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private CommandResult(int result) {
@@ -54,36 +49,24 @@ public class CommandResult {
     }
 
     public int getResultValue() {
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isSuccess() {
-        return getResultValue() == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isFailure() {
-        return getResultValue() != 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + this.result;
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        CommandResult other = (CommandResult) obj;
-        if (result != other.result)
-            return false;
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

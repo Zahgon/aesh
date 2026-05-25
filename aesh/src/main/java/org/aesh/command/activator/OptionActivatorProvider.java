@@ -25,6 +25,6 @@ package org.aesh.command.activator;
 public interface OptionActivatorProvider {
 
     default OptionActivator enhanceOptionActivator(OptionActivator optionActivator) {
-        return optionActivator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

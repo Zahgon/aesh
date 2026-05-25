@@ -36,7 +36,6 @@ public class AeshCompletionHandler extends CompletionHandler<AeshCompleteOperati
 
     @Override
     public AeshCompleteOperation createCompleteOperation(String buffer, int cursor) {
-        return new AeshCompleteOperation(aeshContext, buffer, cursor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

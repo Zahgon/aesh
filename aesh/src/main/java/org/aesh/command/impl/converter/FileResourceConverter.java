@@ -31,7 +31,6 @@ public class FileResourceConverter implements Converter<Resource, ConverterInvoc
 
     @Override
     public Resource convert(ConverterInvocation converterInvocation) throws OptionValidatorException {
-        return converterInvocation.getAeshContext().getCurrentWorkingDirectory().newInstance(
-                converterInvocation.getInput());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

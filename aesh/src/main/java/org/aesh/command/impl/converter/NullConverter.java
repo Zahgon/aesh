@@ -30,6 +30,6 @@ public class NullConverter implements Converter {
 
     @Override
     public Object convert(ConverterInvocation input) throws OptionValidatorException {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

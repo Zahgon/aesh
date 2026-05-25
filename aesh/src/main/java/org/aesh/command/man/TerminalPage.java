@@ -31,6 +31,7 @@ import java.util.List;
 public class TerminalPage {
 
     private List<String> lines;
+
     private FileParser fileParser;
 
     public TerminalPage(FileParser fileParser, int columns) throws IOException {
@@ -39,46 +40,35 @@ public class TerminalPage {
     }
 
     public String getLine(int num) {
-        if (num < lines.size())
-            return lines.get(num);
-        else
-            return "";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<Integer> findWord(String word) {
-        List<Integer> wordLines = new ArrayList<Integer>();
-        for (int i = 0; i < lines.size(); i++) {
-            if (lines.get(i).contains(word))
-                wordLines.add(i);
-        }
-        return wordLines;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int size() {
-        return lines.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getFileName() {
-        return fileParser.getName();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> getLines() {
-        return lines;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasData() {
-        return !lines.isEmpty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void clear() {
-        lines.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public enum Search {
-        SEARCHING,
-        RESULT,
-        NOT_FOUND,
-        NO_SEARCH
-    }
 
+        SEARCHING, RESULT, NOT_FOUND, NO_SEARCH
+    }
 }

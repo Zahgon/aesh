@@ -20,7 +20,6 @@
 package org.aesh.util.progress;
 
 import java.util.concurrent.atomic.AtomicLong;
-
 import org.aesh.command.shell.Shell;
 import org.aesh.terminal.utils.ANSI;
 
@@ -52,14 +51,21 @@ import org.aesh.terminal.utils.ANSI;
 public class ProgressBar {
 
     private static final int MIN_BAR_WIDTH = 10;
+
     private static final int DEFAULT_WIDTH = 80;
 
     private final Shell shell;
+
     private final long total;
+
     private final String label;
+
     private final ProgressBarStyle style;
+
     private final boolean showPercentage;
+
     private final boolean showRatio;
+
     private final int width;
 
     private final AtomicLong current;
@@ -72,7 +78,6 @@ public class ProgressBar {
         this.showPercentage = builder.showPercentage;
         this.showRatio = builder.showRatio;
         this.current = new AtomicLong(0);
-
         if (builder.width > 0) {
             this.width = builder.width;
         } else if (shell != null && shell.size() != null) {
@@ -88,21 +93,14 @@ public class ProgressBar {
      * @param value the current progress value
      */
     public void update(long value) {
-        if (value < 0) {
-            value = 0;
-        }
-        if (total > 0 && value > total) {
-            value = total;
-        }
-        this.current.set(value);
-        display();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Increment progress by 1.
      */
     public void step() {
-        step(1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -112,14 +110,7 @@ public class ProgressBar {
      * @throws IllegalArgumentException if n is negative
      */
     public void step(long n) {
-        if (n < 0) {
-            throw new IllegalArgumentException("Step value must be non-negative, got: " + n);
-        }
-        long updated = this.current.addAndGet(n);
-        if (total > 0 && updated > total) {
-            this.current.set(total);
-        }
-        display();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -127,11 +118,7 @@ public class ProgressBar {
      * so subsequent output appears below the bar.
      */
     public void complete() {
-        this.current.set(total);
-        display();
-        if (shell != null) {
-            shell.writeln("");
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -140,11 +127,7 @@ public class ProgressBar {
      * @param message the completion message to display
      */
     public void complete(String message) {
-        if (shell != null) {
-            shell.write(ANSI.CURSOR_START);
-            shell.write(ANSI.ERASE_WHOLE_LINE);
-            shell.writeln(message);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void display() {
@@ -165,88 +148,7 @@ public class ProgressBar {
      * @return the rendered progress bar string
      */
     String render(long current, long total, int termWidth) {
-        // Clamp current to [0, total]
-        if (current < 0) {
-            current = 0;
-        }
-        if (total > 0 && current > total) {
-            current = total;
-        }
-
-        // Calculate percentage
-        int percent;
-        if (total <= 0) {
-            percent = 100;
-        } else {
-            percent = (int) (current * 100 / total);
-        }
-
-        // Build suffix parts
-        StringBuilder suffix = new StringBuilder();
-        if (showPercentage) {
-            suffix.append(' ');
-            if (percent < 100) {
-                suffix.append(' ');
-            }
-            if (percent < 10) {
-                suffix.append(' ');
-            }
-            suffix.append(percent).append('%');
-        }
-        if (showRatio) {
-            suffix.append(" (").append(current).append('/').append(total).append(')');
-        }
-
-        // Build prefix
-        StringBuilder prefix = new StringBuilder();
-        if (label != null && !label.isEmpty()) {
-            prefix.append(label).append(' ');
-        }
-
-        // Brackets take 2 chars
-        int fixedWidth = prefix.length() + 2 + suffix.length();
-        int barWidth = termWidth - fixedWidth;
-        if (barWidth < MIN_BAR_WIDTH) {
-            barWidth = MIN_BAR_WIDTH;
-        }
-
-        // Calculate fill
-        int fillCount;
-        if (total <= 0) {
-            fillCount = barWidth;
-        } else {
-            fillCount = (int) (barWidth * current / total);
-        }
-        if (fillCount > barWidth) {
-            fillCount = barWidth;
-        }
-        int emptyCount = barWidth - fillCount;
-
-        // Build the bar
-        StringBuilder sb = new StringBuilder(termWidth);
-        sb.append(prefix);
-        sb.append(style.leftBracket());
-
-        if (style == ProgressBarStyle.ARROW && fillCount > 0 && fillCount < barWidth) {
-            // Fill with = except last which is >
-            for (int i = 0; i < fillCount - 1; i++) {
-                sb.append(style.fillChar());
-            }
-            sb.append(style.tipChar());
-        } else {
-            for (int i = 0; i < fillCount; i++) {
-                sb.append(style.fillChar());
-            }
-        }
-
-        for (int i = 0; i < emptyCount; i++) {
-            sb.append(style.emptyChar());
-        }
-
-        sb.append(style.rightBracket());
-        sb.append(suffix);
-
-        return sb.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -255,19 +157,26 @@ public class ProgressBar {
      * @return a new Builder instance
      */
     public static Builder builder() {
-        return new Builder();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Builder for creating {@link ProgressBar} instances.
      */
     public static class Builder {
+
         private Shell shell;
+
         private long total;
+
         private String label;
+
         private ProgressBarStyle style = ProgressBarStyle.ASCII;
+
         private boolean showPercentage = true;
+
         private boolean showRatio = false;
+
         private int width = -1;
 
         private Builder() {
@@ -280,8 +189,7 @@ public class ProgressBar {
          * @return this builder
          */
         public Builder shell(Shell shell) {
-            this.shell = shell;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -291,8 +199,7 @@ public class ProgressBar {
          * @return this builder
          */
         public Builder total(long total) {
-            this.total = total;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -302,8 +209,7 @@ public class ProgressBar {
          * @return this builder
          */
         public Builder label(String label) {
-            this.label = label;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -313,8 +219,7 @@ public class ProgressBar {
          * @return this builder
          */
         public Builder style(ProgressBarStyle style) {
-            this.style = style;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -324,8 +229,7 @@ public class ProgressBar {
          * @return this builder
          */
         public Builder showPercentage(boolean showPercentage) {
-            this.showPercentage = showPercentage;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -335,8 +239,7 @@ public class ProgressBar {
          * @return this builder
          */
         public Builder showRatio(boolean showRatio) {
-            this.showRatio = showRatio;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -347,8 +250,7 @@ public class ProgressBar {
          * @return this builder
          */
         public Builder width(int width) {
-            this.width = width;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -357,7 +259,7 @@ public class ProgressBar {
          * @return a new ProgressBar
          */
         public ProgressBar build() {
-            return new ProgressBar(this);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

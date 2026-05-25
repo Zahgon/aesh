@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.aesh.command.CommandNotFoundException;
 import org.aesh.command.container.CommandContainer;
 import org.aesh.command.impl.internal.ProcessedCommand;
@@ -32,31 +31,7 @@ public class CommandSuggestionProvider<CI extends CommandInvocation> implements 
 
     @Override
     public String suggest(String buffer) {
-        if (buffer == null || buffer.isEmpty()) {
-            return null;
-        }
-
-        String trimmed = buffer.trim();
-        if (trimmed.isEmpty()) {
-            return null;
-        }
-
-        // Check if the user is typing an option (--something)
-        int lastSpace = buffer.lastIndexOf(' ');
-        if (lastSpace >= 0) {
-            String lastWord = buffer.substring(lastSpace + 1);
-            if (lastWord.startsWith("--")) {
-                return suggestOption(trimmed, lastWord);
-            }
-        }
-
-        // Check if buffer contains spaces -> could be subcommand
-        if (trimmed.contains(" ")) {
-            return suggestSubcommand(trimmed);
-        }
-
-        // Single word -> suggest command name
-        return suggestCommand(trimmed, buffer);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private String suggestCommand(String prefix, String originalBuffer) {
@@ -85,15 +60,12 @@ public class CommandSuggestionProvider<CI extends CommandInvocation> implements 
         int firstSpace = trimmed.indexOf(' ');
         String commandName = trimmed.substring(0, firstSpace);
         String rest = trimmed.substring(firstSpace + 1).trim();
-
         if (rest.isEmpty()) {
             return null;
         }
-
         try {
             CommandContainer<CI> container = registry.getCommand(commandName, trimmed);
             CommandLineParser<CI> parser = container.getParser();
-
             if (parser.isGroupCommand()) {
                 // rest is a partial subcommand name
                 List<CommandLineParser<CI>> childParsers = parser.getAllChildParsers();
@@ -102,7 +74,8 @@ public class CommandSuggestionProvider<CI extends CommandInvocation> implements 
                     String childName = child.getProcessedCommand().name();
                     if (childName.startsWith(rest) && !childName.equals(rest)) {
                         if (match != null) {
-                            return null; // ambiguous
+                            // ambiguous
+                            return null;
                         }
                         match = childName;
                     }
@@ -125,16 +98,13 @@ public class CommandSuggestionProvider<CI extends CommandInvocation> implements 
         if (parts.length < 1) {
             return null;
         }
-
         String commandName = parts[0];
-        String prefix = lastWord.substring(2); // strip --
-
+        // strip --
+        String prefix = lastWord.substring(2);
         try {
             CommandContainer<CI> container = registry.getCommand(commandName, trimmed);
             CommandLineParser<CI> parser = container.getParser();
-
             ProcessedCommand<?, ?> processedCommand;
-
             // For group commands, check if we have a subcommand
             if (parser.isGroupCommand() && parts.length >= 2 && !parts[1].startsWith("-")) {
                 CommandLineParser<CI> childParser = parser.getChildParser(parts[1]);
@@ -146,7 +116,6 @@ public class CommandSuggestionProvider<CI extends CommandInvocation> implements 
             } else {
                 processedCommand = parser.getProcessedCommand();
             }
-
             List<String> possibleNames = processedCommand.findPossibleLongNames(prefix);
             if (possibleNames.size() == 1) {
                 String optionName = possibleNames.get(0);
@@ -170,7 +139,8 @@ public class CommandSuggestionProvider<CI extends CommandInvocation> implements 
             CommandContainer<CI> container = registry.getCommand(name, name);
             return container.getParser().getProcessedCommand().isActivated(null);
         } catch (Exception e) {
-            return true; // default to activated if we can't check
+            // default to activated if we can't check
+            return true;
         }
     }
 }

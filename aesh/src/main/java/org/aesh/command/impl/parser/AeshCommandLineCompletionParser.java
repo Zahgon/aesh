@@ -20,7 +20,6 @@
 package org.aesh.command.impl.parser;
 
 import java.util.List;
-
 import org.aesh.command.completer.CompleterInvocation;
 import org.aesh.command.impl.completer.CompleterData;
 import org.aesh.command.impl.completer.DefaultValueOptionCompleter;
@@ -52,147 +51,8 @@ public class AeshCommandLineCompletionParser<CI extends CommandInvocation> imple
     }
 
     @Override
-    public void injectValuesAndComplete(AeshCompleteOperation completeOperation, InvocationProviders invocationProviders,
-            ParsedLine line) {
-        //first inject values in command
-        doInjectValues(invocationProviders, completeOperation.getContext());
-
-        // Check for partial bare long name completion
-        if (!line.spaceAtEnd() && line.selectedWord() != null) {
-            String currentWord = line.selectedWord().word();
-            if (currentWord.length() > 1 && !currentWord.startsWith("-")
-                    && !parser.getProcessedCommand().findPossibleBareLongNamesWithDash(currentWord).isEmpty()) {
-                doListOptions(completeOperation, currentWord);
-                return;
-            }
-        }
-
-        if (parser.getProcessedCommand().completeStatus() == null) {
-            doListOptions(completeOperation, "");
-            return;
-        }
-
-        //we have parsed one or more options and their values
-        if (parser.getProcessedCommand().completeStatus().status().equals(CompleteStatus.Status.COMPLETE_OPTION)) {
-            //space and end, we display other options/arguments or option value if the option have a list of values
-            //- if it ends with a separator we also try to complete an option value
-            ParsedWord.Status selectedWordStatus = line.selectedWord() != null ? line.selectedWord().status()
-                    : line.lastWord().status();
-            if ((line.spaceAtEnd() || parser.lastParsedOption().getEndsWithSeparator())
-                    && selectedWordStatus == ParsedWord.Status.OK) {
-                if (parser.lastParsedOption() != null) {
-                    if (parser.lastParsedOption().getValue() == null ||
-                            parser.lastParsedOption().hasMultipleValues()) {
-                        //need to complete option value
-                        //extra check to make sure that lists are properly parsed
-                        if (line.spaceAtEnd() && parser.lastParsedOption().getValueSeparator() == ' ')
-                            parser.lastParsedOption().setEndsWithSeparator(true);
-                        doCompleteOptionValue(invocationProviders, completeOperation, parser.lastParsedOption(),
-                                selectedWordStatus);
-                    }
-                    //complete options if there are no arguments, else complete arguments
-                    else {
-                        if (parser.getProcessedCommand().hasArguments() ||
-                                parser.getProcessedCommand().hasArgumentWithNoValue()) {
-                            //complete arguments
-                            doProcessArgument(completeOperation, invocationProviders, line);
-                        } else {
-                            //list options
-                            doListOptions(completeOperation, "");
-                        }
-                    }
-                }
-                //complete options if there are no arguments, else complete arguments
-                else {
-                    if (parser.getProcessedCommand().hasArguments() ||
-                            parser.getProcessedCommand().hasArgumentWithNoValue()) {
-                        //ParsedWord lastWord = line.selectedWord();
-                        //if(lastWord != null)
-                        //    parser.getProcessedCommand().getArguments().addValue(lastWord.word());
-                        doProcessArgument(completeOperation, invocationProviders, line);
-                    } else
-                        doListOptions(completeOperation, "");
-                }
-            }
-            //no space means we should try to complete the value of the last parsed option
-            //or unclosed quote/bracket
-            else {
-                //need to make sure that the open brackets or quotes negates ends on separators
-                if (selectedWordStatus != ParsedWord.Status.OK)
-                    parser.lastParsedOption().setEndsWithSeparator(false);
-                doCompleteOptionValue(invocationProviders, completeOperation, parser.lastParsedOption(), selectedWordStatus);
-            }
-        }
-        //partial long option name, contains atleast --
-        else if (parser.getProcessedCommand().completeStatus().status().equals(CompleteStatus.Status.LONG_OPTION)) {
-            //not option value so we'll complete all options not already listed
-            doListOptions(completeOperation, "--" + parser.getProcessedCommand().completeStatus().value());
-        }
-        //partial short option, contains atleast -
-        else if (parser.getProcessedCommand().completeStatus().status().equals(CompleteStatus.Status.SHORT_OPTION)) {
-            //if we do not have any value, we add another -
-            if (parser.getProcessedCommand().completeStatus().value().isEmpty()) {
-                completeOperation.addCompletionCandidate("-");
-                completeOperation.setAppendSeparator(false);
-                completeOperation.setOffset(completeOperation.getCursor());
-            } else {
-                // User typed e.g. -a — filter to matching long options starting with that prefix
-                String prefix = parser.getProcessedCommand().completeStatus().value();
-                List<TerminalString> matches = parser.getProcessedCommand().findPossibleLongNamesWithDash(prefix);
-                if (!matches.isEmpty()) {
-                    completeOperation.addCompletionCandidatesTerminalString(matches);
-                    completeOperation.setOffset(completeOperation.getCursor() - prefix.length() - 1);
-                }
-            }
-        }
-        //we have an option, but no value
-        else if (parser.getProcessedCommand().completeStatus().status().equals(CompleteStatus.Status.OPTION_MISSING_VALUE)) {
-            //we need to complete a value
-            //if we have a short option without a value lets check for missing equals
-            if (!parser.lastParsedOption().isLongNameUsed() &&
-                    parser.lastParsedOption().getValue() == null && !parser.lastParsedOption().getEndsWithSeparator()
-                    && !line.spaceAtEnd()) {
-                //short option without value and no separator, offer a space so user can type the value
-                if (parser.lastParsedOption().hasValue()) {
-                    completeOperation.addCompletionCandidate(" ");
-                    completeOperation.setOffset(completeOperation.getCursor());
-                    completeOperation.setAppendSeparator(false);
-                }
-            } else if (parser.lastParsedOption().isLongNameUsed() &&
-                    !parser.lastParsedOption().getEndsWithSeparator() &&
-                    !line.spaceAtEnd() && !line.selectedWord().word().endsWith("=") &&
-                    parser.lastParsedOption().hasValue()) {
-                completeOperation.addCompletionCandidate(" ");
-                completeOperation.setOffset(completeOperation.getCursor());
-                completeOperation.setAppendSeparator(false);
-            } else if (!parser.lastParsedOption().hasValue() &&
-                    !parser.lastParsedOption().getEndsWithSeparator() &&
-                    !line.spaceAtEnd()) {
-                completeOperation.addCompletionCandidate(" ");
-                completeOperation.setOffset(completeOperation.getCursor());
-                completeOperation.setAppendSeparator(false);
-            }
-            //complete value
-            else {
-                doCompleteOptionValue(invocationProviders, completeOperation,
-                        parser.lastParsedOption(),
-                        line.selectedWord() != null ? line.selectedWord().status() : line.lastWord().status());
-            }
-        }
-        //argument
-        else if (parser.getProcessedCommand().completeStatus().status().equals(CompleteStatus.Status.ARGUMENT)) {
-            doProcessArgument(completeOperation, invocationProviders, line);
-        }
-        //group command
-        else if (parser.getProcessedCommand().completeStatus().status().equals(CompleteStatus.Status.GROUP_COMMAND)) {
-            doProcessGroupCommand(completeOperation, parser.getProcessedCommand().completeStatus().value(), line);
-        }
-        //append space after group command
-        else if (parser.getProcessedCommand().completeStatus().status().equals(CompleteStatus.Status.APPEND_SPACE)) {
-            completeOperation.addCompletionCandidate(" ");
-            completeOperation.setAppendSeparator(false);
-            completeOperation.setOffset(completeOperation.getCursor());
-        }
+    public void injectValuesAndComplete(AeshCompleteOperation completeOperation, InvocationProviders invocationProviders, ParsedLine line) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void doProcessGroupCommand(AeshCompleteOperation completeOperation, String name, ParsedLine line) {
@@ -205,8 +65,7 @@ public class AeshCommandLineCompletionParser<CI extends CommandInvocation> imple
                 completeOperation.setOffset(completeOperation.getCursor());
         } else {
             for (CommandLineParser child : parser.getAllChildParsers()) {
-                if (child.getProcessedCommand().name().startsWith(name) &&
-                        child.getProcessedCommand().isActivated(new ParsedCommand(child.getProcessedCommand()))) {
+                if (child.getProcessedCommand().name().startsWith(name) && child.getProcessedCommand().isActivated(new ParsedCommand(child.getProcessedCommand()))) {
                     completeOperation.addCompletionCandidate(child.getProcessedCommand().name());
                     completeOperation.setOffset(completeOperation.getCursor() - name.length());
                 }
@@ -216,8 +75,7 @@ public class AeshCommandLineCompletionParser<CI extends CommandInvocation> imple
             completeOperation.setAppendSeparator(false);
     }
 
-    private void doProcessArgument(AeshCompleteOperation completeOperation, InvocationProviders invocationProviders,
-            ParsedLine line) {
+    private void doProcessArgument(AeshCompleteOperation completeOperation, InvocationProviders invocationProviders, ParsedLine line) {
         ProcessedOption arg = parser.getProcessedCommand().getPositionalForNextValue();
         if (arg == null) {
             if (parser.getProcessedCommand().hasOptions())
@@ -225,37 +83,28 @@ public class AeshCommandLineCompletionParser<CI extends CommandInvocation> imple
             return;
         }
         //first check if arg is argument, if so check if it already have a value, if so to an option complete
-        if (arg.getOptionType() == OptionType.ARGUMENT &&
-                (arg.getValue() != null || !arg.isActivated(new ParsedCommand(parser.getProcessedCommand())))) {
+        if (arg.getOptionType() == OptionType.ARGUMENT && (arg.getValue() != null || !arg.isActivated(new ParsedCommand(parser.getProcessedCommand())))) {
             //list options
             doListOptions(completeOperation, "");
-        }
-        //if arguments, but not activated
-        else if (arg.getOptionType() == OptionType.ARGUMENTS
-                && !arg.isActivated(new ParsedCommand(parser.getProcessedCommand())))
+        } else //if arguments, but not activated
+        if (arg.getOptionType() == OptionType.ARGUMENTS && !arg.isActivated(new ParsedCommand(parser.getProcessedCommand())))
             //list options
             doListOptions(completeOperation, "");
-        //argument(s)
-        else {
-            if (parser.getProcessedCommand().completeStatus().value() != null &&
-                    !parser.getProcessedCommand().completeStatus().value().isEmpty())
+        else //argument(s)
+        {
+            if (parser.getProcessedCommand().completeStatus().value() != null && !parser.getProcessedCommand().completeStatus().value().isEmpty())
                 arg.addValue(parser.getProcessedCommand().completeStatus().value());
             else
                 //set this to true since we do not want to use previous values in the completion value
                 arg.setEndsWithSeparator(true);
             //for now just default to Status.OK
             boolean haveCompletion = false;
-
-            if (parser.getProcessedCommand().completeStatus().value() != null &&
-                    !parser.getProcessedCommand().completeStatus().value().isEmpty())
-                haveCompletion = doCompleteOptionValue(invocationProviders, completeOperation, arg,
-                        line.selectedWord().status());
+            if (parser.getProcessedCommand().completeStatus().value() != null && !parser.getProcessedCommand().completeStatus().value().isEmpty())
+                haveCompletion = doCompleteOptionValue(invocationProviders, completeOperation, arg, line.selectedWord().status());
             else {
                 //if status is ok, we send ok. if not we'll send open quote for now
-                haveCompletion = doCompleteOptionValue(invocationProviders, completeOperation, arg,
-                        line.status() == ParserStatus.OK ? ParsedWord.Status.OK : ParsedWord.Status.OPEN_QUOTE);
+                haveCompletion = doCompleteOptionValue(invocationProviders, completeOperation, arg, line.status() == ParserStatus.OK ? ParsedWord.Status.OK : ParsedWord.Status.OPEN_QUOTE);
             }
-
             /*
              * We have 2 cases in which we do display options:
              * - we don't have completion candidates
@@ -271,9 +120,7 @@ public class AeshCommandLineCompletionParser<CI extends CommandInvocation> imple
              * user will have to enter something.
              */
             if (!haveCompletion) {
-                if ((arg.completer() != null || !arg.isRequired())
-                        && (parser.getProcessedCommand().completeStatus().value() == null
-                                || parser.getProcessedCommand().completeStatus().value().isEmpty())) {
+                if ((arg.completer() != null || !arg.isRequired()) && (parser.getProcessedCommand().completeStatus().value() == null || parser.getProcessedCommand().completeStatus().value().isEmpty())) {
                     doListOptions(completeOperation, "");
                 }
             }
@@ -289,15 +136,12 @@ public class AeshCommandLineCompletionParser<CI extends CommandInvocation> imple
         else
             // Handle bare long name prefix
             optionNamesWithDash = parser.getProcessedCommand().findPossibleBareLongNamesWithDash(value);
-
         // Add inherited options from parent parsers
         addInheritedOptions(optionNamesWithDash, value);
-
         if (optionNamesWithDash.size() > 1) {
             completeOperation.addCompletionCandidatesTerminalString(optionNamesWithDash);
             completeOperation.setOffset(completeOperation.getCursor() - value.length());
             completeOperation.setIgnoreStartsWith(false);
-
         } else if (optionNamesWithDash.size() == 1) {
             if (optionNamesWithDash.get(0).isFormatted())
                 completeOperation.addCompletionCandidate(new TerminalString(optionNamesWithDash.get(0).getCharacters(), true));
@@ -305,7 +149,6 @@ public class AeshCommandLineCompletionParser<CI extends CommandInvocation> imple
                 completeOperation.addCompletionCandidate(optionNamesWithDash.get(0));
             completeOperation.setOffset(completeOperation.getCursor() - value.length());
         }
-
     }
 
     /**
@@ -334,81 +177,37 @@ public class AeshCommandLineCompletionParser<CI extends CommandInvocation> imple
     }
 
     @SuppressWarnings("unchecked")
-    private boolean doCompleteOptionValue(InvocationProviders invocationProviders, AeshCompleteOperation completeOperation,
-            ProcessedOption currentOption, ParsedWord.Status selectedWordStatus) {
+    private boolean doCompleteOptionValue(InvocationProviders invocationProviders, AeshCompleteOperation completeOperation, ProcessedOption currentOption, ParsedWord.Status selectedWordStatus) {
         String value = currentOption.getLastValue();
         //if value is null or ends with a separator
         if (value == null || currentOption.getEndsWithSeparator())
             value = "";
-
-        if (currentOption.completer() != null && currentOption.hasValue() &&
-                currentOption.isActivated(new ParsedCommand(parser.getProcessedCommand()))) {
-            CompleterInvocation completions = invocationProviders.getCompleterProvider().enhanceCompleterInvocation(
-                    new CompleterData(completeOperation.getContext(), value, parser.getCommand()));
-
+        if (currentOption.completer() != null && currentOption.hasValue() && currentOption.isActivated(new ParsedCommand(parser.getProcessedCommand()))) {
+            CompleterInvocation completions = invocationProviders.getCompleterProvider().enhanceCompleterInvocation(new CompleterData(completeOperation.getContext(), value, parser.getCommand()));
             currentOption.completer().complete(completions);
             completeOperation.addCompletionCandidatesTerminalString(completions.getCompleterValues());
             verifyCompleteValue(completeOperation, completions, value, selectedWordStatus, currentOption);
-        }
-        //only try to complete default values if completer is null
-        else if (!currentOption.getDefaultValues().isEmpty() && currentOption.selectorType() == SelectorType.NO_OP) {
-            CompleterInvocation completions = invocationProviders.getCompleterProvider().enhanceCompleterInvocation(
-                    new CompleterData(completeOperation.getContext(), value, parser.getCommand()));
+        } else //only try to complete default values if completer is null
+        if (!currentOption.getDefaultValues().isEmpty() && currentOption.selectorType() == SelectorType.NO_OP) {
+            CompleterInvocation completions = invocationProviders.getCompleterProvider().enhanceCompleterInvocation(new CompleterData(completeOperation.getContext(), value, parser.getCommand()));
             new DefaultValueOptionCompleter(currentOption.getDefaultValues()).complete(completions);
             completeOperation.addCompletionCandidatesTerminalString(completions.getCompleterValues());
             verifyCompleteValue(completeOperation, completions, value, selectedWordStatus, currentOption);
         } else if (!currentOption.hasValue()) {
             completeOperation.setAppendSeparator(true);
         }
-
         return !completeOperation.getCompletionCandidates().isEmpty();
     }
 
-    public static void verifyCompleteValue(AeshCompleteOperation completeOperation,
-            CompleterInvocation completions,
-            String value, ParsedWord.Status selectedWordStatus, ProcessedOption currentOption) {
-
-        if (completions.getOffset() >= 0) {
-            // We must remove the number of spaces present in the candidate to inline
-            // only for the part in between the offset and the end.
-            int numberSpaces = 0;
-            if (selectedWordStatus == ParsedWord.Status.OK
-                    && completions.getCompleterValues().size() == 1) {
-                numberSpaces = Parser
-                        .findNumberOfSpacesInWord(value.substring(value.length() - completions.getOffset()));
-            }
-            completeOperation.setOffset(completeOperation.getCursor() - completions.getOffset() - numberSpaces);
-        } else {
-            // value doesn't contain escape, we need to substract them only if no quote nor bracket.
-            // In there are some quote or bracket then selectedWordStatus != ParsedWord.Status.OK
-            completeOperation.setOffset(completeOperation.getCursor() - value.length()
-                    - (selectedWordStatus == ParsedWord.Status.OK ? Parser.findNumberOfSpacesInWord(value) : 0));
-        }
-
-        // Escape spaces if no bracket nor quote
-        if (selectedWordStatus == ParsedWord.Status.OK
-                && completeOperation.getCompletionCandidates().size() == 1
-                && (completeOperation.getCompletionCandidates().get(0).containSpaces())) {
-            completeOperation.getCompletionCandidates().get(0).switchSpacesToEscapedSpaces();
-        }
-
-        if (completions.getCompleterValues().size() == 1) {
-            completeOperation.setAppendSeparator(completions.isAppendSpace());
-            if (currentOption != null)
-                completeOperation.setSeparator(currentOption.getValueSeparator());
-        }
-        //finally set flags
-        completeOperation.setIgnoreOffset(completions.doIgnoreOffset());
-        completeOperation.setIgnoreStartsWith(completions.isIgnoreStartsWith());
+    public static void verifyCompleteValue(AeshCompleteOperation completeOperation, CompleterInvocation completions, String value, ParsedWord.Status selectedWordStatus, ProcessedOption currentOption) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void doInjectValues(InvocationProviders invocationProviders, AeshContext context) {
         try {
             //no validation for now when we populate for completion
-            parser.getCommandPopulator().populateObject(parser.getProcessedCommand(),
-                    invocationProviders, context, CommandLineParser.Mode.NONE);
+            parser.getCommandPopulator().populateObject(parser.getProcessedCommand(), invocationProviders, context, CommandLineParser.Mode.NONE);
         } catch (CommandLineParserException | OptionValidatorException | RuntimeException ignored) {
         }
     }
-
 }

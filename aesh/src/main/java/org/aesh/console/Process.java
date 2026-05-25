@@ -22,7 +22,6 @@ package org.aesh.console;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.aesh.command.CommandException;
 import org.aesh.command.CommandResult;
 import org.aesh.command.Execution;
@@ -41,15 +40,18 @@ import org.aesh.terminal.utils.LoggerUtil;
 public class Process extends Thread implements Consumer<Signal> {
 
     private final Connection conn;
+
     private final Execution<? extends CommandInvocation> execution;
+
     private final ProcessManager manager;
+
     private volatile boolean running;
 
     private static final Logger LOGGER = LoggerUtil.getLogger(Process.class.getName());
+
     private int pid;
 
-    public Process(ProcessManager manager, Connection conn,
-            Execution<? extends CommandInvocation> execution) {
+    public Process(ProcessManager manager, Connection conn, Execution<? extends CommandInvocation> execution) {
         this.manager = manager;
         this.conn = conn;
         this.execution = execution;
@@ -57,50 +59,19 @@ public class Process extends Thread implements Consumer<Signal> {
 
     @Override
     public void accept(Signal signal) {
-        switch (signal) {
-            case INT:
-                if (running) {
-                    // Ctrl-C interrupt : we use Thread interrupts to signal the command to stop
-                    LOGGER.info("got interrupted in Task");
-                    interrupt();
-                }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void run() {
-        // Subscribe to events, in particular Ctrl-C
-        Consumer<Signal> prev = conn.signalHandler();
-        Consumer<int[]> prevIn = conn.stdinHandler();
-        conn.setSignalHandler(this);
-        running = true;
-        pid = (int) Thread.currentThread().getId();
-
-        try {
-            execution.execute();
-        } catch (CommandValidatorException | CommandException | OptionValidatorException | CommandLineParserException e) {
-            execution.setResult(CommandResult.FAILURE);
-            conn.write(e.getMessage() + Config.getLineSeparator());
-        } catch (InterruptedException e) {
-            // Ctlr-C interrupt
-            execution.setResult(CommandResult.FAILURE);
-        } catch (Exception e) {
-            execution.setResult(CommandResult.FAILURE);
-            conn.write(e.getMessage() + Config.getLineSeparator());
-            LOGGER.log(Level.WARNING, "Uncaught exception when executing the command: " + execution.getCommand().toString(), e);
-        } finally {
-            running = false;
-            conn.setSignalHandler(prev);
-            conn.setStdinHandler(prevIn);
-            manager.processFinished(this);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Execution<? extends CommandInvocation> execution() {
-        return execution;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int pid() {
-        return pid;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

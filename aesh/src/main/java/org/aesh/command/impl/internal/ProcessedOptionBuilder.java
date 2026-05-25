@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
-
 import org.aesh.command.activator.OptionActivator;
 import org.aesh.command.completer.OptionCompleter;
 import org.aesh.command.converter.Converter;
@@ -49,48 +48,91 @@ import org.aesh.util.ReflectionUtil;
 public class ProcessedOptionBuilder {
 
     private char shortName;
+
     private String name;
+
     private String description = "";
+
     private String argument;
+
     private Class<?> type;
+
     private boolean hasValue = true;
+
     private boolean required = false;
+
     private boolean isProperty = false;
+
     private boolean hasMultipleValues = false;
+
     private char valueSeparator = ' ';
+
     private OptionType optionType;
+
     private Converter converter;
+
     private String fieldName;
+
     private String paramLabel;
+
     private String arity;
+
     private String index;
+
     private OptionCompleter completer;
+
     private List<String> defaultValues;
+
     private OptionValidator validator;
+
     private OptionActivator activator;
+
     private OptionRenderer renderer;
+
     private boolean overrideRequired;
+
     private OptionParser parser;
+
     private boolean askIfNotSet = false;
+
     private boolean acceptNameWithoutDashes = false;
+
     private SelectorType selectorType;
+
     private boolean optionalValue = false;
+
     private String fallbackValue;
+
     private boolean negatable = false;
+
     private String negationPrefix = "no-";
+
     private boolean inherited = false;
+
     private String descriptionUrl;
+
     private boolean isUrl = false;
+
     private BiConsumer<Object, Object> fieldSetter;
+
     private java.util.function.Consumer<Object> fieldResetter;
+
     private java.util.function.Function<Object, Object> fieldGetter;
+
     private FieldAccessor fieldAccessor;
+
     private String mixinFieldName;
+
     private List<String> aliases;
+
     private String helpGroup = "";
+
     private List<String> exclusiveWith;
+
     private List<String> allowedValues = java.util.Collections.emptyList();
+
     private org.aesh.command.option.OptionVisibility visibility = org.aesh.command.option.OptionVisibility.BRIEF;
+
     private int order = Integer.MAX_VALUE;
 
     private ProcessedOptionBuilder() {
@@ -98,133 +140,99 @@ public class ProcessedOptionBuilder {
     }
 
     public static ProcessedOptionBuilder builder() {
-        return new ProcessedOptionBuilder();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder shortName(char n) {
-        this.shortName = n;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder name(String name) {
-        this.name = name;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder askIfNotSet(boolean askIfNotSet) {
-        this.askIfNotSet = askIfNotSet;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder description(String description) {
-        this.description = description;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder argument(String argument) {
-        this.argument = argument;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder type(Class<?> type) {
-        this.type = type;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder required(boolean required) {
-        this.required = required;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder acceptNameWithoutDashes(boolean acceptNameWithoutDashes) {
-        this.acceptNameWithoutDashes = acceptNameWithoutDashes;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder selector(SelectorType selectorType) {
-        this.selectorType = selectorType;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder fieldName(String fieldName) {
-        this.fieldName = fieldName;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder paramLabel(String paramLabel) {
-        this.paramLabel = paramLabel;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder arity(String arity) {
-        this.arity = arity;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder index(String index) {
-        this.index = index;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder hasValue(boolean hasValue) {
-        this.hasValue = hasValue;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder isProperty(boolean isProperty) {
-        this.isProperty = isProperty;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder hasMultipleValues(boolean multipleValues) {
-        this.hasMultipleValues = multipleValues;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder addDefaultValue(String defaultValue) {
-        if (!(this.defaultValues instanceof ArrayList))
-            this.defaultValues = new ArrayList<>(1);
-        this.defaultValues.add(defaultValue);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder addAllDefaultValues(List<String> defaultValues) {
-        if (defaultValues != null && !defaultValues.isEmpty()) {
-            if (!(this.defaultValues instanceof ArrayList))
-                this.defaultValues = new ArrayList<>(defaultValues.size());
-            this.defaultValues.addAll(defaultValues);
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder addAllDefaultValues(String[] defaultValues) {
-        if (defaultValues != null && defaultValues.length > 0) {
-            if (!(this.defaultValues instanceof ArrayList))
-                this.defaultValues = new ArrayList<>(defaultValues.length);
-            for (String v : defaultValues)
-                this.defaultValues.add(v);
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder valueSeparator(char valueSeparator) {
-        this.valueSeparator = valueSeparator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder optionType(OptionType optionType) {
-        this.optionType = optionType;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder converter(Converter converter) {
-        this.converter = converter;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder converter(Class<? extends Converter> converter) {
-        this.converter = initConverter(converter);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private Converter initConverter(Class<? extends Converter> converterClass) {
@@ -236,17 +244,14 @@ public class ProcessedOptionBuilder {
     }
 
     public ProcessedOptionBuilder completer(OptionCompleter completer) {
-        this.completer = completer;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder completer(Class<? extends OptionCompleter> completer) {
-        this.completer = initCompleter(completer);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private OptionCompleter initCompleter(Class<? extends OptionCompleter> completerClass) {
-
         if (completerClass != null && !completerClass.equals(NullOptionCompleter.class)) {
             return ReflectionUtil.newInstance(completerClass);
         } else {
@@ -259,13 +264,11 @@ public class ProcessedOptionBuilder {
     }
 
     public ProcessedOptionBuilder validator(OptionValidator validator) {
-        this.validator = validator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder validator(Class<? extends OptionValidator> validator) {
-        this.validator = initValidator(validator);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private OptionValidator initValidator(Class<? extends OptionValidator> validator) {
@@ -276,13 +279,11 @@ public class ProcessedOptionBuilder {
     }
 
     public ProcessedOptionBuilder activator(OptionActivator activator) {
-        this.activator = activator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder activator(Class<? extends OptionActivator> activator) {
-        this.activator = initActivator(activator);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private OptionActivator initActivator(Class<? extends OptionActivator> activator) {
@@ -293,13 +294,11 @@ public class ProcessedOptionBuilder {
     }
 
     public ProcessedOptionBuilder renderer(OptionRenderer renderer) {
-        this.renderer = renderer;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder renderer(Class<? extends OptionRenderer> renderer) {
-        this.renderer = initRenderer(renderer);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private OptionRenderer initRenderer(Class<? extends OptionRenderer> renderer) {
@@ -310,18 +309,15 @@ public class ProcessedOptionBuilder {
     }
 
     public ProcessedOptionBuilder overrideRequired(boolean overrideRequired) {
-        this.overrideRequired = overrideRequired;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder parser(OptionParser parser) {
-        this.parser = parser;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder parser(Class<? extends OptionParser> parser) {
-        this.parser = initParser(parser);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private OptionParser initParser(Class<? extends OptionParser> parser) {
@@ -336,219 +332,86 @@ public class ProcessedOptionBuilder {
      * When used without a value, the defaultValue is applied.
      */
     public ProcessedOptionBuilder optionalValue(boolean optionalValue) {
-        this.optionalValue = optionalValue;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder fallbackValue(String fallbackValue) {
-        this.fallbackValue = fallbackValue;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder negatable(boolean negatable) {
-        this.negatable = negatable;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder negationPrefix(String negationPrefix) {
-        this.negationPrefix = negationPrefix;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder inherited(boolean inherited) {
-        this.inherited = inherited;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder descriptionUrl(String descriptionUrl) {
-        this.descriptionUrl = descriptionUrl;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder url(boolean isUrl) {
-        this.isUrl = isUrl;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder fieldSetter(BiConsumer<Object, Object> fieldSetter) {
-        this.fieldSetter = fieldSetter;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder fieldResetter(java.util.function.Consumer<Object> fieldResetter) {
-        this.fieldResetter = fieldResetter;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder fieldGetter(java.util.function.Function<Object, Object> fieldGetter) {
-        this.fieldGetter = fieldGetter;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder fieldAccessor(FieldAccessor fieldAccessor) {
-        this.fieldAccessor = fieldAccessor;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder mixinFieldName(String mixinFieldName) {
-        this.mixinFieldName = mixinFieldName;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder aliases(List<String> aliases) {
-        this.aliases = aliases;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder aliases(String... aliases) {
-        this.aliases = aliases != null && aliases.length > 0
-                ? java.util.Arrays.asList(aliases)
-                : null;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder helpGroup(String helpGroup) {
-        this.helpGroup = helpGroup != null ? helpGroup : "";
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder exclusiveWith(String... exclusiveWith) {
-        this.exclusiveWith = exclusiveWith != null && exclusiveWith.length > 0
-                ? java.util.Arrays.asList(exclusiveWith)
-                : null;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder addAllowedValue(String value) {
-        if (allowedValues.isEmpty())
-            allowedValues = new java.util.ArrayList<>();
-        allowedValues.add(value);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder addAllAllowedValues(String[] values) {
-        if (values != null && values.length > 0) {
-            if (allowedValues.isEmpty())
-                allowedValues = new java.util.ArrayList<>();
-            java.util.Collections.addAll(allowedValues, values);
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder visibility(org.aesh.command.option.OptionVisibility visibility) {
-        this.visibility = visibility != null ? visibility : org.aesh.command.option.OptionVisibility.BRIEF;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOptionBuilder order(int order) {
-        this.order = order;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption build() throws OptionParserException {
-        if (optionType == null) {
-            if (!hasValue)
-                optionType = OptionType.BOOLEAN;
-            else if (isProperty)
-                optionType = OptionType.GROUP;
-            else if (hasMultipleValues)
-                optionType = OptionType.LIST;
-            else
-                optionType = OptionType.NORMAL;
-        }
-
-        if ((name == null || name.length() < 1) &&
-                optionType != OptionType.ARGUMENTS && optionType != OptionType.ARGUMENT) {
-            // For GROUP options with shortName only, don't auto-derive a long name
-            if (optionType == OptionType.GROUP && shortName != Character.MIN_VALUE) {
-                if (name == null)
-                    name = "";
-            } else if (fieldName == null || fieldName.length() < 1) {
-                throw new OptionParserException("Name must be defined to build an Option");
-            } else {
-                name = fieldName;
-            }
-        }
-        //by default fieldName will be given the same name as the option name
-        if (fieldName == null)
-            fieldName = name;
-
-        if (type == null)
-            throw new OptionParserException("Type must be defined to build an Option");
-
-        if ((shortName == Character.MIN_VALUE) && "".equals(name) &&
-                optionType != OptionType.ARGUMENTS && optionType != OptionType.ARGUMENT) {
-            throw new OptionParserException("Either shortName or name must be set.");
-        }
-
-        if (converter == null)
-            converter = CLConverterManager.getInstance().getConverter(type);
-
-        // parser left null here — ProcessedOption.parser() lazy-creates AeshOptionParser
-
-        //if(renderer == null)
-        //    renderer = new NullOptionRenderer();
-
-        // Validate that negatable is only used with boolean types
-        if (negatable && type != Boolean.class && type != boolean.class) {
-            throw new OptionParserException("Option '" + name + "' is marked as negatable but is not a boolean type");
-        }
-
-        // fallbackValue implies optionalValue (null means "not set")
-        if (fallbackValue != null)
-            optionalValue = true;
-
-        // Validate that optionalValue requires hasValue (NORMAL type)
-        if (optionalValue && optionType != OptionType.NORMAL) {
-            throw new OptionParserException("Option '" + name + "' is marked as optionalValue but does not accept values");
-        }
-
-        // Auto-populate allowedValues for enum types when not explicitly set.
-        // This enables both validation (in doConvert) and completion consistency.
-        if (allowedValues.isEmpty() && type != null && type.isEnum()) {
-            allowedValues = new java.util.ArrayList<>();
-            for (Object constant : type.getEnumConstants())
-                allowedValues.add(((Enum<?>) constant).name().toLowerCase());
-        }
-
-        if (completer == null && !allowedValues.isEmpty())
-            completer = new DefaultValueOptionCompleter(allowedValues);
-
-        ProcessedOption option = new ProcessedOption(shortName, name, description, argument, required,
-                valueSeparator, askIfNotSet, acceptNameWithoutDashes, selectorType, defaultValues, type, fieldName, optionType,
-                converter,
-                completer, validator, activator, renderer, parser, overrideRequired, negatable, negationPrefix, inherited,
-                descriptionUrl, isUrl, optionalValue);
-        if (fieldAccessor != null)
-            option.setFieldAccessor(fieldAccessor);
-        if (fieldSetter != null)
-            option.setFieldSetter(fieldSetter);
-        if (fieldResetter != null)
-            option.setFieldResetter(fieldResetter);
-        if (fieldGetter != null)
-            option.setFieldGetter(fieldGetter);
-        if (mixinFieldName != null)
-            option.setMixinFieldName(mixinFieldName);
-        if (aliases != null)
-            option.setAliases(aliases);
-        if (helpGroup != null && !helpGroup.isEmpty())
-            option.setHelpGroup(helpGroup);
-        if (exclusiveWith != null)
-            option.setExclusiveWith(exclusiveWith);
-        if (!allowedValues.isEmpty())
-            option.setAllowedValues(allowedValues);
-        if (visibility != org.aesh.command.option.OptionVisibility.BRIEF)
-            option.setVisibility(visibility);
-        if (order != Integer.MAX_VALUE)
-            option.setOrder(order);
-        if (fallbackValue != null)
-            option.setFallbackValue(fallbackValue);
-        if (paramLabel != null && !paramLabel.isEmpty())
-            option.setParamLabel(paramLabel);
-        if (arity != null && !arity.isEmpty())
-            option.setArity(org.aesh.command.option.Arity.parse(arity));
-        if (index != null && !index.isEmpty())
-            option.setIndex(index);
-        return option;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -17,12 +17,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.invocation;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandException;
 import org.aesh.command.CommandNotFoundException;
@@ -123,19 +121,9 @@ public interface CommandInvocation {
      *
      * @param input command input
      */
-    void executeCommand(String input) throws CommandNotFoundException,
-            CommandLineParserException,
-            OptionValidatorException,
-            CommandValidatorException,
-            CommandException,
-            InterruptedException,
-            IOException;
+    void executeCommand(String input) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException, InterruptedException, IOException;
 
-    Executor<? extends CommandInvocation> buildExecutor(String line) throws CommandNotFoundException,
-            CommandLineParserException,
-            OptionValidatorException,
-            CommandValidatorException,
-            IOException;
+    Executor<? extends CommandInvocation> buildExecutor(String line) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, IOException;
 
     /**
      * Print a message on console
@@ -143,7 +131,7 @@ public interface CommandInvocation {
      * @param msg
      */
     default void print(String msg) {
-        print(msg, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -152,7 +140,7 @@ public interface CommandInvocation {
      * @param msg
      */
     default void println(String msg) {
-        println(msg, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -172,7 +160,6 @@ public interface CommandInvocation {
     void println(String msg, boolean paging);
 
     // ========== Parent Command Context Methods ==========
-
     /**
      * Get the current command context for sub-command mode.
      * The context provides access to parent command values and state.
@@ -180,7 +167,7 @@ public interface CommandInvocation {
      * @return the command context, or null if not available
      */
     default CommandContext getCommandContext() {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -193,8 +180,7 @@ public interface CommandInvocation {
      * @return The value, or null if not found
      */
     default <T> T getParentValue(String name, Class<T> type) {
-        CommandContext ctx = getCommandContext();
-        return ctx != null ? ctx.getParentValue(name, type) : null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -207,8 +193,7 @@ public interface CommandInvocation {
      * @return The value, or defaultValue if not found
      */
     default <T> T getParentValue(String name, Class<T> type, T defaultValue) {
-        CommandContext ctx = getCommandContext();
-        return ctx != null ? ctx.getParentValue(name, type, defaultValue) : defaultValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -217,8 +202,7 @@ public interface CommandInvocation {
      * @return the parent command, or null if not in sub-command mode
      */
     default Command<?> getParentCommand() {
-        CommandContext ctx = getCommandContext();
-        return ctx != null ? ctx.getParentCommand() : null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -229,8 +213,7 @@ public interface CommandInvocation {
      * @return the matching parent command, or null if not found
      */
     default <T extends Command<?>> T getParentCommand(Class<T> type) {
-        CommandContext ctx = getCommandContext();
-        return ctx != null ? ctx.getParentCommand(type) : null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -239,12 +222,10 @@ public interface CommandInvocation {
      * @return true if in sub-command mode
      */
     default boolean isInSubCommandMode() {
-        CommandContext ctx = getCommandContext();
-        return ctx != null && ctx.isInSubCommandMode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // ========== Inherited Value Access Methods ==========
-
     /**
      * Get an inherited value from parent commands.
      * Only returns values from options marked with inherited=true.
@@ -255,8 +236,7 @@ public interface CommandInvocation {
      * @return The inherited value, or null if not found
      */
     default <T> T getInheritedValue(String name, Class<T> type) {
-        CommandContext ctx = getCommandContext();
-        return ctx != null ? ctx.getInheritedValue(name, type) : null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -270,8 +250,7 @@ public interface CommandInvocation {
      * @return The inherited value, or defaultValue if not found
      */
     default <T> T getInheritedValue(String name, Class<T> type, T defaultValue) {
-        CommandContext ctx = getCommandContext();
-        return ctx != null ? ctx.getInheritedValue(name, type, defaultValue) : defaultValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -286,7 +265,7 @@ public interface CommandInvocation {
      * @return true if sub-command mode was entered successfully
      */
     default boolean enterSubCommandMode(Command<?> command) {
-        return false; // Default implementation does nothing
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -296,11 +275,10 @@ public interface CommandInvocation {
      * @return true if a context level was exited, false if not in sub-command mode
      */
     default boolean exitSubCommandMode() {
-        return false; // Default implementation does nothing
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // ========== Hyperlink Methods ==========
-
     /**
      * Print a hyperlink to the terminal. If the terminal supports OSC 8 hyperlinks,
      * the text will be rendered as a clickable link. Otherwise, plain text is printed.
@@ -309,7 +287,7 @@ public interface CommandInvocation {
      * @param text the visible text for the hyperlink
      */
     default void printHyperlink(String url, String text) {
-        getShell().writeHyperlink(url, text);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -318,7 +296,7 @@ public interface CommandInvocation {
      * @return true if hyperlinks are supported
      */
     default boolean supportsHyperlinks() {
-        return getShell().supportsHyperlinks();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -329,15 +307,7 @@ public interface CommandInvocation {
      * @return the input stream, or null if no piped/redirected input
      */
     default java.io.InputStream getStdin() {
-        CommandInvocationConfiguration config = getConfiguration();
-        if (config == null)
-            return null;
-        java.io.BufferedInputStream piped = config.getPipedData();
-        if (piped != null)
-            return piped;
-        if (config.getInputRedirection() != null)
-            return config.getInputRedirection().read();
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -347,10 +317,6 @@ public interface CommandInvocation {
      * @return true if piped or redirected input is available
      */
     default boolean hasStdin() {
-        CommandInvocationConfiguration config = getConfiguration();
-        if (config == null)
-            return false;
-        return config.hasPipedData() || config.hasInputRedirection();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

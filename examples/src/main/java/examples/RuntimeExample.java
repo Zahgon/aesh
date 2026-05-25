@@ -20,7 +20,6 @@
 package examples;
 
 import java.util.List;
-
 import org.aesh.AeshRuntimeRunner;
 import org.aesh.command.Command;
 import org.aesh.command.CommandDefinition;
@@ -34,7 +33,7 @@ import org.aesh.command.option.OptionList;
 public class RuntimeExample {
 
     public static void main(String[] args) {
-        AeshRuntimeRunner.builder().command(TestConsoleCommand.class).args(args).execute();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @CommandDefinition(name = "test", description = "testing")
@@ -45,8 +44,7 @@ public class RuntimeExample {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) {
-            commandInvocation.println("bar is: " + bar.toString());
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

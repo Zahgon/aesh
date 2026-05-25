@@ -33,26 +33,7 @@ public class ReflectionUtil {
     private static final ConcurrentMap<Class<?>, Constructor<?>> CONSTRUCTOR_CACHE = new ConcurrentHashMap<>();
 
     public static <T> T newInstance(final Class<T> clazz) {
-        if (clazz.isAnonymousClass() || clazz.isInterface() || clazz.isAnnotation()) {
-            throw new RuntimeException("Can not build new instance of an " + clazz.getName());
-        }
-
-        @SuppressWarnings("unchecked")
-        Constructor<T> cached = (Constructor<T>) CONSTRUCTOR_CACHE.get(clazz);
-        if (cached != null) {
-            return invokeConstructor(cached);
-        }
-
-        for (Constructor<?> constructor : clazz.getDeclaredConstructors()) {
-            @SuppressWarnings("unchecked")
-            T result = (T) instantiateWithConstructor(constructor);
-            if (result != null) {
-                CONSTRUCTOR_CACHE.putIfAbsent(clazz, constructor);
-                return result;
-            }
-        }
-
-        throw new RuntimeException("Could not instantiate class: " + clazz + ", no access to constructors.");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
@@ -76,11 +57,9 @@ public class ReflectionUtil {
         if (constructor.getParameterTypes().length == 0) {
             instance = newInstanceWithoutParameterTypes(constructor);
         }
-
         if (constructor.getParameterTypes().length == 1) {
             instance = newInstanceWithParameterTypes(constructor);
         }
-
         return instance;
     }
 
@@ -106,8 +85,7 @@ public class ReflectionUtil {
     }
 
     private static <T> void setAccessible(Constructor<T> constructor) {
-        if (Modifier.isPrivate(constructor.getModifiers()) ||
-                Modifier.isProtected(constructor.getModifiers())) {
+        if (Modifier.isPrivate(constructor.getModifiers()) || Modifier.isProtected(constructor.getModifiers())) {
             constructor.setAccessible(true);
         }
     }

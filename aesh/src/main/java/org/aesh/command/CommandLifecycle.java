@@ -46,6 +46,7 @@ public interface CommandLifecycle {
      * but before the new command line is parsed.
      */
     default void beforeParse() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -57,5 +58,6 @@ public interface CommandLifecycle {
      * validating cross-option constraints.
      */
     default void afterParse() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

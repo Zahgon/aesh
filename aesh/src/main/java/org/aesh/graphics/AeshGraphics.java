@@ -35,8 +35,11 @@ public class AeshGraphics implements Graphics {
     private static final String CURSOR_DOWN = ANSI.START + "1B" + ANSI.START + "1D";
 
     private final Connection connection;
+
     private final GraphicsConfiguration graphicsConfiguration;
+
     private TerminalColor currentColor;
+
     private TerminalTextStyle currentStyle;
 
     AeshGraphics(Connection connection, GraphicsConfiguration graphicsConfiguration) {
@@ -48,6 +51,7 @@ public class AeshGraphics implements Graphics {
 
     @Override
     public void flush() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -55,8 +59,7 @@ public class AeshGraphics implements Graphics {
      */
     @Override
     public void clear() {
-        printColor(new TerminalColor());
-        connection.put(Capability.clear_screen);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -64,92 +67,52 @@ public class AeshGraphics implements Graphics {
      */
     @Override
     public void clearAndShowCursor() {
-        clear();
-        connection.put(Capability.cursor_normal);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public TerminalColor getColor() {
-        return currentColor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setColor(TerminalColor color) {
-        this.currentColor = color;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public TerminalTextStyle getTextStyle() {
-        return currentStyle;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setTextStyle(TerminalTextStyle textStyle) {
-        this.currentStyle = textStyle;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void drawRect(int x, int y, int width, int height) {
-        printColor(currentColor);
-        drawHorizontalLine(x, y, width);
-        drawHorizontalLine(x, y + height, width);
-        drawVerticalLine(x, y + 1, height - 1);
-        drawVerticalLine(x + width - 1, y + 1, height - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void drawLine(int x1, int y1, int x2, int y2) {
-        printColor(currentColor);
-        int dx = x2 - x1;
-        int dy = y2 - y1;
-        for (int i = x1; i < x2; i++) {
-            int y = y1 + (dy) * (i - x1) / (dx);
-            connection.put(Capability.cursor_address, y, i);
-            connection.write("x");
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void drawString(String str, int x, int y) {
-        printColor(currentColor);
-        connection.put(Capability.cursor_address, y, x);
-        connection.write(str);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void fillRect(int x, int y, int width, int height) {
-        printColor(currentColor);
-        for (int j = 0; j < height; j++) {
-            connection.put(Capability.cursor_address, y + j, x);
-            for (int i = 0; i < width; i++)
-                connection.write(" ");
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void drawCircle(int x0, int y0, int radius) {
-        printColor(currentColor);
-        int x = radius, y = 0;
-        int radiusError = 1 - x;
-
-        while (x >= y) {
-            drawPixel(x + x0, y + y0);
-            drawPixel(y + x0, x + y0);
-            drawPixel(-x + x0, y + y0);
-            drawPixel(-y + x0, x + y0);
-            drawPixel(-x + x0, -y + y0);
-            drawPixel(-y + x0, -x + y0);
-            drawPixel(x + x0, -y + y0);
-            drawPixel(y + x0, -x + y0);
-
-            y++;
-            if (radiusError < 0)
-                radiusError += 2 * y + 1;
-            else {
-                x--;
-                radiusError += 2 * (y - x + 1);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void printColor(TerminalColor color) {
@@ -188,5 +151,4 @@ public class AeshGraphics implements Graphics {
             }
         }
     }
-
 }

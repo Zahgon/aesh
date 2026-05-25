@@ -38,6 +38,7 @@ import java.util.List;
 public class TreeNode {
 
     private final String label;
+
     private final List<TreeNode> children = new ArrayList<>();
 
     private TreeNode(String label) {
@@ -48,7 +49,7 @@ public class TreeNode {
      * Creates a new tree node with the given label.
      */
     public static TreeNode of(String label) {
-        return new TreeNode(label);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -57,8 +58,7 @@ public class TreeNode {
      * @return this node for chaining
      */
     public TreeNode child(TreeNode node) {
-        children.add(node);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -67,21 +67,20 @@ public class TreeNode {
      * @return this node for chaining
      */
     public TreeNode child(String label) {
-        children.add(new TreeNode(label));
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the label of this node.
      */
     public String label() {
-        return label;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns an unmodifiable view of this node's children.
      */
     public List<TreeNode> children() {
-        return Collections.unmodifiableList(children);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -25,6 +25,6 @@ package org.aesh.command.completer;
 public interface CompleterInvocationProvider {
 
     default CompleterInvocation enhanceCompleterInvocation(CompleterInvocation completerInvocation) {
-        return completerInvocation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

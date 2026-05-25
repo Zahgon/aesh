@@ -119,7 +119,6 @@ public final class AnnotationDetector {
          * Only {@code Annotation}s, specified by {@link #annotations()} are reported!
          */
         void reportTypeAnnotation(Class<? extends Annotation> annotation, String className);
-
     }
 
     /**
@@ -131,9 +130,7 @@ public final class AnnotationDetector {
          * This call back method is used to report an field level {@code Annotation}.
          * Only {@code Annotation}s, specified by {@link #annotations()} are reported!
          */
-        void reportFieldAnnotation(Class<? extends Annotation> annotation, String className,
-                String fieldName);
-
+        void reportFieldAnnotation(Class<? extends Annotation> annotation, String className, String fieldName);
     }
 
     /**
@@ -145,9 +142,7 @@ public final class AnnotationDetector {
          * This call back method is used to report an method level {@code Annotation}.
          * Only {@code Annotation}s, specified by {@link #annotations()} are reported!
          */
-        void reportMethodAnnotation(Class<? extends Annotation> annotation, String className,
-                String methodName);
-
+        void reportMethodAnnotation(Class<? extends Annotation> annotation, String className, String methodName);
     }
 
     // Only used during development. If set to "true" debug messages are displayed.
@@ -155,49 +150,79 @@ public final class AnnotationDetector {
 
     // Constant Pool type tags
     private static final int CP_UTF8 = 1;
+
     private static final int CP_INTEGER = 3;
+
     private static final int CP_FLOAT = 4;
+
     private static final int CP_LONG = 5;
+
     private static final int CP_DOUBLE = 6;
+
     private static final int CP_CLASS = 7;
+
     private static final int CP_STRING = 8;
+
     private static final int CP_REF_FIELD = 9;
+
     private static final int CP_REF_METHOD = 10;
+
     private static final int CP_REF_INTERFACE = 11;
+
     private static final int CP_NAME_AND_TYPE = 12;
+
     private static final int CP_METHOD_HANDLE = 15;
+
     private static final int CP_METHOD_TYPE = 16;
+
     private static final int CP_INVOKE_DYNAMIC = 18;
 
     // AnnotationElementValue
     private static final int BYTE = 'B';
+
     private static final int CHAR = 'C';
+
     private static final int DOUBLE = 'D';
+
     private static final int FLOAT = 'F';
+
     private static final int INT = 'I';
+
     private static final int LONG = 'J';
+
     private static final int SHORT = 'S';
+
     private static final int BOOLEAN = 'Z';
+
     // used for AnnotationElement only
     private static final int STRING = 's';
+
     private static final int ENUM = 'e';
+
     private static final int CLASS = 'c';
+
     private static final int ANNOTATION = '@';
+
     private static final int ARRAY = '[';
 
     // The buffer is reused during the life cycle of this AnnotationDetector instance
     private final ClassFileBuffer cpBuffer = new ClassFileBuffer();
+
     // the annotation types to report, see {@link #annotations()}
     private final Map<String, Class<? extends Annotation>> annotations;
 
     private TypeReporter typeReporter;
+
     private FieldReporter fieldReporter;
+
     private MethodReporter methodReporter;
 
     // the 'raw' name of this interface or class (using '/' instead of '.' in package name)
     private String typeName;
+
     // Reusing the constantPool is not needed for better performance
     private Object[] constantPool;
+
     private String memberName;
 
     /**
@@ -231,7 +256,7 @@ public final class AnnotationDetector {
      * @see #detect(File...)
      */
     public void detect() throws IOException {
-        detect(new ClassFileIterator());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -241,43 +266,7 @@ public final class AnnotationDetector {
      * @see #detect(File...)
      */
     public void detect(final String... packageNames) throws IOException {
-        final String[] pkgNameFilter = new String[packageNames.length];
-        for (int i = 0; i < pkgNameFilter.length; ++i) {
-            pkgNameFilter[i] = packageNames[i].replace('.', '/');
-            if (!pkgNameFilter[i].endsWith("/")) {
-                pkgNameFilter[i] = pkgNameFilter[i].concat("/");
-            }
-        }
-        final Set<File> files = new HashSet<>();
-        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        for (final String packageName : pkgNameFilter) {
-            final Enumeration<URL> resourceEnum = loader.getResources(packageName);
-            while (resourceEnum.hasMoreElements()) {
-                final URL url = resourceEnum.nextElement();
-                if ("file".equals(url.getProtocol())) {
-                    final File dir = toFile(url);
-                    if (dir.isDirectory()) {
-                        files.add(dir);
-                    } else {
-                        throw new AssertionError("Not a recognized file URL: " + url);
-                    }
-                } else {
-                    final File jarFile = toFile(openJarURLConnection(url).getJarFileURL());
-                    if (jarFile.isFile()) {
-                        files.add(jarFile);
-                    } else {
-                        throw new AssertionError("Not a File: " + jarFile);
-                    }
-                }
-            }
-        }
-        if (DEBUG) {
-            print("Files to scan: %s", files);
-        }
-        if (!files.isEmpty()) {
-            // see http://shipilev.net/blog/2016/arrays-wisdom-ancients/#_conclusion
-            detect(new ClassFileIterator(files.toArray(new File[0]), pkgNameFilter));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -296,14 +285,10 @@ public final class AnnotationDetector {
      *        files are silently ignored) and directories which are package root directories
      */
     public void detect(final File... filesOrDirectories) throws IOException {
-        if (DEBUG) {
-            print("detectFilesOrDirectories: %s", (Object) filesOrDirectories);
-        }
-        detect(new ClassFileIterator(filesOrDirectories, null));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // private
-
     private File toFile(final URL url) {
         // only correct way to convert the URL to a File object, also see issue #16
         // Do not use URLDecoder
@@ -347,8 +332,7 @@ public final class AnnotationDetector {
         if (urlConnection instanceof JarURLConnection) {
             return (JarURLConnection) urlConnection;
         } else {
-            throw new AssertionError(
-                    "Unknown URLConnection type: " + urlConnection.getClass().getName());
+            throw new AssertionError("Unknown URLConnection type: " + urlConnection.getClass().getName());
         }
     }
 
@@ -360,7 +344,8 @@ public final class AnnotationDetector {
                 cpBuffer.readFrom(stream);
                 if (hasCafebabe(cpBuffer)) {
                     detect(cpBuffer);
-                } // else ignore
+                }
+                // else ignore
             } catch (Throwable t) {
                 // catch all errors
                 if (!(stream instanceof FileInputStream)) {
@@ -398,8 +383,7 @@ public final class AnnotationDetector {
     private void readVersion(final DataInput di) throws IOException {
         // sequence: minor version, major version (argument_index is 1-based)
         if (DEBUG) {
-            print("Java Class version %2$d.%1$d",
-                    di.readUnsignedShort(), di.readUnsignedShort());
+            print("Java Class version %2$d.%1$d", di.readUnsignedShort(), di.readUnsignedShort());
         } else {
             di.skipBytes(4);
         }
@@ -419,13 +403,12 @@ public final class AnnotationDetector {
     /**
      * Return {@code true} if a double slot is read (in case of Double or Long constant).
      */
-    private boolean readConstantPoolEntry(final DataInput di, final int index)
-            throws IOException {
-
+    private boolean readConstantPoolEntry(final DataInput di, final int index) throws IOException {
         final int tag = di.readUnsignedByte();
-        switch (tag) {
+        switch(tag) {
             case CP_METHOD_TYPE:
-                di.skipBytes(2); // readUnsignedShort()
+                // readUnsignedShort()
+                di.skipBytes(2);
                 return false;
             case CP_METHOD_HANDLE:
                 di.skipBytes(3);
@@ -437,11 +420,13 @@ public final class AnnotationDetector {
             case CP_REF_INTERFACE:
             case CP_NAME_AND_TYPE:
             case CP_INVOKE_DYNAMIC:
-                di.skipBytes(4); // readInt() / readFloat() / readUnsignedShort() * 2
+                // readInt() / readFloat() / readUnsignedShort() * 2
+                di.skipBytes(4);
                 return false;
             case CP_LONG:
             case CP_DOUBLE:
-                di.skipBytes(8); // readLong() / readDouble()
+                // readLong() / readDouble()
+                di.skipBytes(8);
                 return true;
             case CP_UTF8:
                 constantPool[index] = di.readUTF();
@@ -452,13 +437,13 @@ public final class AnnotationDetector {
                 constantPool[index] = di.readUnsignedShort();
                 return false;
             default:
-                throw new ClassFormatError(
-                        "Unkown tag value for constant pool entry: " + tag);
+                throw new ClassFormatError("Unkown tag value for constant pool entry: " + tag);
         }
     }
 
     private void readAccessFlags(final DataInput di) throws IOException {
-        di.skipBytes(2); // u2
+        // u2
+        di.skipBytes(2);
     }
 
     private void readThisClass(final DataInput di) throws IOException {
@@ -469,12 +454,14 @@ public final class AnnotationDetector {
     }
 
     private void readSuperClass(final DataInput di) throws IOException {
-        di.skipBytes(2); // u2
+        // u2
+        di.skipBytes(2);
     }
 
     private void readInterfaces(final DataInput di) throws IOException {
         final int count = di.readUnsignedShort();
-        di.skipBytes(count * 2); // count * u2
+        // count * u2
+        di.skipBytes(count * 2);
     }
 
     private void readFields(final DataInput di) throws IOException {
@@ -509,9 +496,7 @@ public final class AnnotationDetector {
         }
     }
 
-    private void readAttributes(final DataInput di, final char reporterType,
-            final boolean skipReporting) throws IOException {
-
+    private void readAttributes(final DataInput di, final char reporterType, final boolean skipReporting) throws IOException {
         final int count = di.readUnsignedShort();
         if (DEBUG) {
             print("attribute count (%s) = %d", reporterType, count);
@@ -520,9 +505,7 @@ public final class AnnotationDetector {
             final String name = resolveUtf8(di);
             // in bytes, use this to skip the attribute info block
             final int length = di.readInt();
-            if (!skipReporting &&
-                    ("RuntimeVisibleAnnotations".equals(name) ||
-                            "RuntimeInvisibleAnnotations".equals(name))) {
+            if (!skipReporting && ("RuntimeVisibleAnnotations".equals(name) || "RuntimeInvisibleAnnotations".equals(name))) {
                 readAnnotations(di, reporterType);
             } else {
                 if (DEBUG) {
@@ -533,9 +516,7 @@ public final class AnnotationDetector {
         }
     }
 
-    private void readAnnotations(final DataInput di, final char reporterType)
-            throws IOException {
-
+    private void readAnnotations(final DataInput di, final char reporterType) throws IOException {
         // the number of Runtime(In)VisibleAnnotations
         final int count = di.readUnsignedShort();
         if (DEBUG) {
@@ -548,7 +529,7 @@ public final class AnnotationDetector {
                 continue;
             }
             final String externalTypeName = typeName.replace('/', '.');
-            switch (reporterType) {
+            switch(reporterType) {
                 case 'T':
                     typeReporter.reportTypeAnnotation(type, externalTypeName);
                     break;
@@ -587,7 +568,7 @@ public final class AnnotationDetector {
         if (DEBUG) {
             print("tag='%c'", (char) tag);
         }
-        switch (tag) {
+        switch(tag) {
             case BYTE:
             case CHAR:
             case DOUBLE:
@@ -600,7 +581,8 @@ public final class AnnotationDetector {
                 di.skipBytes(2);
                 break;
             case ENUM:
-                di.skipBytes(4); // 2 * u2
+                // 2 * u2
+                di.skipBytes(4);
                 break;
             case CLASS:
                 di.skipBytes(2);
@@ -615,8 +597,7 @@ public final class AnnotationDetector {
                 }
                 break;
             default:
-                throw new ClassFormatError("Not a valid annotation element type tag: 0x" +
-                        Integer.toHexString(tag));
+                throw new ClassFormatError("Not a valid annotation element type tag: 0x" + Integer.toHexString(tag));
         }
     }
 
@@ -639,7 +620,6 @@ public final class AnnotationDetector {
                 print("resolveUtf8(%d): %s", index, s);
             }
         }
-
         return s;
     }
 
@@ -670,5 +650,4 @@ public final class AnnotationDetector {
             System.out.println(logMessage);
         }
     }
-
 }

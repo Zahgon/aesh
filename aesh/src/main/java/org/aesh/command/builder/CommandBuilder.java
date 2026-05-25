@@ -22,7 +22,6 @@ package org.aesh.command.builder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.aesh.command.Command;
 import org.aesh.command.container.CommandContainer;
 import org.aesh.command.impl.container.AeshCommandContainer;
@@ -48,147 +47,118 @@ import org.aesh.util.ReflectionUtil;
 public class CommandBuilder<C extends Command<CommandInvocation>> {
 
     private String name;
+
     private String description;
+
     private boolean generateHelp;
+
     private boolean disableParsing;
+
     private String version;
+
     private C command;
+
     private CommandValidator<C, CommandInvocation> validator;
+
     private ResultHandler resultHandler;
+
     private ProcessedOption argument;
+
     private List<ProcessedOption> options;
+
     private List<CommandBuilder> children;
+
     private CommandLineParserException parserException;
+
     private CommandPopulator<Object, CommandInvocation> populator;
+
     private List<String> aliases;
 
     private CommandBuilder() {
     }
 
     public static <T extends Command<CommandInvocation>> CommandBuilder<T> builder() {
-        return new CommandBuilder<>();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> name(String name) {
-        this.name = name;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> aliases(List<String> aliases) {
-        this.aliases = aliases == null ? Collections.emptyList()
-                : Collections.unmodifiableList(aliases);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> description(String description) {
-        this.description = description;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> version(String version) {
-        this.version = version;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> generateHelp(boolean help) {
-        this.generateHelp = help;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> disableParsing(boolean disableParsing) {
-        this.disableParsing = disableParsing;
-        return this;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> command(C command) {
-        this.command = command;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> command(Class<C> command) {
-        this.command = ReflectionUtil.newInstance(command);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> validator(CommandValidator<C, CommandInvocation> commandValidator) {
-        this.validator = commandValidator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> validator(Class<CommandValidator<C, CommandInvocation>> commandValidator) {
-        this.validator = ReflectionUtil.newInstance(commandValidator);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> populator(CommandPopulator<Object, CommandInvocation> populator) {
-        this.populator = populator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> resultHandler(ResultHandler resultHandler) {
-        this.resultHandler = resultHandler;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> resultHandler(Class<ResultHandler> resultHandler) {
-        this.resultHandler = ReflectionUtil.newInstance(resultHandler);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> argument(ProcessedOption argument) {
-        this.argument = argument;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> addOption(ProcessedOption option) {
-        if (options == null)
-            options = new ArrayList<>();
-        options.add(option);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> addOption(ProcessedOptionBuilder option) {
-        if (options == null)
-            options = new ArrayList<>();
-        try {
-            options.add(option.build());
-        } catch (OptionParserException ope) {
-            parserException = ope;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> addOptions(List<ProcessedOption> options) {
-        if (this.options == null)
-            this.options = new ArrayList<>();
-        this.options.addAll(options);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> addChild(CommandBuilder child) {
-        if (children == null)
-            children = new ArrayList<>();
-        this.children.add(child);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandBuilder<C> addChildren(List<CommandBuilder> children) {
-        if (this.children == null)
-            this.children = new ArrayList<>();
-        this.children.addAll(children);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandContainer<CommandInvocation> create() {
-        try {
-            if (parserException != null) {
-                return new AeshCommandContainer<>(parserException.getMessage());
-            }
-            return new AeshCommandContainer<>(createParser());
-        } catch (CommandLineParserException e) {
-            return new AeshCommandContainer<>(e.getMessage());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
@@ -206,21 +176,7 @@ public class CommandBuilder<C extends Command<CommandInvocation>> {
     }
 
     @SuppressWarnings("unchecked")
-    private ProcessedCommand<Command<CommandInvocation>, CommandInvocation> createProcessedCommand()
-            throws CommandLineParserException {
-        return ProcessedCommandBuilder.builder()
-                .name(name)
-                .aliases(aliases)
-                .command(command)
-                .description(description)
-                .generateHelp(generateHelp)
-                .disableParsing(disableParsing)
-                .version(version)
-                .addOptions(options)
-                .resultHandler(resultHandler)
-                .validator((CommandValidator<Command<CommandInvocation>, CommandInvocation>) validator)
-                .arguments(argument)
-                .populator(populator)
-                .create();
+    private ProcessedCommand<Command<CommandInvocation>, CommandInvocation> createProcessedCommand() throws CommandLineParserException {
+        return ProcessedCommandBuilder.builder().name(name).aliases(aliases).command(command).description(description).generateHelp(generateHelp).disableParsing(disableParsing).version(version).addOptions(options).resultHandler(resultHandler).validator((CommandValidator<Command<CommandInvocation>, CommandInvocation>) validator).arguments(argument).populator(populator).create();
     }
 }

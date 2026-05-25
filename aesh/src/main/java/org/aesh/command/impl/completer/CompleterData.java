@@ -17,13 +17,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.completer;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.aesh.command.Command;
 import org.aesh.command.completer.CompleterInvocation;
 import org.aesh.console.AeshContext;
@@ -41,12 +39,19 @@ import org.aesh.terminal.formatting.TerminalString;
 public class CompleterData implements CompleterInvocation {
 
     private List<TerminalString> completerValues;
+
     private boolean appendSpace = true;
+
     private final String completeValue;
+
     private final Command command;
+
     private final AeshContext aeshContext;
+
     private int offset = -1;
+
     private boolean ignoreOffset = false;
+
     private boolean ignoreStartsWith = false;
 
     public CompleterData(AeshContext aeshContext, String completeValue, Command command) {
@@ -58,93 +63,91 @@ public class CompleterData implements CompleterInvocation {
 
     @Override
     public String getGivenCompleteValue() {
-        return completeValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Command getCommand() {
-        return command;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<TerminalString> getCompleterValues() {
-        return completerValues;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setCompleterValues(Collection<String> completerValues) {
-        for (String s : completerValues)
-            this.completerValues.add(new TerminalString(s, true));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setCompleterValuesTerminalString(List<TerminalString> completerValues) {
-        this.completerValues = completerValues;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void clearCompleterValues() {
-        this.completerValues.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void addAllCompleterValues(Collection<String> completerValues) {
-        for (String s : completerValues)
-            this.completerValues.add(new TerminalString(s, true));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void addCompleterValue(String value) {
-        this.completerValues.add(new TerminalString(value, true));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void addCompleterValueTerminalString(TerminalString value) {
-        this.completerValues.add(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isAppendSpace() {
-        return appendSpace;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setAppendSpace(boolean appendSpace) {
-        this.appendSpace = appendSpace;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean doIgnoreOffset() {
-        return ignoreOffset;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setIgnoreOffset(boolean ignoreOffset) {
-        this.ignoreOffset = ignoreOffset;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setOffset(int offset) {
-        this.offset = offset;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getOffset() {
-        return offset;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setIgnoreStartsWith(boolean ignoreStartsWith) {
-        this.ignoreStartsWith = ignoreStartsWith;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isIgnoreStartsWith() {
-        return ignoreStartsWith;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AeshContext getAeshContext() {
-        return aeshContext;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

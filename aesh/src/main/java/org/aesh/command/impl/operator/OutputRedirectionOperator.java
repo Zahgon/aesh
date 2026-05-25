@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-
 import org.aesh.command.invocation.CommandInvocationConfiguration;
 import org.aesh.console.AeshContext;
 
@@ -42,17 +41,16 @@ public class OutputRedirectionOperator implements ConfigurationOperator {
 
         @Override
         protected BufferedWriter buildWriter(File f) throws IOException {
-            if (append) {
-                return Files.newBufferedWriter(f.toPath(), StandardCharsets.UTF_8,
-                        StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-            }
-            return Files.newBufferedWriter(f.toPath(), StandardCharsets.UTF_8);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     private CommandInvocationConfiguration config;
+
     private String argument;
+
     private final AeshContext context;
+
     private final boolean append;
 
     public OutputRedirectionOperator(AeshContext context) {
@@ -66,14 +64,11 @@ public class OutputRedirectionOperator implements ConfigurationOperator {
 
     @Override
     public CommandInvocationConfiguration getConfiguration() throws IOException {
-        if (config == null) {
-            config = new CommandInvocationConfiguration(context, new OutputDelegateImpl(argument));
-        }
-        return config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setArgument(String argument) {
-        this.argument = argument;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

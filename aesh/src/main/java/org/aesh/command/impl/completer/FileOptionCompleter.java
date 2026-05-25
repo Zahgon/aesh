@@ -21,7 +21,6 @@ package org.aesh.command.impl.completer;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.aesh.command.completer.CompleterInvocation;
 import org.aesh.command.completer.OptionCompleter;
 import org.aesh.impl.util.FileLister;
@@ -51,21 +50,10 @@ public class FileOptionCompleter implements OptionCompleter<CompleterInvocation>
 
     @Override
     public void complete(CompleterInvocation completerInvocation) {
-        List<String> candidates = new ArrayList<>();
-        int cursor = new FileLister(completerInvocation.getGivenCompleteValue(),
-                completerInvocation.getAeshContext().getCurrentWorkingDirectory()).findMatchingDirectories(candidates);
-        boolean appendSpace = false;
-        if (candidates.size() == 1) {
-            if (completerInvocation.getGivenCompleteValue().endsWith(candidates.get(0))) {
-                appendSpace = true;
-            }
-        }
-        completerInvocation.addAllCompleterValues(candidates);
-        completerInvocation.setOffset(completerInvocation.getGivenCompleteValue().length() - cursor);
-        completerInvocation.setAppendSpace(appendSpace);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ResourceFilter getFilter() {
-        return filter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

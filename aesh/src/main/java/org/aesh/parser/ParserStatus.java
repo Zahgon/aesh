@@ -23,6 +23,7 @@ package org.aesh.parser;
  * @author Aesh team
  */
 public enum ParserStatus {
+
     OK,
     UNCLOSED_QUOTE,
     DOUBLE_UNCLOSED_QUOTE,
@@ -32,6 +33,6 @@ public enum ParserStatus {
     EMPTY_AFTER_OPERATOR;
 
     public static boolean okForCompletion(ParserStatus status) {
-        return status == OK || status == EMPTY_AFTER_OPERATOR || status == EMPTY_BEFORE_OPERATOR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

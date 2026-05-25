@@ -26,7 +26,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandLifecycle;
 import org.aesh.command.HelpEntry;
@@ -68,15 +67,25 @@ import org.aesh.terminal.utils.Config;
 public class AeshCommandLineParser<CI extends CommandInvocation> implements CommandLineParser<CI> {
 
     private final ProcessedCommand<Command<CI>, CI> processedCommand;
+
     private List<CommandLineParser<CI>> childParsers;
+
     private Map<String, Class<? extends Command>> lazyChildClasses;
+
     private InvocationProviders storedInvocationProviders;
+
     private boolean isChild = false;
+
     private ProcessedOption lastParsedOption;
+
     private boolean parsedCommand = false;
+
     private LineParser lineParser;
+
     private CompleteStatus completeStatus;
+
     private AeshCommandLineParser<CI> parent;
+
     private boolean ansiMode = true;
 
     @SuppressWarnings("unchecked")
@@ -86,31 +95,20 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
 
     @Override
     public void addChildParser(CommandLineParser<CI> commandLineParser) throws CommandLineParserException {
-        if (processedCommand.hasArgument() || processedCommand.hasArguments())
-            throw new CommandLineParserException("Group commands can not have arguments defined");
-        if (childParsers == null)
-            childParsers = new ArrayList<>();
-        commandLineParser.setChild(true);
-        childParsers.add(commandLineParser);
-        if (commandLineParser instanceof AeshCommandLineParser)
-            ((AeshCommandLineParser<CI>) commandLineParser).setParent(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<CommandLineParser<CI>> getChildParsers() {
-        return childParsers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public void addLazyChild(String name, Class<? extends Command> clazz) throws CommandLineParserException {
-        if (processedCommand.hasArgument() || processedCommand.hasArguments())
-            throw new CommandLineParserException("Group commands can not have arguments defined");
-        if (lazyChildClasses == null)
-            lazyChildClasses = new LinkedHashMap<>();
-        lazyChildClasses.put(name, clazz);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void storeInvocationProviders(InvocationProviders providers) {
-        this.storedInvocationProviders = providers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
@@ -156,7 +154,7 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
 
     @Override
     public void setChild(boolean child) {
-        isChild = child;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void setParent(AeshCommandLineParser<CI> parent) {
@@ -164,125 +162,71 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
     }
 
     AeshCommandLineParser<CI> getParentParser() {
-        return parent;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandLineParser<CI> parsedCommand() {
-        if (parsedCommand)
-            return this;
-        else if (isGroupCommand() && childParsers != null) {
-            CommandLineParser<CI> correct;
-            for (CommandLineParser<CI> child : childParsers) {
-                correct = child.parsedCommand();
-                if (correct != null)
-                    return correct;
-            }
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void complete(AeshCompleteOperation completeOperation, InvocationProviders invocationProviders) {
-
-        complete(completeOperation,
-                new LineParser().parseLine(completeOperation.getBuffer(), completeOperation.getCursor(), true),
-                invocationProviders);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void complete(AeshCompleteOperation completeOperation, ParsedLine line, InvocationProviders invocationProviders) {
-        //first parse
-        parse(line.iterator(), Mode.COMPLETION);
-        //then use completion parser to populate completeOperation
-        parsedCommand().getCompletionParser().injectValuesAndComplete(completeOperation, invocationProviders, line);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<String> getAllNames() {
-        if (isGroupCommand()) {
-            resolveAllLazyChildren();
-            List<CommandLineParser<CI>> parsers = getChildParsers();
-            List<String> names = new ArrayList<>(parsers.size());
-            for (CommandLineParser child : parsers) {
-                names.add(processedCommand.name() + " " + child.getProcessedCommand().name());
-            }
-            return names;
-        } else {
-            List<String> names = new ArrayList<>(1);
-            names.add(processedCommand.name());
-            return names;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isChild() {
-        return isChild;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandLineParser<CI> getChildParser(String name) {
-        if (!isGroupCommand())
-            return null;
-        if (childParsers != null) {
-            for (CommandLineParser<CI> clp : childParsers) {
-                if (clp.getProcessedCommand().name().equals(name))
-                    return clp;
-            }
-        }
-        return resolveLazyChild(name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<CommandLineParser<CI>> getAllChildParsers() {
-        if (isGroupCommand()) {
-            resolveAllLazyChildren();
-            return getChildParsers();
-        } else
-            return new ArrayList<>();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ProcessedCommand<Command<CI>, CI> getProcessedCommand() {
-        return processedCommand;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Command<CI> getCommand() {
-        return processedCommand.getCommand();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandLineCompletionParser getCompletionParser() {
-        return new AeshCommandLineCompletionParser<>(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandPopulator<Object, CI> getCommandPopulator() {
-        return processedCommand.getCommandPopulator();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public void populateObject(String line, InvocationProviders invocationProviders, AeshContext aeshContext, Mode mode)
-            throws CommandLineParserException, OptionValidatorException {
-        //first parse, then populate
-        parse(line, mode);
-        if (mode == Mode.VALIDATE && getProcessedCommand().parserExceptions().size() > 0) {
-            throw getProcessedCommand().parserExceptions().get(0);
-        } else {
-            doPopulate(processedCommand, invocationProviders, aeshContext, mode);
-        }
+    public void populateObject(String line, InvocationProviders invocationProviders, AeshContext aeshContext, Mode mode) throws CommandLineParserException, OptionValidatorException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public void doPopulate(ProcessedCommand<Command<CI>, CI> processedCommand, InvocationProviders invocationProviders,
-            AeshContext aeshContext, Mode mode) throws CommandLineParserException, OptionValidatorException {
-        getCommandPopulator().populateObject(processedCommand, invocationProviders, aeshContext, mode);
-        if (isGroupCommand() && childParsers != null) {
-            for (CommandLineParser<CI> parser : childParsers) {
-                parser.doPopulate(parser.getProcessedCommand(), invocationProviders, aeshContext, mode);
-            }
-            propagateInheritedOptions();
-        }
+    public void doPopulate(ProcessedCommand<Command<CI>, CI> processedCommand, InvocationProviders invocationProviders, AeshContext aeshContext, Mode mode) throws CommandLineParserException, OptionValidatorException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -291,148 +235,13 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
      */
     @Override
     public String printHelp() {
-        resolveAllLazyChildren();
-        // Propagate ansiMode to any newly resolved lazy children
-        if (!ansiMode && childParsers != null) {
-            for (CommandLineParser<CI> child : childParsers) {
-                child.updateAnsiMode(false);
-            }
-        }
-        boolean showAll = processedCommand.isFullHelpRequested();
-        List<CommandLineParser<CI>> parsers = getChildParsers();
-        HelpSectionProvider provider = resolveHelpSectionProvider();
-        Map<String, List<HelpEntry>> additionalSections = provider != null
-                ? provider.getAdditionalSections()
-                : Collections.emptyMap();
-        boolean hasChildren = parsers != null && parsers.size() > 0;
-        boolean hasAdditional = !additionalSections.isEmpty();
-
-        StringBuilder sb = new StringBuilder();
-
-        if (hasChildren || hasAdditional) {
-            String helpText = processedCommand.printHelp(helpNames(), false, showAll);
-            // Append [COMMAND] to the synopsis line for group commands.
-            int usageIdx = helpText.indexOf("Usage:");
-            if (usageIdx >= 0 && hasChildren) {
-                int usageEnd = helpText.indexOf(Config.getLineSeparator(), usageIdx);
-                if (usageEnd > 0) {
-                    helpText = helpText.substring(0, usageEnd) + " [COMMAND]"
-                            + helpText.substring(usageEnd);
-                }
-            }
-
-            // Inject header between synopsis and options section
-            String headerContent = (provider != null && provider.getHeader() != null)
-                    ? resolveDescriptionVariables(provider.getHeader(), null)
-                    : null;
-            if (headerContent != null) {
-                String sep = Config.getLineSeparator();
-                String doubleSep = sep + sep;
-                int splitPoint = helpText.indexOf(doubleSep);
-                if (splitPoint >= 0) {
-                    sb.append(helpText, 0, splitPoint + doubleSep.length());
-                    sb.append(headerContent).append(sep);
-                    sb.append(helpText.substring(splitPoint + doubleSep.length()));
-                } else {
-                    sb.append(helpText);
-                    sb.append(sep).append(headerContent).append(sep);
-                }
-            } else {
-                sb.append(helpText);
-            }
-
-            int maxLength = 0;
-            if (hasChildren) {
-                for (CommandLineParser child : parsers) {
-                    int length = child.getProcessedCommand().name().length();
-                    if (length > maxLength)
-                        maxLength = length;
-                }
-            }
-            for (List<HelpEntry> entries : additionalSections.values()) {
-                for (HelpEntry entry : entries) {
-                    if (entry.name().length() > maxLength)
-                        maxLength = entry.name().length();
-                }
-            }
-
-            Map<String, List<String>> outputGroups = new LinkedHashMap<>();
-            if (hasChildren) {
-                for (CommandLineParser<CI> child : parsers) {
-                    String group = child.getProcessedCommand().helpGroup();
-                    outputGroups.computeIfAbsent(group.isEmpty() ? "" : group, k -> new ArrayList<>())
-                            .add(child.getFormattedCommand(4, maxLength + 2));
-                }
-            }
-            for (Map.Entry<String, List<HelpEntry>> section : additionalSections.entrySet()) {
-                List<String> lines = outputGroups.computeIfAbsent(section.getKey(), k -> new ArrayList<>());
-                for (HelpEntry he : section.getValue())
-                    lines.add(formatHelpEntry(he, 4, maxLength + 2));
-            }
-
-            boolean hasNamedGroups = outputGroups.size() > 1 || !outputGroups.containsKey("");
-
-            if (hasNamedGroups) {
-                for (Map.Entry<String, List<String>> entry : outputGroups.entrySet()) {
-                    if (!entry.getKey().isEmpty()) {
-                        sb.append(Config.getLineSeparator())
-                                .append(entry.getKey()).append(":")
-                                .append(Config.getLineSeparator());
-                        for (String line : entry.getValue())
-                            sb.append(line).append(Config.getLineSeparator());
-                    }
-                }
-                List<String> defaultGroup = outputGroups.get("");
-                if (defaultGroup != null && !defaultGroup.isEmpty()) {
-                    sb.append(Config.getLineSeparator())
-                            .append("Other:").append(Config.getLineSeparator());
-                    for (String line : defaultGroup)
-                        sb.append(line).append(Config.getLineSeparator());
-                }
-            } else {
-                sb.append(Config.getLineSeparator())
-                        .append(processedCommand.name()).append(" commands:")
-                        .append(Config.getLineSeparator());
-                for (String line : outputGroups.getOrDefault("", Collections.emptyList()))
-                    sb.append(line).append(Config.getLineSeparator());
-            }
-        } else {
-            String helpText = processedCommand.printHelp(helpNames(), false, showAll);
-            String headerContent = (provider != null && provider.getHeader() != null)
-                    ? resolveDescriptionVariables(provider.getHeader(), null)
-                    : null;
-            if (headerContent != null) {
-                String sep = Config.getLineSeparator();
-                String doubleSep = sep + sep;
-                int splitPoint = helpText.indexOf(doubleSep);
-                if (splitPoint >= 0) {
-                    sb.append(helpText, 0, splitPoint + doubleSep.length());
-                    sb.append(headerContent).append(sep);
-                    sb.append(helpText.substring(splitPoint + doubleSep.length()));
-                } else {
-                    sb.append(helpText);
-                    sb.append(sep).append(headerContent).append(sep);
-                }
-            } else {
-                sb.append(helpText);
-            }
-        }
-
-        // Footer from HelpSectionProvider — shown after everything
-        if (provider != null && provider.getFooter() != null) {
-            sb.append(Config.getLineSeparator())
-                    .append(resolveDescriptionVariables(provider.getFooter(), null))
-                    .append(Config.getLineSeparator());
-        }
-
-        return sb.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private HelpSectionProvider resolveHelpSectionProvider() {
         HelpSectionProvider provider = processedCommand.getHelpSectionProvider();
         if (provider != null)
             return provider;
-
         Class<? extends HelpSectionProvider> providerClass = processedCommand.getHelpSectionProviderClass();
         if (providerClass != null && providerClass != NullHelpSectionProvider.class) {
             try {
@@ -477,48 +286,12 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
      */
     @Override
     public void parse(String line) {
-        parse(line, Mode.STRICT);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void parse(ParsedLineIterator iterator, Mode mode) {
-        clear();
-        Command<CI> cmd = processedCommand.getCommand();
-        if (mode != Mode.COMPLETION && cmd instanceof CommandLifecycle) {
-            ((CommandLifecycle) cmd).beforeParse();
-        }
-        if (iterator.hasNextWord()) {
-            String command = iterator.pollWord();
-            if (processedCommand.name().equals(command)
-                    || processedCommand.getAliases().contains(command)) {
-                if (isGroupCommand() && iterator.hasNextWord()) {
-                    CommandLineParser<CI> clp = getChildParser(iterator.peekWord());
-                    if (clp == null) {
-                        //if the user have written garbage in the next word, we need to check
-                        // eg: group GARBAGE <tab>
-                        if (iterator.isNextWordCursorWord() ||
-                                iterator.peekWord().startsWith("--") || iterator.peekWord().startsWith("-"))
-                            doParse(iterator, mode);
-                        else {
-                            processedCommand
-                                    .addParserException(new CommandLineParserException("'" + command + " " + iterator.peekWord()
-                                            + "' is not part of the " + command + " commands. See 'help " + command + "'."));
-                            if (mode == Mode.COMPLETION) {
-                                parsedCommand = true;
-                                processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.INVALID_INPUT, ""));
-                            }
-                        }
-                    }
-                    //we have a group command
-                    else {
-                        //remove the child name
-                        clp.parse(iterator, mode);
-                    }
-                } else
-                    doParse(iterator, mode);
-            }
-        } else if (iterator.parserError() != null)
-            processedCommand.addParserException(new CommandLineParserException(iterator.parserError()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void doParse(ParsedLineIterator iter, Mode mode) {
@@ -554,9 +327,7 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
                                     if (word.word().startsWith("--") || word.word().length() == 2) {
                                         // invalid short names and long names should be rejected.
                                         if (!(processedCommand.getCommand() instanceof MapCommand)) {
-                                            processedCommand.addParserException(
-                                                    new OptionParserException("The option " + word.word()
-                                                            + " is unknown."));
+                                            processedCommand.addParserException(new OptionParserException("The option " + word.word() + " is unknown."));
                                         } else {
                                             unknown = true;
                                         }
@@ -635,18 +406,13 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
         ProcessedOption positional = processedCommand.getPositionalForNextValue();
         if (positional != null) {
             if (positional.isArityFull()) {
-                processedCommand.addParserException(
-                        new OptionParserException(
-                                "Too many arguments. Maximum is " + positional.getArity().getMax() + "."));
+                processedCommand.addParserException(new OptionParserException("Too many arguments. Maximum is " + positional.getArity().getMax() + "."));
             } else {
                 positional.addValue(word);
             }
         } else {
             int missingIndex = processedCommand.getPositionalValueCount();
-            processedCommand.addParserException(
-                    new OptionParserException(
-                            "Unexpected positional value '" + word + "' at index " + missingIndex
-                                    + ". Declared positional indexes: " + processedCommand.positionalRangeSummary() + "."));
+            processedCommand.addParserException(new OptionParserException("Unexpected positional value '" + word + "' at index " + missingIndex + ". Declared positional indexes: " + processedCommand.positionalRangeSummary() + "."));
         }
     }
 
@@ -660,27 +426,24 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
                 processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.GROUP_COMMAND, ""));
             else {
                 //child commands that ends after its name, must be able to append space
-                if (iter.baseLine().size() == (iter.baseLine().selectedIndex() + 1) &&
-                        lastParsedOption == null) {
+                if (iter.baseLine().size() == (iter.baseLine().selectedIndex() + 1) && lastParsedOption == null) {
                     //append space
                     if (iter.baseLine().status() == ParserStatus.OK)
                         processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.APPEND_SPACE, ""));
-                    //we have unclosed quote, lets parse it as an argument
                     else
+                        //we have unclosed quote, lets parse it as an argument
                         processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.ARGUMENT, ""));
-                }
-                //we list all the options
-                else
+                } else
+                    //we list all the options
                     processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.COMPLETE_OPTION, ""));
             }
         } else {
             try {
-                boolean argumentMarker = false; //argumentMarker is set to true if we have found "--" inside the line
+                //argumentMarker is set to true if we have found "--" inside the line
+                boolean argumentMarker = false;
                 while (iter.hasNextWord()) {
                     //first check if we have passed the selected word, if so lets stop
-                    if (iter.baseLine().selectedIndex() > -1 &&
-                            iter.pastCursorWord() &&
-                            processedCommand.completeStatus() != null)
+                    if (iter.baseLine().selectedIndex() > -1 && iter.pastCursorWord() && processedCommand.completeStatus() != null)
                         return;
                     ParsedWord word = iter.peekParsedWord();
                     //first check if argumentMarker has been set
@@ -695,41 +458,32 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
                         if (lastParsedOption != null) {
                             //if current word is cursor word, we need to check if the current option name
                             //might be part of another option name: eg: list and listFolders
-                            if (iter.isNextWordCursorWord() && !word.word().contains("=")
-                                    && processedCommand.findPossibleLongNames(word.word()).size() > 1) {
-                                processedCommand.setCompleteStatus(
-                                        new CompleteStatus(CompleteStatus.Status.LONG_OPTION, word.word().substring(2)));
+                            if (iter.isNextWordCursorWord() && !word.word().contains("=") && processedCommand.findPossibleLongNames(word.word()).size() > 1) {
+                                processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.LONG_OPTION, word.word().substring(2)));
                                 iter.pollParsedWord();
                             } else {
                                 lastParsedOption.parser().parse(iter, lastParsedOption);
                                 if (!iter.hasNextWord()) {
                                     if (lastParsedOption.hasValue() || iter.baseLine().spaceAtEnd())
-                                        processedCommand.setCompleteStatus(
-                                                new CompleteStatus(CompleteStatus.Status.COMPLETE_OPTION, ""));
-                                    //if the option do not have any value, set missing value status for easier processing
+                                        processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.COMPLETE_OPTION, ""));
                                     else
-                                        processedCommand.setCompleteStatus(
-                                                new CompleteStatus(CompleteStatus.Status.OPTION_MISSING_VALUE, ""));
+                                        //if the option do not have any value, set missing value status for easier processing
+                                        processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.OPTION_MISSING_VALUE, ""));
                                 }
                             }
-                        }
-                        //if we have -- that stands alone it's a marker for separation of options and arguments
-                        else if (word.word().equals("--") && !iter.isNextWordCursorWord()) {
+                        } else //if we have -- that stands alone it's a marker for separation of options and arguments
+                        if (word.word().equals("--") && !iter.isNextWordCursorWord()) {
                             argumentMarker = true;
                             iter.pollParsedWord();
-                        }
-                        //got a partial option
-                        else if (word.word().startsWith("--")) {
-                            processedCommand.setCompleteStatus(
-                                    new CompleteStatus(CompleteStatus.Status.LONG_OPTION, word.word().substring(2)));
+                        } else //got a partial option
+                        if (word.word().startsWith("--")) {
+                            processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.LONG_OPTION, word.word().substring(2)));
                             iter.pollParsedWord();
                         } else if (word.word().startsWith("-")) {
-                            processedCommand.setCompleteStatus(
-                                    new CompleteStatus(CompleteStatus.Status.SHORT_OPTION, word.word().substring(1)));
+                            processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.SHORT_OPTION, word.word().substring(1)));
                             iter.pollParsedWord();
-                        }
-                        //we're completing arguments or group command names
-                        else {
+                        } else //we're completing arguments or group command names
+                        {
                             //check for group command completion even after options have been parsed
                             if (isGroupCommand()) {
                                 // Check if this word matches a known child parser
@@ -741,24 +495,17 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
                                     return;
                                 }
                                 if (iter.isNextWordCursorWord())
-                                    processedCommand.setCompleteStatus(
-                                            new CompleteStatus(CompleteStatus.Status.GROUP_COMMAND, word.word()));
+                                    processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.GROUP_COMMAND, word.word()));
                                 else if (iter.baseLine().cursorAtEnd() && iter.baseLine().spaceAtEnd())
-                                    processedCommand
-                                            .setCompleteStatus(new CompleteStatus(CompleteStatus.Status.GROUP_COMMAND, ""));
+                                    processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.GROUP_COMMAND, ""));
                                 else if (processedCommand.stopAtFirstPositional())
                                     argumentMarker = true;
                             } else if (iter.isNextWordCursorWord()) {
                                 if (processedCommand.getPositionalForNextValue() != null) {
-                                    processedCommand
-                                            .setCompleteStatus(new CompleteStatus(CompleteStatus.Status.ARGUMENT, word.word()));
+                                    processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.ARGUMENT, word.word()));
                                 } else {
                                     boolean emptyCursorWord = word.word() == null || word.word().isEmpty();
-                                    processedCommand.setCompleteStatus(new CompleteStatus(
-                                            processedCommand.hasOptions() && emptyCursorWord
-                                                    ? CompleteStatus.Status.COMPLETE_OPTION
-                                                    : CompleteStatus.Status.ARGUMENT_ERROR,
-                                            null));
+                                    processedCommand.setCompleteStatus(new CompleteStatus(processedCommand.hasOptions() && emptyCursorWord ? CompleteStatus.Status.COMPLETE_OPTION : CompleteStatus.Status.ARGUMENT_ERROR, null));
                                 }
                             } else {
                                 setCompletionArgStatus(word.word());
@@ -775,12 +522,10 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
                 String msg = e.getMessage();
                 if (msg != null && msg.contains("no value was given")) {
                     // Option was recognized but needs a value — offer value completion
-                    processedCommand.setCompleteStatus(
-                            new CompleteStatus(CompleteStatus.Status.OPTION_MISSING_VALUE, ""));
+                    processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.OPTION_MISSING_VALUE, ""));
                 } else {
                     // Genuine parse error (unknown option in group, property syntax error, etc.)
-                    processedCommand.setCompleteStatus(
-                            new CompleteStatus(CompleteStatus.Status.INVALID_INPUT, msg != null ? msg : ""));
+                    processedCommand.setCompleteStatus(new CompleteStatus(CompleteStatus.Status.INVALID_INPUT, msg != null ? msg : ""));
                 }
             }
         }
@@ -812,7 +557,6 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
             if (doCheckForMissingRequiredOption(command.getArguments()))
                 return generateRequiredExceptionFor(command.getArguments(), true);
         }
-
         return null;
     }
 
@@ -823,9 +567,7 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
         int min = arg.getArity().getMin();
         if (count < min) {
             String label = arg.getDisplayLabel();
-            return new RequiredOptionException(
-                    "Argument '" + label + "' requires at least " + min
-                            + " value" + (min > 1 ? "s" : "") + ", but got " + count + ".");
+            return new RequiredOptionException("Argument '" + label + "' requires at least " + min + " value" + (min > 1 ? "s" : "") + ", but got " + count + ".");
         }
         return null;
     }
@@ -857,16 +599,14 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
         return false;
     }
 
-    private MutuallyExclusiveOptionException checkForMutuallyExclusiveOptions(
-            ProcessedCommand<? extends Command<CI>, CI> command) {
+    private MutuallyExclusiveOptionException checkForMutuallyExclusiveOptions(ProcessedCommand<? extends Command<CI>, CI> command) {
         for (ProcessedOption o : command.getOptions()) {
             if (o.getExclusiveWith().isEmpty() || o.getValue() == null)
                 continue;
             for (String exclusiveName : o.getExclusiveWith()) {
                 ProcessedOption other = command.findLongOptionNoActivatorCheck(exclusiveName);
                 if (other != null && other.getValue() != null) {
-                    return new MutuallyExclusiveOptionException(
-                            "Options --" + o.name() + " and --" + other.name() + " are mutually exclusive.");
+                    return new MutuallyExclusiveOptionException("Options --" + o.name() + " and --" + other.name() + " are mutually exclusive.");
                 }
             }
         }
@@ -875,7 +615,7 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
 
     @Override
     public ProcessedOption lastParsedOption() {
-        return lastParsedOption;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -890,59 +630,22 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
      */
     @Override
     public void parse(String line, Mode mode) {
-        if (lineParser == null)
-            lineParser = new LineParser();
-        parse(lineParser.parseLine(line, line.length(), true).iterator(), mode);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void clear() {
-        //if this is the parsed command, clear it
-        if (parsedCommand) {
-            processedCommand.clear();
-            lastParsedOption = null;
-            parsedCommand = false;
-            completeStatus = null;
-        }
-        //else find the parsed command and clear that one
-        else {
-            if (processedCommand != null)
-                processedCommand.clear();
-
-            CommandLineParser parsed = parsedCommand();
-            if (parsed != null)
-                parsed.clear();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isGroupCommand() {
-        List<CommandLineParser<CI>> parsers = getChildParsers();
-        if (parsers != null && parsers.size() > 0)
-            return true;
-        return lazyChildClasses != null && !lazyChildClasses.isEmpty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getFormattedCommand(int offset, int descriptionStart) {
-
-        ANSIBuilder ansiBuilder = ANSIBuilder.builder(ansiMode);
-
-        if (offset > 0)
-            ansiBuilder.append(String.format("%" + offset + "s", ""));
-
-        ansiBuilder.blueText(getProcessedCommand().name());
-
-        int descOffset = descriptionStart - getProcessedCommand().name().length();
-
-        if (descOffset > 0)
-            ansiBuilder.append(String.format("%" + descOffset + "s", ""));
-        else
-            ansiBuilder.append(" ");
-
-        ansiBuilder.append(resolveDescriptionVariables(getProcessedCommand().description(), null));
-
-        return ansiBuilder.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -968,25 +671,14 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
             parentName = parent.getProcessedCommand().name();
         }
         if (option == null) {
-            return getProcessedCommand().resolveCommandDescription(rawDescription,
-                    getProcessedCommand().name(),
-                    fullName,
-                    getRootProcessedCommand().name(),
-                    parentName,
-                    parentFullName);
+            return getProcessedCommand().resolveCommandDescription(rawDescription, getProcessedCommand().name(), fullName, getRootProcessedCommand().name(), parentName, parentFullName);
         }
-        return getProcessedCommand().resolveOptionDescription(option,
-                getProcessedCommand().name(),
-                fullName,
-                getRootProcessedCommand().name(),
-                parentName,
-                parentFullName);
+        return getProcessedCommand().resolveOptionDescription(option, getProcessedCommand().name(), fullName, getRootProcessedCommand().name(), parentName, parentFullName);
     }
 
     private ProcessedCommand<Command<CI>, CI> getRootProcessedCommand() {
         AeshCommandLineParser<CI> root = this;
-        while (root.parent != null)
-            root = root.parent;
+        while (root.parent != null) root = root.parent;
         return root.getProcessedCommand();
     }
 
@@ -1039,44 +731,21 @@ public class AeshCommandLineParser<CI extends CommandInvocation> implements Comm
 
     @Override
     public void updateAnsiMode(boolean mode) {
-        this.ansiMode = mode;
-        for (ProcessedOption opt : processedCommand.getOptions()) {
-            opt.updateAnsiMode(mode);
-        }
-        if (childParsers != null) {
-            for (CommandLineParser<CI> child : childParsers) {
-                child.updateAnsiMode(mode);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "AeshCommandLineParser{" +
-                "processedCommand=" + processedCommand +
-                ", childParsers=" + childParsers +
-                ", isChild=" + isChild +
-                ", lastParsedOption=" + lastParsedOption +
-                ", parsedCommand=" + parsedCommand +
-                ", completeStatus=" + completeStatus +
-                '}';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof AeshCommandLineParser))
-            return false;
-
-        AeshCommandLineParser that = (AeshCommandLineParser) o;
-
-        return processedCommand.equals(that.processedCommand);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return processedCommand.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

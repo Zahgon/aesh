@@ -20,21 +20,22 @@
 package org.aesh.command.invocation;
 
 import java.io.BufferedInputStream;
-
 import org.aesh.command.impl.operator.DataProvider;
 import org.aesh.command.impl.operator.InputDelegate;
 import org.aesh.command.impl.operator.OutputDelegate;
 import org.aesh.console.AeshContext;
 
 /**
- *
  * @author Aesh team
  */
 public class CommandInvocationConfiguration {
 
     private OutputDelegate outputDelegate;
+
     private AeshContext context;
+
     private DataProvider dataProvider;
+
     private InputDelegate inputDelegate;
 
     public CommandInvocationConfiguration(AeshContext context) {
@@ -49,8 +50,7 @@ public class CommandInvocationConfiguration {
         this(context, null, null, dataProvider);
     }
 
-    public CommandInvocationConfiguration(AeshContext context, OutputDelegate outputDelegate, InputDelegate inputDelegate,
-            DataProvider dataProvider) {
+    public CommandInvocationConfiguration(AeshContext context, OutputDelegate outputDelegate, InputDelegate inputDelegate, DataProvider dataProvider) {
         this.context = context;
         this.outputDelegate = outputDelegate;
         this.inputDelegate = inputDelegate;
@@ -70,30 +70,30 @@ public class CommandInvocationConfiguration {
     }
 
     public InputDelegate getInputRedirection() {
-        return inputDelegate;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public OutputDelegate getOutputRedirection() {
-        return outputDelegate;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshContext getAeshContext() {
-        return context;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public BufferedInputStream getPipedData() {
-        return dataProvider == null ? null : dataProvider.getData();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasOutputRedirection() {
-        return getOutputRedirection() != null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasInputRedirection() {
-        return getInputRedirection() != null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasPipedData() {
-        return dataProvider != null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

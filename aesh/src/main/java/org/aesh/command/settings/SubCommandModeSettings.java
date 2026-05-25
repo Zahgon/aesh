@@ -119,7 +119,7 @@ public interface SubCommandModeSettings {
      * @return default SubCommandModeSettings
      */
     static SubCommandModeSettings defaults() {
-        return DefaultSubCommandModeSettings.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -128,6 +128,6 @@ public interface SubCommandModeSettings {
      * @return a new builder
      */
     static SubCommandModeSettingsBuilder builder() {
-        return new SubCommandModeSettingsBuilder();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

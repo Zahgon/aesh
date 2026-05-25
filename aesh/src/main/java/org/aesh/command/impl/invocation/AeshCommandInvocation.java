@@ -17,12 +17,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.invocation;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandException;
 import org.aesh.command.CommandNotFoundException;
@@ -49,26 +47,26 @@ import org.aesh.terminal.KeyAction;
 public final class AeshCommandInvocation implements CommandInvocation {
 
     private final Console console;
+
     private final Shell shell;
+
     private final CommandRuntime<AeshCommandInvocation> runtime;
+
     private final CommandInvocationConfiguration config;
+
     private final CommandContainer<AeshCommandInvocation> commandContainer;
+
     private final CommandContext commandContext;
+
     private java.io.InputStream cachedStdin;
+
     private boolean stdinResolved;
 
-    public AeshCommandInvocation(Console console, Shell shell,
-            CommandRuntime<AeshCommandInvocation> runtime,
-            CommandInvocationConfiguration config,
-            CommandContainer<AeshCommandInvocation> commandContainer) {
+    public AeshCommandInvocation(Console console, Shell shell, CommandRuntime<AeshCommandInvocation> runtime, CommandInvocationConfiguration config, CommandContainer<AeshCommandInvocation> commandContainer) {
         this(console, shell, runtime, config, commandContainer, null);
     }
 
-    public AeshCommandInvocation(Console console, Shell shell,
-            CommandRuntime<AeshCommandInvocation> runtime,
-            CommandInvocationConfiguration config,
-            CommandContainer<AeshCommandInvocation> commandContainer,
-            CommandContext commandContext) {
+    public AeshCommandInvocation(Console console, Shell shell, CommandRuntime<AeshCommandInvocation> runtime, CommandInvocationConfiguration config, CommandContainer<AeshCommandInvocation> commandContainer, CommandContext commandContext) {
         this.console = console;
         this.runtime = runtime;
         this.config = config;
@@ -77,187 +75,103 @@ public final class AeshCommandInvocation implements CommandInvocation {
         //if we have output redirection, use output delegate
         if (getConfiguration() != null && getConfiguration().getOutputRedirection() != null) {
             this.shell = new ShellOutputDelegate(shell, getConfiguration().getOutputRedirection());
-        }
-        //use default shell for no redirections
-        else
+        } else
+            //use default shell for no redirections
             this.shell = shell;
     }
 
     @Override
     public Shell getShell() {
-        return shell;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setPrompt(Prompt prompt) {
-        console.setPrompt(prompt);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Prompt getPrompt() {
-        return console.prompt();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getHelpInfo(String commandName) {
-        return console.helpInfo(commandName);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getHelpInfo() {
-        return commandContainer.getParser().parsedCommand().printHelp();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void stop() {
-        console.stop();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public KeyAction input() throws InterruptedException {
-        return shell.read();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public KeyAction input(long timeout, TimeUnit unit) throws InterruptedException {
-        return shell.read(timeout, unit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String inputLine() throws InterruptedException {
-        return shell.readLine();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String inputLine(Prompt prompt) throws InterruptedException {
-        return shell.readLine(prompt);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public void executeCommand(String input) throws CommandNotFoundException,
-            CommandLineParserException,
-            OptionValidatorException,
-            CommandValidatorException,
-            CommandException, InterruptedException, IOException {
-        runtime.executeCommand(input);
+    public void executeCommand(String input) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException, InterruptedException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public Executor<AeshCommandInvocation> buildExecutor(String line) throws CommandNotFoundException,
-            CommandLineParserException,
-            OptionValidatorException,
-            CommandValidatorException, IOException {
-        return runtime.buildExecutor(line);
+    public Executor<AeshCommandInvocation> buildExecutor(String line) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void print(String msg, boolean page) {
-        shell.write(msg, page);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void println(String msg, boolean page) {
-        shell.writeln(msg, page);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandInvocationConfiguration getConfiguration() {
-        return config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public java.io.InputStream getStdin() {
-        if (!stdinResolved) {
-            stdinResolved = true;
-            cachedStdin = CommandInvocation.super.getStdin();
-        }
-        return cachedStdin;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandContext getCommandContext() {
-        // If we have a direct reference, use it
-        if (commandContext != null) {
-            return commandContext;
-        }
-        // Otherwise try to get it from the console
-        if (console instanceof ReadlineConsole) {
-            return ((ReadlineConsole) console).getCommandContext();
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean enterSubCommandMode(Command<?> command) {
-        if (!(console instanceof ReadlineConsole)) {
-            return false;
-        }
-
-        ReadlineConsole readlineConsole = (ReadlineConsole) console;
-        CommandContext ctx = readlineConsole.getCommandContext();
-        if (ctx == null) {
-            return false;
-        }
-
-        // Check if sub-command mode is enabled
-        if (!ctx.getSettings().isEnabled()) {
-            return false;
-        }
-
-        // Find the parser for the command being entered.
-        // For nested group commands, we need the child parser, not the root.
-        CommandLineParser<?> parser = commandContainer.getParser();
-        CommandLineParser<?> parsed = parser.parsedCommand();
-        if (parsed != null && parsed != parser
-                && parsed.getProcessedCommand().getCommand() == command) {
-            parser = parsed;
-        }
-
-        // Push the command onto the context
-        ctx.push(parser, command);
-
-        // Update the prompt to show the context
-        String newPrompt = ctx.buildPrompt(true);
-        console.setPrompt(new Prompt(newPrompt));
-
-        // Print entry message if configured
-        String commandName = parser.getProcessedCommand().name();
-        String enterMessage = ctx.formatEnterMessage(commandName);
-        if (enterMessage != null) {
-            println(enterMessage);
-        }
-        String exitHint = ctx.formatExitHint();
-        if (exitHint != null) {
-            println(exitHint);
-        }
-        println("");
-
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean exitSubCommandMode() {
-        if (!(console instanceof ReadlineConsole)) {
-            return false;
-        }
-
-        ReadlineConsole readlineConsole = (ReadlineConsole) console;
-        CommandContext ctx = readlineConsole.getCommandContext();
-        if (ctx == null || !ctx.isInSubCommandMode()) {
-            return false;
-        }
-
-        // Pop the context
-        ctx.pop();
-
-        // Update the prompt
-        if (ctx.isInSubCommandMode()) {
-            console.setPrompt(new Prompt(ctx.buildPrompt(true)));
-        } else {
-            console.setPrompt(new Prompt(ctx.getOriginalPrompt()));
-        }
-
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

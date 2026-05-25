@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.aesh.command.invocation.CommandInvocation;
 import org.aesh.command.parser.CommandLineParserException;
 import org.aesh.command.validator.CommandValidatorException;
@@ -45,73 +44,27 @@ public class Executor<T extends CommandInvocation> {
         this.executions = Collections.unmodifiableList(executions);
     }
 
-    public void execute() throws CommandException, CommandValidatorException, InterruptedException, RuntimeException,
-            CommandLineParserException, OptionValidatorException {
-        Execution<T> exec;
-        while ((exec = getNextExecution()) != null) {
-            exec.execute();
-        }
+    public void execute() throws CommandException, CommandValidatorException, InterruptedException, RuntimeException, CommandLineParserException, OptionValidatorException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<Execution<T>> getExecutions() {
-        return executions;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasNext() {
-        return getNextExecution() != null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Execution<T> getNextExecution() {
-        if (executions.isEmpty()) {
-            return null;
-        }
-
-        int index = 0;
-        // Retrieve the first non executed non skip execution.
-        for (Execution<T> execution : executions) {
-            if (execution.getResult() == null && !skip.contains(execution)) {
-                break;
-            }
-            index += 1;
-        }
-
-        //that is the first one, just return it
-        if (index == 0) {
-            return executions.get(index);
-        }
-        // no more to execute
-        if (index == executions.size()) {
-            return null;
-        }
-        // We need the result of the last executed command. It will be conveyed
-        // to the next command to execute.
-        //The last executed one is at index - n; n being the number of skip.
-        int n = 1;
-        while (executions.get(index - n).getResult() == null) {
-            n += 1;
-        }
-        int i = index - 1;
-        CommandResult lastResult = executions.get(index - n).getResult();
-        while (i < executions.size() - 1) {
-            Execution exec = executions.get(i);
-            if (exec.getExecutable().canExecuteNext(lastResult)) {
-                return executions.get(i + 1);
-            } else {
-                i += 1;
-                skip.add(executions.get(i));
-            }
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void clearSkippedListData() {
-        if (skip.size() > 0)
-            for (Execution<T> execution : skip) {
-                execution.clearQueuedLine();
-            }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasSkipped() {
-        return skip.size() > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

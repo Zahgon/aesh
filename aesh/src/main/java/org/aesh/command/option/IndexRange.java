@@ -32,6 +32,7 @@ package org.aesh.command.option;
 public final class IndexRange {
 
     private final int min;
+
     private final int max;
 
     private IndexRange(int min, int max) {
@@ -40,43 +41,23 @@ public final class IndexRange {
     }
 
     public int getMin() {
-        return min;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getMax() {
-        return max;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean contains(int index) {
-        return index >= min && index <= max;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean overlaps(IndexRange other) {
-        return this.min <= other.max && other.min <= this.max;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static IndexRange parse(String value) {
-        if (value == null || value.trim().isEmpty()) {
-            throw new IllegalArgumentException("Index range cannot be empty");
-        }
-        String trimmed = value.trim();
-        int sep = trimmed.indexOf("..");
-        if (sep < 0) {
-            int single = parseNonNegative(trimmed, "index");
-            return new IndexRange(single, single);
-        }
-        String left = trimmed.substring(0, sep).trim();
-        String right = trimmed.substring(sep + 2).trim();
-        if (left.isEmpty() || right.isEmpty()) {
-            throw new IllegalArgumentException("Invalid index range: '" + value + "'");
-        }
-        int min = parseNonNegative(left, "index range minimum");
-        int max = "*".equals(right) ? Integer.MAX_VALUE : parseNonNegative(right, "index range maximum");
-        if (max < min) {
-            throw new IllegalArgumentException(
-                    "Invalid index range: minimum cannot be greater than maximum in '" + value + "'");
-        }
-        return new IndexRange(min, max);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static int parseNonNegative(String value, String what) {

@@ -27,16 +27,18 @@ import org.aesh.terminal.formatting.TerminalTextStyle;
  * @author Aesh team
  */
 public class NullOptionRenderer implements OptionRenderer {
+
     private static final TerminalTextStyle style = new TerminalTextStyle();
+
     private static final TerminalColor color = new TerminalColor();
 
     @Override
     public TerminalColor getColor() {
-        return color;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public TerminalTextStyle getTextType() {
-        return style;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

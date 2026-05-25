@@ -33,7 +33,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.aesh.terminal.utils.Config;
 import org.aesh.terminal.utils.LoggerUtil;
 
@@ -43,9 +42,13 @@ import org.aesh.terminal.utils.LoggerUtil;
 public class ExportManager {
 
     private static final char DOLLAR = '$';
+
     private final Map<String, String> variables;
+
     private final Pattern exportPattern = Pattern.compile("^(export)\\s+(\\w+)\\s*=\\s*(\\S+).*$");
+
     private final Pattern variableDollarFirstPattern = Pattern.compile("\\$(\\w+|\\{(\\w+)\\})(.*)");
+
     private final Pattern variablePattern = Pattern.compile("(.*)\\$(\\w+|\\{(\\w+)\\})(.*)");
 
     private static final Logger LOGGER = LoggerUtil.getLogger(ExportManager.class.getName());
@@ -53,7 +56,9 @@ public class ExportManager {
     private static final String EXPORT = "export";
 
     private final File exportFile;
+
     private final boolean exportUsesSystemEnvironment;
+
     private final ExportChangeListener listener;
 
     public ExportManager(File exportFile) {
@@ -90,24 +95,11 @@ public class ExportManager {
     }
 
     public Set<String> keys() {
-        return variables.keySet();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String addVariable(String line) {
-        Matcher variableMatcher = exportPattern.matcher(line);
-        if (variableMatcher.matches()) {
-            String name = variableMatcher.group(2);
-            String value = variableMatcher.group(3);
-            if (value.contains(String.valueOf(DOLLAR + name))) {
-                String existing = variables.get(name);
-                value = value.replace(String.valueOf(DOLLAR + name), existing != null ? existing : "");
-            }
-            variables.put(name, value);
-            if (listener != null)
-                listener.exportChange(name, value);
-            return null;
-        }
-        return "export: usage: export [name[=value] ...]";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -117,82 +109,49 @@ public class ExportManager {
      * @return line with variables replaced with their value
      */
     public String getValue(String key) {
-        if (key.indexOf(DOLLAR) == -1) {
-            String value = getVariable(key);
-
-            if (value == null)
-                return null;
-
-            if (value.indexOf(DOLLAR) == -1)
-                return value;
-            else
-                return parseValue(value);
-        }
-        return parseValue(key);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private String getVariable(String key) {
         if (this.variables.containsKey(key))
             return this.variables.get(key);
-
         if (this.exportUsesSystemEnvironment)
             return System.getenv().get(key);
-
         return null;
     }
 
     private boolean containsKey(String key) {
         boolean result = false;
         result = this.variables.containsKey(key);
-
         if (!result && this.exportUsesSystemEnvironment)
             result = System.getenv().containsKey(key);
-
         return result;
     }
 
     public String getValueIgnoreCase(String name) {
-        for (String key : variables.keySet()) {
-            if (key.equalsIgnoreCase(name))
-                return variables.get(key);
-        }
-
-        if (this.exportUsesSystemEnvironment) {
-            for (String key : System.getenv().keySet()) {
-                if (key.equalsIgnoreCase(name))
-                    return System.getenv().get(key);
-            }
-        }
-
-        return "";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private String parseValue(String value) {
         if (value == null)
             return null;
-
         if (value.indexOf(DOLLAR) == -1) {
             return value;
         }
-
         if (value.indexOf(DOLLAR) == 0) {
             Matcher matcher = variableDollarFirstPattern.matcher(value);
             if (matcher.matches()) {
                 String group1 = matcher.group(1);
                 String group2 = matcher.group(3);
-
                 if (matcher.group(2) != null)
                     group1 = matcher.group(2);
-
                 if (group1 != null && containsKey(group1)) {
                     if (group2 != null && group2.indexOf(DOLLAR) > -1) {
                         if (getVariable(group1).indexOf(DOLLAR) == -1)
                             return getVariable(group1) + parseValue(group2);
                         else
                             return parseValue(getVariable(group1)) + parseValue(group2);
-
                     }
-
                     if (getVariable(group1).indexOf(DOLLAR) == -1)
                         return getVariable(group1) + group2;
                     else
@@ -202,16 +161,13 @@ public class ExportManager {
             }
             return null;
         }
-
         Matcher matcher = variablePattern.matcher(value);
         if (matcher.matches()) {
             String group1 = matcher.group(1);
             String group2 = matcher.group(2);
             String group3 = matcher.group(4);
-
             if (matcher.group(3) != null)
                 group2 = matcher.group(3);
-
             if (group2 != null && containsKey(group2)) {
                 if (group3 != null && group3.indexOf(DOLLAR) > -1) {
                     if (getVariable(group2).indexOf(DOLLAR) == -1)
@@ -219,10 +175,8 @@ public class ExportManager {
                     else
                         return parseValue(group1) + parseValue(getVariable(group2)) + parseValue(group3);
                 }
-
                 if (getVariable(group2).indexOf(DOLLAR) == -1)
                     return parseValue(group1) + getVariable(group2) + group3;
-
                 return parseValue(group1) + parseValue(getVariable(group2)) + group3;
             }
             return group1 + group3;
@@ -231,98 +185,22 @@ public class ExportManager {
     }
 
     public String listAllVariables() {
-        StringBuilder builder = new StringBuilder();
-        for (String key : variables.keySet()) {
-            builder.append(key).append('=').append(parseValue(variables.get(key))).append(Config.getLineSeparator());
-        }
-
-        if (this.exportUsesSystemEnvironment) {
-            for (String key : System.getenv().keySet()) {
-                builder.append(key).append('=').append(parseValue(getVariable(key))).append(Config.getLineSeparator());
-            }
-        }
-        return builder.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void persistVariables() {
-        boolean keepGoing = true;
-        try {
-            if (exportFile.isFile())
-                keepGoing = exportFile.delete();
-
-            if (keepGoing) {
-                File parentFile = exportFile.getParentFile();
-                if (parentFile != null) {
-                    parentFile.mkdirs();
-                }
-                keepGoing = exportFile.createNewFile();
-            }
-
-            if (keepGoing) {
-                try (FileWriter fw = new FileWriter(exportFile)) {
-                    for (String key : variables.keySet()) {
-                        fw.write(EXPORT + " " + key + "=" + variables.get(key) + Config.getLineSeparator());
-                    }
-                    fw.flush();
-                }
-            }
-        } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "Failed to persist variables to file " + exportFile, e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> getAllNamesWithEquals() {
-        List<String> names = new ArrayList<>(variables.size());
-        for (String key : variables.keySet())
-            names.add(key + "=");
-
-        if (this.exportUsesSystemEnvironment) {
-            for (String key : System.getenv().keySet())
-                names.add(key + "=");
-        }
-
-        return names;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> getAllNames() {
-        List<String> names = new ArrayList<>(variables.size());
-        for (String key : variables.keySet())
-            names.add(key);
-
-        if (this.exportUsesSystemEnvironment) {
-            for (String key : System.getenv().keySet())
-                names.add(key);
-        }
-
-        return names;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> findAllMatchingKeys(String word) {
-        int index = word.lastIndexOf(DOLLAR);
-        if (index > -1)
-            word = word.substring(index + 1, word.length());
-        List<String> keys = new ArrayList<>();
-        for (String key : variables.keySet()) {
-            if (key.startsWith(word)) {
-                if (index > -1)
-                    keys.add("$" + key);
-                else
-                    keys.add(key);
-            }
-        }
-
-        if (this.exportUsesSystemEnvironment) {
-            for (String key : System.getenv().keySet()) {
-                if (key.startsWith(word)) {
-                    if (index > -1)
-                        keys.add("$" + key);
-                    else
-                        keys.add(key);
-                }
-            }
-        }
-
-        return keys;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

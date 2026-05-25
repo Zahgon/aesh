@@ -21,11 +21,9 @@ package org.aesh.selector;
 
 import static org.aesh.terminal.utils.ANSI.MOVE_LINE_DOWN;
 import static org.aesh.terminal.utils.ANSI.MOVE_LINE_UP;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.aesh.command.shell.Shell;
 import org.aesh.readline.prompt.Prompt;
 import org.aesh.terminal.Key;
@@ -34,7 +32,9 @@ import org.aesh.terminal.utils.ANSI;
 public class Selector {
 
     private final SelectorType type;
+
     private final ArrayList<String> defaultValues;
+
     private final String message;
 
     public Selector(SelectorType type, String[] defaultValues, String message) {
@@ -48,21 +48,11 @@ public class Selector {
         this.defaultValues = new ArrayList<>();
         if (defaultValues != null)
             this.defaultValues.addAll(defaultValues);
-
         this.message = message;
     }
 
     public List<String> doSelect(Shell shell) throws InterruptedException {
-        if (type == SelectorType.INPUT)
-            return input(shell);
-        else if (type == SelectorType.PASSWORD)
-            return passwd(shell);
-        else if (type == SelectorType.SELECT)
-            return select(shell);
-        else if (type == SelectorType.SELECTIONS)
-            return multiSelect(shell);
-        else
-            return new ArrayList<>();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private List<String> multiSelect(Shell shell) {
@@ -72,7 +62,6 @@ public class Selector {
 
     private List<String> select(Shell shell) {
         List<String> out = new ArrayList<>(1);
-
         shell.writeln(message + "  [Use arrow up/down to move and enter/space to select]");
         for (int i = 0; i < defaultValues.size(); i++) {
             if (i == 0)
@@ -82,7 +71,6 @@ public class Selector {
         }
         shell.write(ANSI.CURSOR_HIDE);
         shell.write(ANSI.moveRowsUp(defaultValues.size()));
-
         boolean waitingForEnter = true;
         int focusLine = 0;
         while (waitingForEnter) {
@@ -117,7 +105,6 @@ public class Selector {
                 shell.write(ANSI.CURSOR_SHOW);
             }
         }
-
         return out;
     }
 

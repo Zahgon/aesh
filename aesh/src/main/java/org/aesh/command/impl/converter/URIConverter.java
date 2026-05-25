@@ -21,7 +21,6 @@ package org.aesh.command.impl.converter;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import org.aesh.command.converter.Converter;
 import org.aesh.command.converter.ConverterInvocation;
 import org.aesh.command.validator.OptionValidatorException;
@@ -30,12 +29,9 @@ import org.aesh.command.validator.OptionValidatorException;
  * @author Aesh team
  */
 public class URIConverter implements Converter<URI, ConverterInvocation> {
+
     @Override
     public URI convert(ConverterInvocation input) throws OptionValidatorException {
-        try {
-            return new URI(input.getInput());
-        } catch (URISyntaxException e) {
-            throw new OptionValidatorException("Invalid URI: " + input.getInput());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

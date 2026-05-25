@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl;
 
 import org.aesh.command.CommandNotFoundException;
@@ -34,6 +33,7 @@ import org.aesh.parser.ParsedLine;
 public class AeshCommandResolver<CI extends CommandInvocation> implements CommandResolver<CI> {
 
     private CommandRegistry<CI> registry;
+
     private LineParser lineParser;
 
     public AeshCommandResolver(CommandRegistry<CI> commandRegistry) {
@@ -42,22 +42,22 @@ public class AeshCommandResolver<CI extends CommandInvocation> implements Comman
     }
 
     public CommandRegistry<CI> getRegistry() {
-        return registry;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandContainer<CI> resolveCommand(String line) throws CommandNotFoundException {
-        return getCommand(lineParser.parseLine(line), line);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandContainer<CI> resolveCommand(ParsedLine line) throws CommandNotFoundException {
-        return getCommand(line, line.line());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandContainer<CI> resolveCommand(String name, String line) throws CommandNotFoundException {
-        return getCommand(name, line);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -91,5 +91,4 @@ public class AeshCommandResolver<CI extends CommandInvocation> implements Comman
             return registry.getCommandByAlias(commandName);
         }
     }
-
 }

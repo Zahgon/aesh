@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.completer;
 
 import org.aesh.command.completer.CompleterInvocation;
@@ -27,7 +26,9 @@ import org.aesh.command.completer.OptionCompleter;
  * @author Aesh team
  */
 public class NullOptionCompleter implements OptionCompleter<CompleterInvocation> {
+
     @Override
     public void complete(CompleterInvocation completerData) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

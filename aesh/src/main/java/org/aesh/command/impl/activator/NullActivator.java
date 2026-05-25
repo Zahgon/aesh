@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.activator;
 
 import org.aesh.command.activator.OptionActivator;
@@ -27,8 +26,9 @@ import org.aesh.command.impl.internal.ParsedCommand;
  * @author Aesh team
  */
 public class NullActivator implements OptionActivator {
+
     @Override
     public boolean isActivated(ParsedCommand parsedCommand) {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

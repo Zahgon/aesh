@@ -38,7 +38,9 @@ import java.util.zip.ZipFile;
 public final class ClassFileIterator extends ResourceIterator {
 
     private final FileIterator fileIterator;
+
     private final String[] pkgNameFilter;
+
     private ZipFileIterator zipIterator;
 
     /**
@@ -67,40 +69,15 @@ public final class ClassFileIterator extends ResourceIterator {
      * The name is either the path name of a file or the name of an ZIP/JAR file entry.
      */
     public String getName() {
-        // Both getPath() and getName() are very light weight method calls
-        return zipIterator == null ? fileIterator.getFile().getPath() : zipIterator.getEntry().getName();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public InputStream next() throws IOException {
-        while (true) {
-            if (zipIterator == null) {
-                final File file = fileIterator.next();
-                // not all specified Files exists!
-                if (file == null || !file.isFile()) {
-                    return null;
-                } else {
-                    final String name = file.getName();
-                    if (name.endsWith(".class")) {
-                        return new FileInputStream(file);
-                    } else if (fileIterator.isRootFile() &&
-                            (endsWithIgnoreCase(name, ".jar") || isZipFile(file))) {
-                        zipIterator = new ZipFileIterator(new ZipFile(file), pkgNameFilter);
-                    } // else just ignore
-                }
-            } else {
-                final InputStream is = zipIterator.next();
-                if (is == null) {
-                    zipIterator = null;
-                } else {
-                    return is;
-                }
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // private
-
     private boolean isZipFile(final File file) {
         DataInputStream in = null;
         try {
@@ -137,5 +114,4 @@ public final class ClassFileIterator extends ResourceIterator {
         final int n = suffix.length();
         return value.regionMatches(true, value.length() - n, suffix, 0, n);
     }
-
 }

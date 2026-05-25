@@ -23,7 +23,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
-
 import org.aesh.command.impl.converter.FileConverter;
 import org.aesh.io.Resource;
 import org.aesh.terminal.utils.Config;
@@ -38,6 +37,7 @@ import org.aesh.terminal.utils.Parser;
 public class FileLister {
 
     private final String token;
+
     private final Resource cwd;
 
     private static final Logger LOGGER = LoggerUtil.getLogger(FileLister.class.getName());
@@ -53,25 +53,16 @@ public class FileLister {
 
     @Override
     public String toString() {
-        return "FileLister{"
-                + "token='" + token + '\''
-                + ", cwd=" + cwd + '}';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int findMatchingDirectories(List<String> candidates) {
-        int result = getCandidates(token, candidates);
-        Collections.sort(candidates);
-        postProcess(token, candidates);
-        if (candidates.size() == 1) {
-            candidates.set(0, escapeQuotes(candidates.get(0)));
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private int getCandidates(String buffer, List<String> candidates) {
         //First translate the path
         String translated = FileConverter.translatePath(cwd.getAbsolutePath(), buffer);
-
         final File f = new File(translated);
         final File dir;
         if (translated.endsWith(File.separator)) {
@@ -79,7 +70,6 @@ public class FileLister {
         } else {
             dir = f.getParentFile();
         }
-
         final File[] entries = (dir == null) ? new File[0] : dir.listFiles();
         return matchFiles(buffer, translated, entries, candidates);
     }
@@ -88,7 +78,6 @@ public class FileLister {
         if (entries == null) {
             return -1;
         }
-
         boolean isDirectory = false;
         for (int i = 0; i < entries.length; i++) {
             if (entries[i].getAbsolutePath().startsWith(translated)) {
@@ -118,18 +107,6 @@ public class FileLister {
     }
 
     void postProcess(String buffer, List<String> candidates) {
-        if (candidates.size() == 1) {
-            String candidate = candidates.get(0);
-            if (!buffer.contains(File.separator)) {
-                if (buffer.startsWith("~")) {
-                    candidate = "~" + candidate;
-                }
-            }
-            candidates.set(0, candidate);
-        } else if (candidates.isEmpty() && Config.isWindows()) {
-            if (buffer.length() == 2 && buffer.endsWith(":")) {
-                candidates.add(buffer + File.separator);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

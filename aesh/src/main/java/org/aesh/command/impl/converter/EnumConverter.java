@@ -14,19 +14,6 @@ public class EnumConverter implements Converter<Enum, ConverterInvocation> {
 
     @Override
     public Enum convert(ConverterInvocation input) {
-        String value = input.getInput();
-        for (Enum constant : enumType.getEnumConstants()) {
-            if (constant.name().equalsIgnoreCase(value)) {
-                return constant;
-            }
-        }
-        StringBuilder valid = new StringBuilder();
-        for (Enum constant : enumType.getEnumConstants()) {
-            if (valid.length() > 0)
-                valid.append(", ");
-            valid.append(constant.name().toLowerCase());
-        }
-        throw new IllegalArgumentException("Invalid value '" + value
-                + "'. Valid values: " + valid);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

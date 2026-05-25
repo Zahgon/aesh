@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.function.Consumer;
-
 import org.aesh.command.CommandNotFoundHandler;
 import org.aesh.command.activator.CommandActivatorProvider;
 import org.aesh.command.activator.OptionActivatorProvider;
@@ -51,7 +50,7 @@ public class SettingsBuilder<CI extends CommandInvocation> {
     private SettingsImpl<CI> settings;
 
     public static <CI extends CommandInvocation> SettingsBuilder<CI> builder() {
-        return new SettingsBuilder<>();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private SettingsBuilder() {
@@ -63,268 +62,206 @@ public class SettingsBuilder<CI extends CommandInvocation> {
     }
 
     public SettingsBuilder<CI> mode(EditMode.Mode mode) {
-        settings.setMode(mode);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> historyFile(File history) {
-        settings.setHistoryFile(history);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> historyFilePermission(FileAccessPermission fileAccessPermission) {
-        settings.setHistoryFilePermission(fileAccessPermission);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> historySize(int size) {
-        settings.setHistorySize(size);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> bellStyle(String bellStyle) {
-        settings.setBellStyle(bellStyle);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> inputStream(InputStream inputStream) {
-        settings.setStdIn(inputStream);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> outputStream(PrintStream outputStream) {
-        settings.setStdOut(outputStream);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> outputStreamError(PrintStream error) {
-        settings.setStdErr(error);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> inputrc(File inputrc) {
-        settings.setInputrc(inputrc);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> logging(boolean logging) {
-        settings.setLogging(logging);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> disableCompletion(boolean disableCompletion) {
-        settings.setDisableCompletion(disableCompletion);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> logfile(String logFile) {
-        settings.setLogFile(logFile);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> readInputrc(boolean readInputrc) {
-        settings.setReadInputrc(readInputrc);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> disableHistory(boolean disableHistory) {
-        settings.setHistoryDisabled(disableHistory);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> persistHistory(boolean persistHistory) {
-        settings.setHistoryPersistent(persistHistory);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> aliasFile(File aliasFile) {
-        settings.setAliasFile(aliasFile);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> enableAlias(boolean enableAlias) {
-        settings.setAliasEnabled(enableAlias);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> persistAlias(boolean persistAlias) {
-        settings.setPersistAlias(persistAlias);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> aliasManager(AliasManager aliasManager) {
-        settings.setAliasManager(aliasManager);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> quitHandler(QuitHandler quitHandler) {
-        settings.setQuitHandler(quitHandler);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> parseOperators(boolean parseOperators) {
-        settings.enableOperatorParser(parseOperators);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> enableMan(boolean enableMan) {
-        settings.setManEnabled(enableMan);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> aeshContext(AeshContext aeshContext) {
-        settings.setAeshContext(aeshContext);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> enableExport(boolean enableExport) {
-        settings.setExportEnabled(enableExport);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> exportFile(File exportFile) {
-        settings.setExportFile(exportFile);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> setPersistExport(boolean persistExport) {
-        settings.setPersistExport(persistExport);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> setExportUsesSystemEnvironment(boolean isLoad) {
-        settings.setExportUsesSystemEnvironment(isLoad);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> setFileResource(Resource resource) {
-        settings.setResource(resource);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> setExecuteAtStart(String execute) {
-        settings.setExecuteAtStart(execute);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> setExecuteFileAtStart(Resource executeFile) {
-        settings.setExecuteFileAtStart(executeFile);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public SettingsBuilder<CI> commandActivatorProvider(
-            CommandActivatorProvider commandActivatorProvider) {
-        settings.setCommandActivatorProvider(commandActivatorProvider);
-        return this;
+    public SettingsBuilder<CI> commandActivatorProvider(CommandActivatorProvider commandActivatorProvider) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> optionActivatorProvider(OptionActivatorProvider optionActivatorProvider) {
-        settings.setOptionActivatorProvider(optionActivatorProvider);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> commandRegistry(CommandRegistry<CI> commandRegistry) {
-        settings.setCommandRegistry(commandRegistry);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public SettingsBuilder<CI> commandInvocationProvider(
-            CommandInvocationProvider<CI> commandInvocationProvider) {
-        settings.setCommandInvocationProvider(commandInvocationProvider);
-        return this;
+    public SettingsBuilder<CI> commandInvocationProvider(CommandInvocationProvider<CI> commandInvocationProvider) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> commandNotFoundHandler(CommandNotFoundHandler commandNotFoundHandler) {
-        settings.setCommandNotFoundHandler(commandNotFoundHandler);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public SettingsBuilder<CI> completerInvocationProvider(
-            CompleterInvocationProvider completerInvocationProvider) {
-        settings.setCompleterInvocationProvider(completerInvocationProvider);
-        return this;
+    public SettingsBuilder<CI> completerInvocationProvider(CompleterInvocationProvider completerInvocationProvider) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public SettingsBuilder<CI> converterInvocationProvider(
-            ConverterInvocationProvider converterInvocationProvider) {
-        settings.setConverterInvocationProvider(converterInvocationProvider);
-        return this;
+    public SettingsBuilder<CI> converterInvocationProvider(ConverterInvocationProvider converterInvocationProvider) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public SettingsBuilder<CI> validatorInvocationProvider(
-            ValidatorInvocationProvider validatorInvocationProvider) {
-        settings.setValidatorInvocationProvider(validatorInvocationProvider);
-        return this;
+    public SettingsBuilder<CI> validatorInvocationProvider(ValidatorInvocationProvider validatorInvocationProvider) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> manProvider(ManProvider manProvider) {
-        settings.setManProvider(manProvider);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public SettingsBuilder<CI> invocationProviders(
-            InvocationProviders invocationProviders) {
-        settings.setInvocationProviders(invocationProviders);
-        return this;
+    public SettingsBuilder<CI> invocationProviders(InvocationProviders invocationProviders) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> connection(Connection connection) {
-        settings.setConnection(connection);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> enableOperatorParser(boolean enabled) {
-        settings.enableOperatorParser(enabled);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> exportListener(ExportChangeListener listener) {
-        settings.setExportListener(listener);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> echoCtrl(boolean echo) {
-        settings.echoCtrl(echo);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> redrawPromptOnInterrupt(boolean redraw) {
-        settings.redrawPromptOnInterrupt(redraw);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> setInterruptHandler(Consumer<Void> consumer) {
-        settings.setInterruptHandler(consumer);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> setConnectionClosedHandler(Consumer<Void> consumer) {
-        settings.setConnectionClosedHandler(consumer);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> setScanForCommandPackages(String... packages) {
-        settings.setScanForCommandPackages(packages);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> enableSearchInPaging(boolean enable) {
-        settings.setEnableSearchInPaging(enable);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SettingsBuilder<CI> subCommandModeSettings(SubCommandModeSettings subCommandModeSettings) {
-        settings.setSubCommandModeSettings(subCommandModeSettings);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Settings<CI> build() {
-        if (settings.logging())
-            LoggerUtil.doLog();
-
-        if (settings.invocationProviders() == null)
-            settings.setInvocationProviders(new AeshInvocationProviders(settings));
-
-        return settings;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

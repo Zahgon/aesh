@@ -19,7 +19,6 @@ package org.aesh.tamboui;
 
 import java.nio.charset.Charset;
 import java.util.function.Consumer;
-
 import org.aesh.terminal.Attributes;
 import org.aesh.terminal.Connection;
 import org.aesh.terminal.Device;
@@ -45,113 +44,111 @@ class NonClosingConnection implements Connection {
 
     @Override
     public void close() {
-        // intentionally empty — aesh owns this connection's lifecycle
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void close(int exit) {
-        // intentionally empty
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Device device() {
-        return delegate.device();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Size size() {
-        return delegate.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Consumer<Size> getSizeHandler() {
-        return delegate.getSizeHandler();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setSizeHandler(Consumer<Size> handler) {
-        delegate.setSizeHandler(handler);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Consumer<Signal> getSignalHandler() {
-        return delegate.getSignalHandler();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setSignalHandler(Consumer<Signal> handler) {
-        delegate.setSignalHandler(handler);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Consumer<int[]> getStdinHandler() {
-        return delegate.getStdinHandler();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setStdinHandler(Consumer<int[]> handler) {
-        delegate.setStdinHandler(handler);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Consumer<int[]> stdoutHandler() {
-        return delegate.stdoutHandler();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setCloseHandler(Consumer<Void> closeHandler) {
-        delegate.setCloseHandler(closeHandler);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Consumer<Void> getCloseHandler() {
-        return delegate.getCloseHandler();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void openBlocking() {
-        // no-op — aesh manages the connection's blocking mode
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void openNonBlocking() {
-        // no-op — aesh manages the connection's blocking mode.
-        // Delegating would create a new executor thread on each TUI command
-        // invocation that is never shut down, delaying JVM exit.
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean reading() {
-        return delegate.reading();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean put(Capability capability, Object... params) {
-        return delegate.put(capability, params);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Attributes getAttributes() {
-        return delegate.getAttributes();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setAttributes(Attributes attr) {
-        delegate.setAttributes(attr);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Charset inputEncoding() {
-        return delegate.inputEncoding();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Charset outputEncoding() {
-        return delegate.outputEncoding();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean supportsAnsi() {
-        return delegate.supportsAnsi();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

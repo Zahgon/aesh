@@ -25,6 +25,6 @@ package org.aesh.command.activator;
 public interface CommandActivatorProvider {
 
     default CommandActivator enhanceCommandActivator(CommandActivator commandActivator) {
-        return commandActivator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

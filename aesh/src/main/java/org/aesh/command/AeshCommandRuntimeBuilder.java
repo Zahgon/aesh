@@ -17,11 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command;
 
 import java.util.EnumSet;
-
 import org.aesh.command.activator.CommandActivatorProvider;
 import org.aesh.command.activator.OptionActivatorProvider;
 import org.aesh.command.completer.CompleterInvocationProvider;
@@ -41,7 +39,6 @@ import org.aesh.console.AeshContext;
 import org.aesh.console.DefaultAeshContext;
 
 /**
- *
  * @author Aesh team
  */
 public class AeshCommandRuntimeBuilder<CI extends CommandInvocation> {
@@ -51,97 +48,91 @@ public class AeshCommandRuntimeBuilder<CI extends CommandInvocation> {
     private static final EnumSet<OperatorType> NO_OPERATORS = EnumSet.noneOf(OperatorType.class);
 
     private CommandRegistry<CI> registry;
+
     private CommandInvocationProvider<CI> commandInvocationProvider;
+
     private CommandNotFoundHandler commandNotFoundHandler;
+
     private CompleterInvocationProvider completerInvocationProvider;
+
     private ConverterInvocationProvider converterInvocationProvider;
+
     private ValidatorInvocationProvider validatorInvocationProvider;
+
     private OptionActivatorProvider optionActivatorProvider;
+
     private CommandActivatorProvider commandActivatorProvider;
+
     private AeshContext ctx;
+
     private CommandInvocationBuilder<CI> commandInvocationBuilder;
+
     private Shell shell;
 
     private DefaultValueProvider defaultValueProvider;
+
     private boolean parseBrackets;
+
     private EnumSet<OperatorType> operators;
 
     private AeshCommandRuntimeBuilder() {
     }
 
     public static <T extends CommandInvocation> AeshCommandRuntimeBuilder<T> builder() {
-        return new AeshCommandRuntimeBuilder<>();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRuntimeBuilder<CI> parseBrackets(boolean parseBrackets) {
-        this.parseBrackets = parseBrackets;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRuntimeBuilder<CI> operators(EnumSet<OperatorType> operators) {
-        this.operators = operators;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRuntimeBuilder<CI> commandRegistry(CommandRegistry<CI> registry) {
-        this.registry = registry;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRuntimeBuilder<CI> commandInvocationProvider(CommandInvocationProvider<CI> commandInvocationProvider) {
-        this.commandInvocationProvider = commandInvocationProvider;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRuntimeBuilder<CI> commandNotFoundHandler(CommandNotFoundHandler commandNotFoundHandler) {
-        this.commandNotFoundHandler = commandNotFoundHandler;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public AeshCommandRuntimeBuilder<CI> completerInvocationProvider(
-            CompleterInvocationProvider completerInvocationProvider) {
-        this.completerInvocationProvider = completerInvocationProvider;
-        return this;
+    public AeshCommandRuntimeBuilder<CI> completerInvocationProvider(CompleterInvocationProvider completerInvocationProvider) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public AeshCommandRuntimeBuilder<CI> converterInvocationProvider(
-            ConverterInvocationProvider converterInvocationProvider) {
-        this.converterInvocationProvider = converterInvocationProvider;
-        return this;
+    public AeshCommandRuntimeBuilder<CI> converterInvocationProvider(ConverterInvocationProvider converterInvocationProvider) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public AeshCommandRuntimeBuilder<CI> validatorInvocationProvider(
-            ValidatorInvocationProvider validatorInvocationProvider) {
-        this.validatorInvocationProvider = validatorInvocationProvider;
-        return this;
+    public AeshCommandRuntimeBuilder<CI> validatorInvocationProvider(ValidatorInvocationProvider validatorInvocationProvider) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public AeshCommandRuntimeBuilder<CI> optionActivatorProvider(
-            OptionActivatorProvider optionActivatorProvider) {
-        this.optionActivatorProvider = optionActivatorProvider;
-        return this;
+    public AeshCommandRuntimeBuilder<CI> optionActivatorProvider(OptionActivatorProvider optionActivatorProvider) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public AeshCommandRuntimeBuilder<CI> commandActivatorProvider(
-            CommandActivatorProvider commandActivatorProvider) {
-        this.commandActivatorProvider = commandActivatorProvider;
-        return this;
+    public AeshCommandRuntimeBuilder<CI> commandActivatorProvider(CommandActivatorProvider commandActivatorProvider) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRuntimeBuilder<CI> shell(Shell shell) {
-        this.shell = shell;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public AeshCommandRuntimeBuilder<CI> commandInvocationBuilder(CommandInvocationBuilder commandInvocationBuilder) {
-        this.commandInvocationBuilder = commandInvocationBuilder;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRuntimeBuilder<CI> aeshContext(AeshContext ctx) {
-        this.ctx = ctx;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -149,56 +140,16 @@ public class AeshCommandRuntimeBuilder<CI extends CommandInvocation> {
      * that don't declare their own per-command provider via the annotation.
      */
     public AeshCommandRuntimeBuilder<CI> defaultValueProvider(DefaultValueProvider provider) {
-        this.defaultValueProvider = provider;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public AeshCommandRuntimeBuilder<CI> settings(Settings<? extends CommandInvocation> settings) {
-        this.commandInvocationProvider = (CommandInvocationProvider<CI>) settings.commandInvocationProvider();
-        this.commandNotFoundHandler = settings.commandNotFoundHandler();
-        this.completerInvocationProvider = settings.completerInvocationProvider();
-        this.converterInvocationProvider = settings.converterInvocationProvider();
-        this.validatorInvocationProvider = settings.validatorInvocationProvider();
-        this.optionActivatorProvider = settings.optionActivatorProvider();
-        this.commandActivatorProvider = settings.commandActivatorProvider();
-        this.registry = (CommandRegistry<CI>) settings.commandRegistry();
-        this.ctx = settings.aeshContext();
-        this.operators = settings.operatorParserEnabled() ? EnumSet.allOf(OperatorType.class) : null;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public CommandRuntime<CI> build() {
-        if (registry == null) {
-            registry = new MutableCommandRegistryImpl<>();
-        }
-
-        if (defaultValueProvider != null && registry instanceof MutableCommandRegistryImpl) {
-            MutableCommandRegistryImpl<CI> mutableRegistry = (MutableCommandRegistryImpl<CI>) registry;
-            mutableRegistry.setDefaultValueProvider(defaultValueProvider);
-            mutableRegistry.applyDefaultValueProvider();
-        }
-
-        if (commandInvocationProvider == null) {
-            commandInvocationProvider = new CommandInvocationProvider<CI>() {
-            };
-        }
-
-        if (commandInvocationBuilder == null)
-            commandInvocationBuilder = (CommandInvocationBuilder) new DefaultCommandInvocationBuilder(shell);
-
-        if (ctx == null) {
-            ctx = new DefaultAeshContext();
-        }
-
-        if (operators == null) {
-            operators = NO_OPERATORS;
-        }
-
-        return new AeshCommandRuntime<>(ctx, registry, commandInvocationProvider,
-                commandNotFoundHandler, completerInvocationProvider, converterInvocationProvider,
-                validatorInvocationProvider, optionActivatorProvider, commandActivatorProvider,
-                commandInvocationBuilder, parseBrackets, operators);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

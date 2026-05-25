@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.aesh.command.man.FileParser;
 import org.aesh.terminal.utils.Config;
 
@@ -38,7 +37,9 @@ import org.aesh.terminal.utils.Config;
 public class ManFileParser implements FileParser {
 
     private final List<ManSection> sections;
+
     private String name;
+
     private InputStreamReader reader;
 
     public ManFileParser() {
@@ -46,62 +47,16 @@ public class ManFileParser implements FileParser {
     }
 
     public void setInput(InputStream input) throws IOException {
-        if (input != null) {
-            reader = new InputStreamReader(input);
-            this.name = null;
-            sections.clear();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getName() {
-        return name;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<String> loadPage(int columns) throws IOException {
-        //we already have the file loaded
-        if (!sections.isEmpty())
-            return getAsList();
-        if (reader == null)
-            throw new IOException("InputStreamReader is null, cannot read file.");
-        //parse the file
-        try (BufferedReader br = new BufferedReader(reader)) {
-            String line = br.readLine();
-            boolean foundHeader = false;
-            boolean foundEmptyLine = true;
-            List<String> section = new ArrayList<String>();
-            while (line != null) {
-                if (line.trim().isEmpty() && !foundEmptyLine) {
-                    foundEmptyLine = true;
-                    section.add(line);
-                }
-                //found two empty lines create a new section
-                else if (line.isEmpty() && foundEmptyLine) {
-                    if (!foundHeader) {
-                        processHeader(section, columns);
-                        foundHeader = true;
-                    } else {
-                        ManSection manSection = new ManSection().parseSection(section, columns);
-                        sections.add(manSection);
-                    }
-                    foundEmptyLine = false;
-                    section.clear();
-                }
-                //add line to section
-                else {
-                    if (foundEmptyLine)
-                        foundEmptyLine = false;
-                    section.add(line);
-                }
-
-                line = br.readLine();
-            }
-            if (!section.isEmpty()) {
-                ManSection manSection = new ManSection().parseSection(section, columns);
-                sections.add(manSection);
-            }
-            return getAsList();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void processHeader(List<String> header, int columns) throws IOException {
@@ -113,23 +68,14 @@ public class ManFileParser implements FileParser {
     }
 
     public List<ManSection> getSections() {
-        return sections;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> getAsList() {
-        List<String> out = new ArrayList<String>();
-        for (ManSection section : sections)
-            out.addAll(section.getAsList());
-
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String print() {
-        StringBuilder builder = new StringBuilder();
-        for (ManSection section : sections) {
-            builder.append(section.printToTerminal()).append(Config.getLineSeparator());
-        }
-
-        return builder.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

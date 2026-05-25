@@ -21,7 +21,6 @@ package org.aesh.command.impl.converter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import org.aesh.command.converter.Converter;
 import org.aesh.command.converter.ConverterInvocation;
 import org.aesh.command.validator.OptionValidatorException;
@@ -30,12 +29,9 @@ import org.aesh.command.validator.OptionValidatorException;
  * @author Aesh team
  */
 public class URLConverter implements Converter<URL, ConverterInvocation> {
+
     @Override
     public URL convert(ConverterInvocation input) throws OptionValidatorException {
-        try {
-            return new URL(input.getInput());
-        } catch (MalformedURLException e) {
-            throw new OptionValidatorException("Invalid URL: " + input.getInput());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

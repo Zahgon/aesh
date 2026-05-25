@@ -22,7 +22,6 @@ package org.aesh.command.registry;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.aesh.command.CommandNotFoundException;
 import org.aesh.command.container.CommandContainer;
 import org.aesh.command.impl.parser.CommandLineParser;
@@ -41,14 +40,15 @@ public interface CommandRegistry<CI extends CommandInvocation> {
      * Command registration actions.
      */
     enum REGISTRATION_ACTION {
-        ADDED,
-        REMOVED
+
+        ADDED, REMOVED
     }
 
     /**
      * Implemented by listeners to receive added/removed events.
      */
     interface CommandRegistrationListener {
+
         void registrationAction(String commandName, REGISTRATION_ACTION action);
     }
 
@@ -74,7 +74,6 @@ public interface CommandRegistry<CI extends CommandInvocation> {
     CommandContainer<CI> getCommand(String name, String line) throws CommandNotFoundException;
 
     /**
-     *
      * @param parent The name of the parent command
      * @return The list of child parsers
      */
@@ -88,7 +87,6 @@ public interface CommandRegistry<CI extends CommandInvocation> {
 
     /**
      * Based on input, find all commands that match or partly match
-     *
      *
      * @param completeOperation operation
      * @param parsedLine
@@ -108,29 +106,10 @@ public interface CommandRegistry<CI extends CommandInvocation> {
      * @return set of subcommand names
      */
     default Set<String> getSubcommandNames(String parentCommandName) {
-        Set<String> names = new LinkedHashSet<>();
-        try {
-            List<CommandLineParser<CI>> children = getChildCommandParsers(parentCommandName);
-            if (children != null) {
-                for (CommandLineParser<CI> child : children) {
-                    names.add(child.getProcessedCommand().name());
-                }
-            }
-        } catch (CommandNotFoundException e) {
-            // Command not found, return empty set
-        }
-        return names;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     default boolean contains(String commandName) {
-        if (getAllCommandNames().contains(commandName))
-            return true;
-        try {
-            if (getCommandByAlias(commandName) != null)
-                return true;
-        } catch (CommandNotFoundException e) {
-            return false;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

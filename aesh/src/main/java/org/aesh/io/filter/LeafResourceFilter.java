@@ -28,6 +28,6 @@ public class LeafResourceFilter implements ResourceFilter {
 
     @Override
     public boolean accept(Resource path) {
-        return path.isLeaf();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

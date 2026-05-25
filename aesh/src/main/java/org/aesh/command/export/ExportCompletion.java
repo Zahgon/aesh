@@ -30,8 +30,11 @@ import org.aesh.terminal.utils.Parser;
 public class ExportCompletion implements Completion {
 
     private static final String EXPORT = "export";
+
     private static final String EXPORT_SPACE = "export ";
+
     private final ExportManager exportManager;
+
     private final LineParser lineParser;
 
     public ExportCompletion(ExportManager manager) {
@@ -41,29 +44,6 @@ public class ExportCompletion implements Completion {
 
     @Override
     public void complete(CompleteOperation completeOperation) {
-
-        if (EXPORT_SPACE.equals(completeOperation.getBuffer()) ||
-                EXPORT.equals(completeOperation.getBuffer().trim())) {
-            completeOperation.addCompletionCandidates(exportManager.getAllNamesWithEquals());
-            completeOperation.setOffset(completeOperation.getCursor());
-        } else if (completeOperation.getBuffer().startsWith(EXPORT_SPACE)) {
-            String word = lineParser.parseLine(completeOperation.getBuffer(), completeOperation.getCursor()).selectedWord()
-                    .word();
-            if (word.length() > 0) {
-                completeOperation.addCompletionCandidates(exportManager.findAllMatchingKeys(word));
-                if (Parser.containsNonEscapedDollar(word)) {
-                    int index = word.lastIndexOf('$');
-                    completeOperation.setOffset(completeOperation.getCursor() - (word.length() - index));
-                } else
-                    completeOperation.setOffset(completeOperation.getCursor() - word.length());
-            }
-        } else if (Parser.containsNonEscapedDollar(completeOperation.getBuffer())) {
-            String word = lineParser.parseLine(completeOperation.getBuffer(), completeOperation.getCursor()).selectedWord()
-                    .word();
-            if (Parser.containsNonEscapedDollar(word)) {
-                completeOperation.addCompletionCandidates(exportManager.findAllMatchingKeys(word));
-                completeOperation.setOffset(completeOperation.getCursor() - word.length());
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -17,14 +17,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.parser;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-
 import org.aesh.command.operator.OperatorType;
 
 /**
@@ -33,67 +31,81 @@ import org.aesh.command.operator.OperatorType;
 public class LineParser {
 
     private static final char NULL_CHAR = '\u0000';
+
     private static final char SPACE_CHAR = ' ';
+
     private static final char BACK_SLASH = '\\';
+
     private static final char SINGLE_QUOTE = '\'';
+
     private static final char DOUBLE_QUOTE = '\"';
+
     private static final char CURLY_START = '{';
+
     private static final char CURLY_END = '}';
+
     private static final char PARENTHESIS_START = '(';
+
     private static final char PARENTHESIS_END = ')';
 
     private List<ParsedWord> textList = new ArrayList<>();
+
     private boolean haveEscape = false;
+
     private boolean haveSingleQuote = false;
+
     private boolean haveDoubleQuote = false;
+
     private boolean ternaryQuote = false;
+
     private boolean haveCurlyBracket = false;
+
     private boolean haveSquareBracket = false;
+
     private StringBuilder builder = new StringBuilder();
+
     private char prev = NULL_CHAR;
+
     private int index = 0;
+
     private int cursorWord = -1;
+
     private int wordCursor = -1;
 
     private String text;
+
     private int cursor = -1;
+
     private boolean parseBrackets;
+
     private EnumSet<OperatorType> operators;
+
     private OperatorType currentOperator;
+
     private int startIndex;
 
     public LineParser input(String text) {
-        this.text = text;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public LineParser cursor(int cursor) {
-        this.cursor = cursor;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public LineParser parseBrackets(boolean doParse) {
-        this.parseBrackets = doParse;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public LineParser operators(EnumSet<OperatorType> operators) {
-        this.operators = operators;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ParsedLine parse() {
-        if (text != null)
-            return parseLine(text, cursor, parseBrackets);
-        else
-            return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<ParsedLine> parseWithOperators() {
-        if (text != null && operators != null)
-            return parseLine(text, cursor, parseBrackets, operators);
-        else
-            return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -103,29 +115,26 @@ public class LineParser {
      * @return aeshline with all the words
      */
     public ParsedLine parseLine(String text) {
-        return parseLine(text, -1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ParsedLine parseLine(String text, int cursor) {
-        return parseLine(text, cursor, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ParsedLine parseLine(String text, int cursor, boolean parseCurlyAndSquareBrackets) {
-        //first reset all values
-        reset();
-        if (cursor > text.length())
-            cursor = text.length();
-        return doParseLine(text, cursor, parseCurlyAndSquareBrackets);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private ParsedLine doParseLine(String text, int cursor, boolean parseCurlyAndSquareBrackets) {
         char c;
-        for (index = 0; index < text.length();) {
+        for (index = 0; index < text.length(); ) {
             c = text.charAt(index);
             //if the previous char was a space, there is no word "connected" to cursor
             if (cursor == index && (prev != SPACE_CHAR || haveEscape)) {
                 cursorWord = textList.size();
-                if (haveEscape) //if we have escape the builder is shorter than cursor
+                if (//if we have escape the builder is shorter than cursor
+                haveEscape)
                     wordCursor = builder.length() + 1;
                 else
                     wordCursor = builder.length();
@@ -156,26 +165,14 @@ public class LineParser {
         return endOfLineProcessing(text, cursor, 0, text.length());
     }
 
-    public List<ParsedLine> parseLine(String text, int cursor, boolean parseCurlyAndSquareBrackets,
-            Set<OperatorType> operators) {
-        if (operators == null || operators.size() == 0) {
-            List<ParsedLine> lines = new ArrayList<>();
-            lines.add(parseLine(text, cursor, parseCurlyAndSquareBrackets));
-            return lines;
-        } else {
-            //first reset all values
-            reset();
-            currentOperator = null;
-            startIndex = 0;
-            return doParseLine(text, cursor, parseCurlyAndSquareBrackets, operators);
-        }
+    public List<ParsedLine> parseLine(String text, int cursor, boolean parseCurlyAndSquareBrackets, Set<OperatorType> operators) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private List<ParsedLine> doParseLine(String text, int cursor, boolean parseCurlyAndSquareBrackets,
-            Set<OperatorType> operators) {
+    private List<ParsedLine> doParseLine(String text, int cursor, boolean parseCurlyAndSquareBrackets, Set<OperatorType> operators) {
         List<ParsedLine> lines = new ArrayList<>();
         char c;
-        for (index = 0; index < text.length();) {
+        for (index = 0; index < text.length(); ) {
             c = text.charAt(index);
             //if the previous char was a space, there is no word "connected" to cursor
             if (cursor == index && (prev != SPACE_CHAR || haveEscape)) {
@@ -200,30 +197,24 @@ public class LineParser {
                 handleCurlyEnd(c);
             } else if (haveEscape) {
                 //Escaping an operator?
-                if (!isQuoted()
-                        && (currentOperator = matchesOperators(operators, text, index)) != OperatorType.NONE) {
+                if (!isQuoted() && (currentOperator = matchesOperators(operators, text, index)) != OperatorType.NONE) {
                     // Do not add the \ that was a way to escape an operator.
                 } else {
                     builder.append(BACK_SLASH);
                 }
                 builder.append(c);
                 haveEscape = false;
-            } else if (!haveEscape && !isQuoted() &&
-                    (currentOperator = matchesOperators(operators, text, index)) != OperatorType.NONE) {
+            } else if (!haveEscape && !isQuoted() && (currentOperator = matchesOperators(operators, text, index)) != OperatorType.NONE) {
                 handleFoundOperator(lines, text, cursor);
-
                 //if we end on an operator and cursor == text.length, add another empty line
                 if (index + currentOperator.value().length() == text.length() && cursor == text.length()) {
                     textList.add(new ParsedWord("", index));
-                    lines.add(new ParsedLine(text, textList, 0,
-                            0, 0, ParserStatus.OK, "", OperatorType.NONE));
-
+                    lines.add(new ParsedLine(text, textList, 0, 0, 0, ParserStatus.OK, "", OperatorType.NONE));
                     //we know we're at the end so we can return
                     return lines;
                 }
             } else
                 builder.append(c);
-
             //if current operator is set, we need to handle index/prev specially
             if (currentOperator != null && currentOperator != OperatorType.NONE) {
                 index = index + currentOperator.value().length();
@@ -235,10 +226,8 @@ public class LineParser {
                 index++;
             }
         }
-
         if (builder.length() > 0 || !textList.isEmpty() || startIndex < index)
             lines.add(endOfLineProcessing(text.substring(startIndex, index), cursor, startIndex, text.length()));
-
         return lines;
     }
 
@@ -257,12 +246,10 @@ public class LineParser {
         return OperatorType.matches(operators, text, index);
     }
 
-    private ParsedLine endOfLineProcessing(String text, int cursor,
-            int startIndex, int totalTextLength) {
+    private ParsedLine endOfLineProcessing(String text, int cursor, int startIndex, int totalTextLength) {
         // if the escape was the last char, add it to the builder
         if (haveEscape)
             builder.append(BACK_SLASH);
-
         if (builder.length() > 0) {
             if (haveDoubleQuote || haveSingleQuote)
                 textList.add(new ParsedWord(builder.toString(), index - builder.length(), ParsedWord.Status.OPEN_QUOTE));
@@ -271,23 +258,17 @@ public class LineParser {
             else
                 textList.add(new ParsedWord(builder.toString(), index - builder.length()));
         }
-
-        if (cursor == totalTextLength &&
-                (prev != SPACE_CHAR || (haveEscape || isQuoted()))) {
+        if (cursor == totalTextLength && (prev != SPACE_CHAR || (haveEscape || isQuoted()))) {
             cursorWord = textList.size() - 1;
             if (textList.size() > 0)
                 wordCursor = textList.get(textList.size() - 1).word().length();
         }
-
         ParserStatus status = ParserStatus.OK;
         if (haveSingleQuote && haveDoubleQuote)
             status = ParserStatus.DOUBLE_UNCLOSED_QUOTE;
         else if (haveSingleQuote || haveDoubleQuote || haveCurlyBracket)
             status = ParserStatus.UNCLOSED_QUOTE;
-
-        return new ParsedLine(text, textList,
-                startIndex <= cursor && cursor <= index ? cursor - startIndex : -1,
-                cursorWord, wordCursor, status, "", OperatorType.NONE);
+        return new ParsedLine(text, textList, startIndex <= cursor && cursor <= index ? cursor - startIndex : -1, cursorWord, wordCursor, status, "", OperatorType.NONE);
     }
 
     private void handleCurlyEnd(char c) {
@@ -316,7 +297,6 @@ public class LineParser {
                 return;
             }
         }
-
         if (haveEscape || (ternaryQuote && prev != DOUBLE_QUOTE)) {
             builder.append(c);
             haveEscape = false;
@@ -393,7 +373,6 @@ public class LineParser {
             textList.add(new ParsedWord(builder.toString(), index - builder.length()));
             builder = new StringBuilder();
         }
-
         return c;
     }
 
@@ -403,9 +382,8 @@ public class LineParser {
         if (builder.length() > 0) {
             textList.add(new ParsedWord(builder.toString(), index - builder.length()));
             builder = new StringBuilder();
-        }
-        //if textList.size == 0, we have an empty line before the operator
-        else if (textList.size() == 0) {
+        } else //if textList.size == 0, we have an empty line before the operator
+        if (textList.size() == 0) {
             if (!currentOperator.equals(OperatorType.NONE))
                 parserStatus = ParserStatus.EMPTY_BEFORE_OPERATOR;
             errorMessage = "aesh: syntax error near unexpected token \'" + currentOperator.value() + '\'';
@@ -416,12 +394,7 @@ public class LineParser {
             if (textList.size() > 0)
                 wordCursor = textList.get(textList.size() - 1).word().length();
         }
-
-        lines.add(
-                new ParsedLine(text.substring(startIndex, index), textList,
-                        startIndex <= cursor && cursor <= index ? cursor - startIndex : -1,
-                        cursorWord, wordCursor, parserStatus, errorMessage, currentOperator));
-
+        lines.add(new ParsedLine(text.substring(startIndex, index), textList, startIndex <= cursor && cursor <= index ? cursor - startIndex : -1, cursorWord, wordCursor, parserStatus, errorMessage, currentOperator));
         cursorWord = -1;
         wordCursor = -1;
         startIndex = index + currentOperator.value().length();

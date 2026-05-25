@@ -18,10 +18,8 @@
 package org.aesh.tamboui;
 
 import java.io.IOException;
-
 import org.aesh.command.shell.Shell;
 import org.aesh.terminal.Connection;
-
 import dev.tamboui.backend.aesh.AeshBackend;
 import dev.tamboui.toolkit.app.ToolkitRunner;
 import dev.tamboui.tui.TuiConfig;
@@ -46,11 +44,7 @@ public final class TuiSupport {
      * @throws IllegalStateException if the shell has no connection
      */
     public static AeshBackend createBackend(Shell shell) throws IOException {
-        Connection conn = shell.connection();
-        if (conn == null) {
-            throw new IllegalStateException("Shell does not have a terminal connection");
-        }
-        return new AeshBackend(new NonClosingConnection(conn));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -61,9 +55,7 @@ public final class TuiSupport {
      * @throws IllegalStateException if the shell has no connection
      */
     public static TuiConfig.Builder configBuilder(Shell shell) throws IOException {
-        return TuiConfig.builder()
-                .backend(createBackend(shell))
-                .shutdownHook(false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -75,7 +67,7 @@ public final class TuiSupport {
      * @throws IllegalStateException if the shell has no connection
      */
     public static TuiRunner createRunner(Shell shell) throws Exception {
-        return TuiRunner.create(configBuilder(shell).build());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -89,8 +81,7 @@ public final class TuiSupport {
      * @throws IllegalStateException if the shell has no connection
      */
     public static TuiRunner createRunner(Shell shell, TuiConfig.Builder configBuilder) throws Exception {
-        configBuilder.backend(createBackend(shell));
-        return TuiRunner.create(configBuilder.build());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -102,6 +93,6 @@ public final class TuiSupport {
      * @throws IllegalStateException if the shell has no connection
      */
     public static ToolkitRunner createToolkitRunner(Shell shell) throws Exception {
-        return ToolkitRunner.create(configBuilder(shell).build());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -37,6 +37,6 @@ public interface OptionRenderer {
      * @return hyperlink URL, or null if not applicable
      */
     default String getHyperlinkUrl() {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -25,8 +25,9 @@ import org.aesh.io.Resource;
  * @author Aesh team
  */
 public class AllResourceFilter implements ResourceFilter {
+
     @Override
     public boolean accept(Resource path) {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

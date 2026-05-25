@@ -30,7 +30,9 @@ package org.aesh.parser;
 public class ParsedWord {
 
     private final String word;
+
     private final int lineIndex;
+
     private final Status status;
 
     public ParsedWord(String word, int lineIndex) {
@@ -51,26 +53,24 @@ public class ParsedWord {
      * @return lineIndex
      */
     public int lineIndex() {
-        return lineIndex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String word() {
-        return word;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Status status() {
-        return status;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public enum Status {
-        OK,
-        OPEN_BRACKET,
-        OPEN_QUOTE,
-        OPEN_DOUBLE_QUOTE
+
+        OK, OPEN_BRACKET, OPEN_QUOTE, OPEN_DOUBLE_QUOTE
     }
 
     @Override
     public String toString() {
-        return word;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

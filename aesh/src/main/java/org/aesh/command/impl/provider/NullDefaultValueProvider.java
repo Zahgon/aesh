@@ -26,8 +26,9 @@ import org.aesh.command.impl.internal.ProcessedOption;
  * @author Aesh team
  */
 public class NullDefaultValueProvider implements DefaultValueProvider {
+
     @Override
     public String defaultValue(ProcessedOption option) {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

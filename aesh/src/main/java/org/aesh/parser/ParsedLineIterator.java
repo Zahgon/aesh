@@ -30,7 +30,9 @@ package org.aesh.parser;
 public class ParsedLineIterator {
 
     private final ParsedLine parsedLine;
+
     private int word = 0;
+
     private int character = 0;
 
     public ParsedLineIterator(ParsedLine parsedLine) {
@@ -38,21 +40,21 @@ public class ParsedLineIterator {
     }
 
     public String originalLine() {
-        return parsedLine.line();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return true if there is a next word
      */
     public boolean hasNextWord() {
-        return parsedLine.words().size() > word;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return true if there is a next char
      */
     public boolean hasNextChar() {
-        return parsedLine.line().length() > character;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -61,15 +63,7 @@ public class ParsedLineIterator {
      * @return next ParsedWord
      */
     public ParsedWord pollParsedWord() {
-        if (hasNextWord()) {
-            //set correct next char
-            if (parsedLine.words().size() > (word + 1))
-                character = parsedLine.words().get(word + 1).lineIndex();
-            else
-                character = -1;
-            return parsedLine.words().get(word++);
-        } else
-            return new ParsedWord(null, -1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -78,10 +72,7 @@ public class ParsedLineIterator {
      * @return next ParsedWord
      */
     public ParsedWord peekParsedWord() {
-        if (hasNextWord())
-            return parsedLine.words().get(word);
-        else
-            return new ParsedWord(null, -1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -90,7 +81,7 @@ public class ParsedLineIterator {
      * @return next word
      */
     public String pollWord() {
-        return pollParsedWord().word();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -99,7 +90,7 @@ public class ParsedLineIterator {
      * @return next word
      */
     public String peekWord() {
-        return peekParsedWord().word();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,14 +99,7 @@ public class ParsedLineIterator {
      * @return next char
      */
     public char pollChar() {
-        if (hasNextChar()) {
-            if (hasNextWord() &&
-                    character + 1 >= parsedLine.words().get(word).lineIndex() +
-                            parsedLine.words().get(word).word().length())
-                word++;
-            return parsedLine.line().charAt(character++);
-        }
-        return '\u0000';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -124,23 +108,21 @@ public class ParsedLineIterator {
      * @return next char
      */
     public char peekChar() {
-        if (hasNextChar())
-            return parsedLine.line().charAt(character);
-        return '\u0000';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return true if there are no more words/chars on the stack
      */
     public boolean finished() {
-        return parsedLine.words().size() == word || parsedLine.line().length() == character;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return any parsing errors made when creating the ParsedLine
      */
     public String parserError() {
-        return parsedLine.errorMessage();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -149,7 +131,7 @@ public class ParsedLineIterator {
      * @return substring from current position till the end.
      */
     public String stringFromCurrentPosition() {
-        return parsedLine.line().substring(character);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -159,39 +141,25 @@ public class ParsedLineIterator {
      * @param length update length
      */
     public void updateIteratorPosition(int length) {
-        if (length > 0) {
-            //make sure we dont go OB
-            if ((length + character) > parsedLine.line().length())
-                length = parsedLine.line().length() - character;
-
-            //move word counter to the correct word
-            while (hasNextWord() &&
-                    (length + character) >= parsedLine.words().get(word).lineIndex() +
-                            parsedLine.words().get(word).word().length())
-                word++;
-
-            character = length + character;
-        } else
-            throw new IllegalArgumentException(
-                    "The length given must be > 0 and not exceed the boundary of the line (including the current position)");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return true if next word is connected to the cursor
      */
     public boolean isNextWordCursorWord() {
-        return word == parsedLine.selectedIndex();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isCurrentWordCursorWord() {
-        return (word - 1) == parsedLine.selectedIndex();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ParsedLine baseLine() {
-        return parsedLine;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean pastCursorWord() {
-        return parsedLine.cursor() > -1 && parsedLine.selectedIndex() < word;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

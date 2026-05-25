@@ -26,7 +26,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandException;
 import org.aesh.command.CommandLifecycle;
@@ -68,7 +67,6 @@ import org.aesh.selector.Selector;
 import org.aesh.terminal.formatting.TerminalString;
 
 /**
- *
  * @author Aesh team
  */
 @SuppressWarnings("unchecked")
@@ -77,17 +75,20 @@ class Executions {
     private static class ExecutionImpl<T extends CommandInvocation> implements Execution<T> {
 
         private final ExecutableOperator<T> executable;
+
         private ProcessedCommand<Command<T>, T> cmd;
+
         private final CommandInvocationConfiguration invocationConfiguration;
+
         private final AeshCommandRuntime<T> runtime;
+
         private final CommandContainer<T> commandContainer;
+
         private CommandResult result;
+
         private boolean populated;
 
-        ExecutionImpl(ExecutableOperator<T> executable,
-                AeshCommandRuntime<T> runtime,
-                CommandInvocationConfiguration invocationConfiguration,
-                CommandContainer<T> commandContainer) {
+        ExecutionImpl(ExecutableOperator<T> executable, AeshCommandRuntime<T> runtime, CommandInvocationConfiguration invocationConfiguration, CommandContainer<T> commandContainer) {
             this.executable = executable;
             this.runtime = runtime;
             this.invocationConfiguration = invocationConfiguration;
@@ -97,7 +98,7 @@ class Executions {
 
         @Override
         public T getCommandInvocation() {
-            return runtime.buildCommandInvocation(invocationConfiguration, commandContainer);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -105,7 +106,7 @@ class Executions {
          */
         @Override
         public Executable getExecutable() {
-            return executable;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -113,22 +114,12 @@ class Executions {
          */
         @Override
         public Command<T> getCommand() {
-            return cmd.getCommand();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void populateCommand() throws CommandLineParserException, OptionValidatorException {
-            if (!populated) {
-                // Get command context for inherited option injection
-                CommandContext cmdContext = getCommandInvocation().getCommandContext();
-                cmd = commandContainer.parseAndPopulate(runtime.invocationProviders(), runtime.getAeshContext(), cmdContext);
-                populated = true;
-                // Call afterParse() on parent group commands first, then on the parsed child
-                callAfterParseOnParents(commandContainer.getParser());
-                if (cmd.getCommand() instanceof CommandLifecycle) {
-                    ((CommandLifecycle) cmd.getCommand()).afterParse();
-                }
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -152,130 +143,12 @@ class Executions {
 
         @Override
         public ResultHandler getResultHandler() {
-            return cmd.resultHandler();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
-        public CommandResult execute() throws CommandException, InterruptedException, CommandValidatorException,
-                CommandLineParserException, OptionValidatorException {
-            //first we need to parse and populate the command line
-            populateCommand();
-
-            // Inject @ParentCommand fields if in sub-command mode
-            CommandContext cmdContext = getCommandInvocation().getCommandContext();
-            if (cmdContext != null && cmdContext.isInSubCommandMode()) {
-                injectParentCommands(cmd, cmdContext);
-            }
-
-            //finally we set the command that should be executed
-            executable.setCommand(cmd.getCommand());
-
-            if (cmd.validator() != null && !cmd.hasOptionWithOverrideRequired()) {
-                cmd.validator().validate(getCommand());
-            }
-            if (!cmd.isActivated(new ParsedCommand(cmd))) {
-                result = CommandResult.FAILURE;
-                throw new CommandException("The command is not available in the current context.");
-            }
-
-            //When we check for askIfNotSet, we also need to make sure we do not have help generated
-            if (cmd.hasAskIfNotSet() &&
-                    !(cmd.generateHelp() && cmd.isGenerateHelpOptionSet())) {
-                for (ProcessedOption option : cmd.getAllAskIfNotSet()) {
-                    try {
-                        if (option.getOptionType().equals(OptionType.ARGUMENT) ||
-                                option.getOptionType().equals(OptionType.ARGUMENTS))
-                            option.addValue(getCommandInvocation().getShell().readLine(
-                                    new Prompt("Argument(s) is not set, please provide a value: ")));
-                        else
-                            option.addValue(getCommandInvocation().getShell().readLine(
-                                    new Prompt("Option " + option.name() + ", is not set, please provide a value: ")));
-
-                        runtime.populateAskedOption(option);
-                    } catch (InterruptedException e) {
-                        //input was interrupted, ignore it
-                    }
-                }
-            }
-
-            if (cmd.hasSelector()) {
-                for (ProcessedOption option : cmd.getAllSelectors()) {
-                    //if we do not have any default values, check if we can use the completer
-                    if ((option.getDefaultValues() == null || option.getDefaultValues().size() == 0) &&
-                            option.completer() != null) {
-                        //first create a mock CompleterInvocation, then get all the values
-                        CompleterData completerMock = new CompleterData(null, "", null);
-                        option.completer().complete(completerMock);
-
-                        option.addValues(new Selector(option.selectorType(),
-                                completerMock.getCompleterValues().stream().map(TerminalString::getCharacters)
-                                        .collect(Collectors.toList()),
-                                option.description()).doSelect(getCommandInvocation().getShell()));
-
-                    } else {
-                        option.addValues(new Selector(option.selectorType(), option.getDefaultValues(), option.description())
-                                .doSelect(getCommandInvocation().getShell()));
-                    }
-                    runtime.populateAskedOption(option);
-                }
-            }
-
-            try {
-                //if the generated help option is set, we "execute" it instead of normal execution
-                if (cmd.generateHelp() && cmd.isGenerateHelpOptionSet()) {
-                    T invocation = getCommandInvocation();
-                    invocation.println(invocation.getHelpInfo());
-                    result = CommandResult.SUCCESS;
-                }
-                //if the generated help option is set, we "execute" it instead of normal execution
-                else if (cmd.version() != null && (cmd.isGenerateVersionOptionSet())) {
-                    T invocation = getCommandInvocation();
-                    invocation.println(cmd.name() + " version: " + cmd.version());
-                    result = CommandResult.SUCCESS;
-                }
-
-                //else we execute as normal
-                else
-                    result = executable.execute(getCommandInvocation());
-
-                if (getResultHandler() != null) {
-                    if (result == null || result.equals(CommandResult.SUCCESS)) {
-                        getResultHandler().onSuccess();
-                    } else {
-                        getResultHandler().onFailure(result);
-                    }
-                }
-                if (result == null) {
-                    result = CommandResult.SUCCESS;
-                }
-            } catch (CommandException ex) {
-                result = CommandResult.FAILURE;
-                throw ex;
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-                result = CommandResult.FAILURE;
-                throw ex;
-            } catch (Exception e) {
-                result = CommandResult.FAILURE;
-                throw new RuntimeException(e);
-            } finally {
-                if (invocationConfiguration.getOutputRedirection() != null) {
-                    try {
-                        invocationConfiguration.getOutputRedirection().close();
-                    } catch (IOException ex) {
-                        throw new CommandException(ex);
-                    }
-                }
-                if (invocationConfiguration.getInputRedirection() != null) {
-                    try {
-                        BufferedInputStream in = invocationConfiguration.getInputRedirection().read();
-                        if (in != null)
-                            in.close();
-                    } catch (IOException ignored) {
-                    }
-                }
-            }
-            return result;
+        public CommandResult execute() throws CommandException, InterruptedException, CommandValidatorException, CommandLineParserException, OptionValidatorException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -285,143 +158,63 @@ class Executions {
          */
         @Override
         public CommandResult getResult() {
-            return result;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void setResult(CommandResult result) {
-            this.result = result;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void clearQueuedLine() {
-            commandContainer.emptyLine();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     private enum State {
-        NEED_COMMAND,
-        NEED_OPERATOR,
-        NEED_ARGUMENT
+
+        NEED_COMMAND, NEED_OPERATOR, NEED_ARGUMENT
     }
 
-    static <CI extends CommandInvocation> List<Execution<CI>> buildExecution(List<ParsedLine> fullLine,
-            AeshCommandRuntime<CI> runtime)
-            throws CommandNotFoundException, CommandLineParserException, IOException {
-        State state = State.NEED_COMMAND;
-        CommandContainer<CI> processedCommand = null;
-        boolean newParsedLine;
-        ConfigurationOperator config = null;
-        DataProvider dataProvider = null;
-        InputDelegate inDelegate = null;
-        CommandInvocationConfiguration invocationConfiguration;
-        List<Execution<CI>> executions = new ArrayList<>();
-        for (ParsedLine pl : fullLine) {
-            newParsedLine = false;
-            if (!pl.hasWords())
-                throw new CommandLineParserException(pl.errorMessage());
-            while (!newParsedLine) {
-                switch (state) {
-                    case NEED_COMMAND: {
-                        processedCommand = runtime.findCommandContainer(pl);
-                        state = State.NEED_OPERATOR;
-                        break;
-                    }
-                    case NEED_ARGUMENT: {
-                        if (config == null) {
-                            throw new IllegalArgumentException("Invalid " + pl.line());
-                        }
-                        config.setArgument(pl.firstWord().word());
-                        state = State.NEED_OPERATOR;
-                        break;
-                    }
-                    case NEED_OPERATOR: {
-                        OperatorType ot = pl.operator();
-                        Operator op = buildOperator(pl.operator(), runtime.getAeshContext());
-                        if (ot.isConfiguration()) {
-                            if (config != null) { // input provider prior to an output consumer.
-                                if (config.getConfiguration().getInputRedirection() == null) {
-                                    throw new IllegalArgumentException("Invalid operators structure");
-                                }
-                                inDelegate = config.getConfiguration().getInputRedirection();
-                            }
-                            config = (ConfigurationOperator) op;
-                        }
-                        if (ot.isConfiguration() && ot.hasArgument()) {
-                            state = State.NEED_ARGUMENT;
-                        } else {
-                            // The operator must be an executor one
-                            if (!(op instanceof ExecutableOperator)) {
-                                throw new IllegalArgumentException("Op " + ot + " is not executable");
-                            }
-                            if (processedCommand == null) {
-                                throw new IllegalArgumentException("Invalid command line, command is missing.");
-                            }
-                            ExecutableOperator<CI> exec = (ExecutableOperator) op;
-                            invocationConfiguration = config == null
-                                    ? new CommandInvocationConfiguration(runtime.getAeshContext(), dataProvider)
-                                    : new CommandInvocationConfiguration(runtime.getAeshContext(),
-                                            config.getConfiguration().getOutputRedirection(),
-                                            inDelegate == null ? config.getConfiguration().getInputRedirection() : inDelegate,
-                                            dataProvider);
-                            Execution<CI> execution = new ExecutionImpl<>(exec, runtime,
-                                    invocationConfiguration, processedCommand);
-                            if (exec instanceof DataProvider) {
-                                dataProvider = (DataProvider) exec;
-                            } else {
-                                dataProvider = null;
-                            }
-                            executions.add(execution);
-                            config = null;
-                            inDelegate = null;
-                            state = State.NEED_COMMAND;
-                        }
-                        newParsedLine = true;
-                        break;
-                    }
-                }
-            }
-        }
-        if (state == State.NEED_OPERATOR) {
-            // The implicit execution operator is missing.
-            ExecutableOperator exec = (ExecutableOperator) buildOperator(OperatorType.NONE,
-                    runtime.getAeshContext());
-            invocationConfiguration = config == null
-                    ? new CommandInvocationConfiguration(runtime.getAeshContext(), dataProvider)
-                    : config.getConfiguration();
-            Execution<CI> execution = new ExecutionImpl<CI>(exec, runtime, invocationConfiguration, processedCommand);
-            executions.add(execution);
-        }
-        return executions;
+    static <CI extends CommandInvocation> List<Execution<CI>> buildExecution(List<ParsedLine> fullLine, AeshCommandRuntime<CI> runtime) throws CommandNotFoundException, CommandLineParserException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static Operator buildOperator(OperatorType op, AeshContext context) {
         if (op == null) {
             return null;
         }
-        switch (op) {
+        switch(op) {
             case NONE:
-            case END: {
-                return new EndOperator();
-            }
-            case REDIRECT_OUT: {
-                return new OutputRedirectionOperator(context);
-            }
-            case APPEND_OUT: {
-                return new OutputRedirectionOperator(context, true);
-            }
-            case PIPE: {
-                return new PipeOperator(context);
-            }
-            case REDIRECT_IN: {
-                return new InputRedirectionOperator(context);
-            }
-            case AND: {
-                return new AndOperator();
-            }
-            case OR: {
-                return new OrOperator();
-            }
+            case END:
+                {
+                    return new EndOperator();
+                }
+            case REDIRECT_OUT:
+                {
+                    return new OutputRedirectionOperator(context);
+                }
+            case APPEND_OUT:
+                {
+                    return new OutputRedirectionOperator(context, true);
+                }
+            case PIPE:
+                {
+                    return new PipeOperator(context);
+                }
+            case REDIRECT_IN:
+                {
+                    return new InputRedirectionOperator(context);
+                }
+            case AND:
+                {
+                    return new AndOperator();
+                }
+            case OR:
+                {
+                    return new OrOperator();
+                }
         }
         throw new IllegalArgumentException("Unsupported operator " + op);
     }
@@ -440,8 +233,7 @@ class Executions {
                 if (field.isAnnotationPresent(ParentCommand.class)) {
                     Class<?> fieldType = field.getType();
                     @SuppressWarnings("unchecked")
-                    Command<?> parent = commandContext.getParentCommand(
-                            (Class<? extends Command<?>>) fieldType.asSubclass(Command.class));
+                    Command<?> parent = commandContext.getParentCommand((Class<? extends Command<?>>) fieldType.asSubclass(Command.class));
                     if (parent != null) {
                         try {
                             if (!Modifier.isPublic(field.getModifiers()))

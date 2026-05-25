@@ -34,6 +34,7 @@ import org.aesh.console.ReadlineConsole;
 public class AeshCommandInvocationBuilder implements CommandInvocationBuilder<AeshCommandInvocation> {
 
     private final Shell shell;
+
     private final Console console;
 
     public AeshCommandInvocationBuilder(Shell shell, Console console) {
@@ -42,26 +43,12 @@ public class AeshCommandInvocationBuilder implements CommandInvocationBuilder<Ae
     }
 
     @Override
-    public AeshCommandInvocation build(CommandRuntime<AeshCommandInvocation> runtime,
-            CommandInvocationConfiguration config,
-            CommandContainer<AeshCommandInvocation> commandContainer) {
-        // Get CommandContext from ReadlineConsole if available
-        CommandContext ctx = null;
-        if (console instanceof ReadlineConsole) {
-            ctx = ((ReadlineConsole) console).getCommandContext();
-        }
-        if (ctx != null && ctx.isInSubCommandMode()) {
-            return new AeshCommandInvocation(console, shell, runtime, config, commandContainer, ctx);
-        }
-        return new AeshCommandInvocation(console, shell, runtime, config, commandContainer);
+    public AeshCommandInvocation build(CommandRuntime<AeshCommandInvocation> runtime, CommandInvocationConfiguration config, CommandContainer<AeshCommandInvocation> commandContainer) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public AeshCommandInvocation build(CommandRuntime<AeshCommandInvocation> runtime,
-            CommandInvocationConfiguration config,
-            CommandContainer<AeshCommandInvocation> commandContainer,
-            CommandContext commandContext) {
-        return new AeshCommandInvocation(console, shell, runtime, config, commandContainer, commandContext);
+    public AeshCommandInvocation build(CommandRuntime<AeshCommandInvocation> runtime, CommandInvocationConfiguration config, CommandContainer<AeshCommandInvocation> commandContainer, CommandContext commandContext) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

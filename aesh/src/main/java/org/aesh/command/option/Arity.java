@@ -38,10 +38,13 @@ package org.aesh.command.option;
  */
 public class Arity {
 
-    /** Represents unlimited maximum. */
+    /**
+     * Represents unlimited maximum.
+     */
     public static final int UNLIMITED = Integer.MAX_VALUE;
 
     private final int min;
+
     private final int max;
 
     public Arity(int min, int max) {
@@ -54,15 +57,15 @@ public class Arity {
     }
 
     public int getMin() {
-        return min;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getMax() {
-        return max;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isUnlimited() {
-        return max == UNLIMITED;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -73,29 +76,11 @@ public class Arity {
      * @throws IllegalArgumentException if the format is invalid
      */
     public static Arity parse(String arity) {
-        if (arity == null || arity.trim().isEmpty())
-            return null;
-
-        arity = arity.trim();
-
-        if (arity.contains("..")) {
-            String[] parts = arity.split("\\.\\.");
-            if (parts.length != 2)
-                throw new IllegalArgumentException("Invalid arity format: " + arity);
-            int min = Integer.parseInt(parts[0]);
-            int max = "*".equals(parts[1]) ? UNLIMITED : Integer.parseInt(parts[1]);
-            return new Arity(min, max);
-        } else {
-            // Single number means exactly that many
-            int exact = Integer.parseInt(arity);
-            return new Arity(exact, exact);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        if (min == max)
-            return String.valueOf(min);
-        return min + ".." + (max == UNLIMITED ? "*" : max);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

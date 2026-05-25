@@ -29,15 +29,25 @@ class DefaultSubCommandModeSettings implements SubCommandModeSettings {
     static final DefaultSubCommandModeSettings INSTANCE = new DefaultSubCommandModeSettings();
 
     private final boolean enabled;
+
     private final String exitCommand;
+
     private final String alternativeExitCommand;
+
     private final String contextSeparator;
+
     private final boolean showContextOnEntry;
+
     private final boolean showArgumentInPrompt;
+
     private final String contextCommand;
+
     private final String enterMessage;
+
     private final String exitMessage;
+
     private final String exitHint;
+
     private final boolean exitOnCtrlC;
 
     /**
@@ -60,11 +70,7 @@ class DefaultSubCommandModeSettings implements SubCommandModeSettings {
     /**
      * Create settings with specified values.
      */
-    DefaultSubCommandModeSettings(boolean enabled, String exitCommand, String alternativeExitCommand,
-            String contextSeparator, boolean showContextOnEntry,
-            boolean showArgumentInPrompt, String contextCommand,
-            String enterMessage, String exitMessage, String exitHint,
-            boolean exitOnCtrlC) {
+    DefaultSubCommandModeSettings(boolean enabled, String exitCommand, String alternativeExitCommand, String contextSeparator, boolean showContextOnEntry, boolean showArgumentInPrompt, String contextCommand, String enterMessage, String exitMessage, String exitHint, boolean exitOnCtrlC) {
         this.enabled = enabled;
         this.exitCommand = exitCommand;
         this.alternativeExitCommand = alternativeExitCommand;
@@ -80,56 +86,56 @@ class DefaultSubCommandModeSettings implements SubCommandModeSettings {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getExitCommand() {
-        return exitCommand;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getAlternativeExitCommand() {
-        return alternativeExitCommand;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getContextSeparator() {
-        return contextSeparator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean showContextOnEntry() {
-        return showContextOnEntry;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean showArgumentInPrompt() {
-        return showArgumentInPrompt;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getContextCommand() {
-        return contextCommand;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getEnterMessage() {
-        return enterMessage;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getExitMessage() {
-        return exitMessage;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getExitHint() {
-        return exitHint;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean exitOnCtrlC() {
-        return exitOnCtrlC;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

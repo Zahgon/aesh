@@ -36,11 +36,6 @@ public class InputDelegate {
     }
 
     public BufferedInputStream read() {
-        try {
-            return new BufferedInputStream(new FileInputStream(new File(path)));
-        } catch (FileNotFoundException e) {
-            return null;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

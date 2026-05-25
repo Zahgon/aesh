@@ -25,6 +25,6 @@ package org.aesh.command.validator;
 public interface ValidatorInvocationProvider {
 
     default ValidatorInvocation enhanceValidatorInvocation(ValidatorInvocation validatorInvocation) {
-        return validatorInvocation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

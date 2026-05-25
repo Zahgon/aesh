@@ -35,6 +35,6 @@ public class ExportPreProcessor implements Function<String, Optional<String>> {
 
     @Override
     public Optional<String> apply(String line) {
-        return Optional.ofNullable(manager.getValue(line));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

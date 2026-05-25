@@ -22,7 +22,6 @@ package org.aesh.command.man;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
-
 import org.aesh.command.Command;
 import org.aesh.command.invocation.CommandInvocation;
 import org.aesh.command.shell.Shell;
@@ -41,16 +40,28 @@ import org.aesh.terminal.utils.LoggerUtil;
 public abstract class AeshFileDisplayer implements Command {
 
     private int rows;
+
     private int columns;
+
     private int topVisibleRow;
-    private int topVisibleRowCache; //only rewrite page if rowCache != row
+
+    //only rewrite page if rowCache != row
+    private int topVisibleRowCache;
+
     private TerminalPage page;
+
     private StringBuilder number;
+
     private TerminalPage.Search search = TerminalPage.Search.NO_SEARCH;
+
     private StringBuilder searchBuilder;
+
     private List<Integer> searchLines;
+
     private static final Logger LOGGER = LoggerUtil.getLogger(AeshFileDisplayer.class.getName());
+
     private CommandInvocation commandInvocation;
+
     private boolean stop;
 
     public AeshFileDisplayer() {
@@ -58,239 +69,31 @@ public abstract class AeshFileDisplayer implements Command {
     }
 
     protected void setCommandInvocation(CommandInvocation commandInvocation) {
-        this.commandInvocation = commandInvocation;
-        //setControlOperator(commandInvocation.getControlOperator());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected CommandInvocation getCommandInvocation() {
-        return commandInvocation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected Shell getShell() {
-        return commandInvocation.getShell();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void afterAttach() throws IOException, InterruptedException {
-        number = new StringBuilder();
-        searchBuilder = new StringBuilder();
-        rows = getShell().size().getHeight();
-        columns = getShell().size().getWidth();
-        page = new TerminalPage(getFileParser(), columns);
-        topVisibleRow = 0;
-        topVisibleRowCache = -1;
-        stop = false;
-
-        if (commandInvocation.getConfiguration().hasOutputRedirection()) {
-            int count = 0;
-            for (String line : this.page.getLines()) {
-                commandInvocation.print(line);
-                count++;
-                if (count < this.page.size())
-                    commandInvocation.print(Config.getLineSeparator());
-            }
-            page.clear();
-        } else {
-
-            if (!page.hasData()) {
-                getShell().write("error: input is null...");
-                afterDetach();
-            } else {
-                getShell().write(ANSI.ALTERNATE_BUFFER);
-
-                if (this.page.getFileName() != null)
-                    display();
-                else
-                    display();
-
-                processInput();
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void afterDetach() {
-        if (!commandInvocation.getConfiguration().hasOutputRedirection())
-            getShell().write(ANSI.MAIN_BUFFER);
-
-        page.clear();
-        topVisibleRow = 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void processInput() throws IOException, InterruptedException {
-        try {
-            while (!stop) {
-                KeyAction event = getCommandInvocation().input();
-                if (event instanceof Key)
-                    processOperation((Key) event);
-            }
-        } catch (InterruptedException e) {
-            afterDetach();
-            stop = true;
-            throw e;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void processOperation(Key operation) throws IOException {
-        if (operation == Key.q) {
-            if (search == TerminalPage.Search.SEARCHING) {
-                searchBuilder.append((char) operation.getFirstValue());
-                displayBottom();
-            } else {
-                clearNumber();
-                afterDetach();
-                stop = true;
-            }
-        } else if (operation == Key.j ||
-                operation == Key.DOWN ||
-                operation == Key.DOWN_2 ||
-                operation == Key.ENTER) {
-            if (search == TerminalPage.Search.SEARCHING) {
-                if (operation == Key.j) {
-                    searchBuilder.append((char) operation.getFirstValue());
-                    displayBottom();
-                } else if (operation == Key.ENTER) {
-                    search = TerminalPage.Search.RESULT;
-                    findSearchWord(true);
-                }
-            } else if (search == TerminalPage.Search.NOT_FOUND) {
-                if (operation == Key.ENTER) {
-                    search = TerminalPage.Search.NO_SEARCH;
-                    clearBottomLine();
-                    displayBottom();
-                }
-            } else {
-                topVisibleRow = topVisibleRow + getNumber();
-                if (topVisibleRow > (page.size() - rows - 1)) {
-                    topVisibleRow = page.size() - rows - 1;
-                    if (topVisibleRow < 0)
-                        topVisibleRow = 0;
-                    display();
-                } else
-                    display();
-                clearNumber();
-            }
-        } else if (operation == Key.k ||
-                operation == Key.UP ||
-                operation == Key.UP_2) {
-            if (search == TerminalPage.Search.SEARCHING) {
-                if (operation == Key.k)
-                    searchBuilder.append((char) operation.getFirstValue());
-                displayBottom();
-            } else {
-                topVisibleRow = topVisibleRow - getNumber();
-                if (topVisibleRow < 0)
-                    topVisibleRow = 0;
-                display();
-                clearNumber();
-            }
-        } else if (operation == Key.CTRL_F ||
-                operation == Key.PGDOWN ||
-                operation == Key.SPACE) { // ctrl-f || pgdown || space
-            if (search == TerminalPage.Search.SEARCHING) {
-
-            } else {
-                topVisibleRow = topVisibleRow + ((rows - 1) * getNumber());
-                if (topVisibleRow > (page.size() - rows - 1)) {
-                    topVisibleRow = page.size() - rows - 1;
-                    if (topVisibleRow < 0)
-                        topVisibleRow = 0;
-                    display();
-                } else
-                    display();
-                clearNumber();
-            }
-        } else if (operation == Key.CTRL_B ||
-                operation == Key.PGUP) { // ctrl-b || pgup
-            if (search != TerminalPage.Search.SEARCHING) {
-                topVisibleRow = topVisibleRow - ((rows - 1) * getNumber());
-                if (topVisibleRow < 0)
-                    topVisibleRow = 0;
-                display();
-                clearNumber();
-            }
-        }
-        //search
-        else if (operation == Key.SLASH) {
-            if (search == TerminalPage.Search.NO_SEARCH || search == TerminalPage.Search.RESULT) {
-                search = TerminalPage.Search.SEARCHING;
-                searchBuilder = new StringBuilder();
-                displayBottom();
-            } else if (search == TerminalPage.Search.SEARCHING) {
-                searchBuilder.append((char) operation.getFirstValue());
-                displayBottom();
-            }
-
-        } else if (operation == Key.n) {
-            if (search == TerminalPage.Search.SEARCHING) {
-                searchBuilder.append((char) operation.getFirstValue());
-                displayBottom();
-            } else if (search == TerminalPage.Search.RESULT) {
-                if (searchLines.size() > 0) {
-                    for (Integer i : searchLines) {
-                        if (i > topVisibleRow + 1) {
-                            topVisibleRow = i - 1;
-                            display();
-                            return;
-                        }
-                    }
-                    //we didnt find any more
-                    displayBottom();
-                } else {
-                    displayBottom();
-                }
-            }
-        } else if (operation == Key.N) {
-            if (search == TerminalPage.Search.SEARCHING) {
-                searchBuilder.append((char) operation.getFirstValue());
-                displayBottom();
-            } else if (search == TerminalPage.Search.RESULT) {
-                if (searchLines.size() > 0) {
-                    for (int i = searchLines.size() - 1; i >= 0; i--) {
-                        if (searchLines.get(i) < topVisibleRow) {
-                            topVisibleRow = searchLines.get(i) - 1;
-                            if (topVisibleRow < 0)
-                                topVisibleRow = 0;
-                            display();
-                            return;
-                        }
-                    }
-                    //we didnt find any more
-                    displayBottom();
-                }
-            }
-        } else if (operation == Key.G) {
-            if (search == TerminalPage.Search.SEARCHING) {
-                searchBuilder.append((char) operation.getFirstValue());
-                displayBottom();
-            } else {
-                if (number.length() == 0 || getNumber() == 0) {
-                    topVisibleRow = page.size() - rows - 1;
-                    display();
-                } else {
-                    topVisibleRow = getNumber() - 1;
-                    if (topVisibleRow > page.size() - rows - 1) {
-                        topVisibleRow = page.size() - rows - 1;
-                        display();
-                    } else {
-                        display();
-                    }
-                }
-                clearNumber();
-            }
-        } else if (operation.isNumber()) {
-            if (search == TerminalPage.Search.SEARCHING) {
-                searchBuilder.append((char) operation.getFirstValue());
-                displayBottom();
-            } else {
-                number.append(Character.getNumericValue(operation.getFirstValue()));
-                display();
-            }
-        } else {
-            if (search == TerminalPage.Search.SEARCHING &&
-                    (Character.isAlphabetic(operation.getFirstValue()))) {
-                searchBuilder.append((char) operation.getFirstValue());
-                displayBottom();
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void display() throws IOException {
@@ -338,32 +141,31 @@ public abstract class AeshFileDisplayer implements Command {
     public abstract void displayBottom() throws IOException;
 
     public void writeToConsole(String word) throws IOException {
-        getShell().write(word);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void clearBottomLine() throws IOException {
-        getShell().write(ANSI.printAnsi("0G"));
-        getShell().write(ANSI.printAnsi("2K"));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isAtBottom() {
-        return topVisibleRow >= (page.size() - rows - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isAtTop() {
-        return topVisibleRow == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public TerminalPage.Search getSearchStatus() {
-        return search;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getSearchWord() {
-        return searchBuilder.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getTopVisibleRow() {
-        return topVisibleRow + 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void findSearchWord(boolean forward) throws IOException {
@@ -371,12 +173,11 @@ public abstract class AeshFileDisplayer implements Command {
         searchLines = page.findWord(searchBuilder.toString());
         LOGGER.info("found: " + searchLines);
         if (searchLines.size() > 0) {
-            for (Integer i : searchLines)
-                if (i > topVisibleRow) {
-                    topVisibleRow = i - 1;
-                    display();
-                    return;
-                }
+            for (Integer i : searchLines) if (i > topVisibleRow) {
+                topVisibleRow = i - 1;
+                display();
+                return;
+            }
         } else {
             search = TerminalPage.Search.NOT_FOUND;
             displayBottom();
@@ -398,8 +199,7 @@ public abstract class AeshFileDisplayer implements Command {
     }
 
     private enum Background {
-        NORMAL,
-        INVERSE
-    }
 
+        NORMAL, INVERSE
+    }
 }

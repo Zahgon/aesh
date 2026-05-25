@@ -57,9 +57,8 @@ public interface ShellCompletionGenerator {
      * Supported shell types.
      */
     enum ShellType {
-        BASH("_complete.bash"),
-        ZSH("_complete.zsh"),
-        FISH(".fish");
+
+        BASH("_complete.bash"), ZSH("_complete.zsh"), FISH(".fish");
 
         private final String fileExtension;
 
@@ -68,7 +67,7 @@ public interface ShellCompletionGenerator {
         }
 
         public String fileExtension() {
-            return fileExtension;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -76,16 +75,7 @@ public interface ShellCompletionGenerator {
      * Create a generator for the given shell type.
      */
     static ShellCompletionGenerator forShell(ShellType type) {
-        switch (type) {
-            case BASH:
-                return new BashCompletionGenerator();
-            case ZSH:
-                return new ZshCompletionGenerator();
-            case FISH:
-                return new FishCompletionGenerator();
-            default:
-                throw new IllegalArgumentException("Unknown shell type: " + type);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -98,11 +88,8 @@ public interface ShellCompletionGenerator {
      * @throws CommandLineParserException if the command class cannot be parsed
      */
     @SuppressWarnings("unchecked")
-    static String generate(ShellType type, Class<? extends Command> commandClass, String programName)
-            throws CommandLineParserException {
-        CommandContainerBuilder<CommandInvocation> builder = new AeshCommandContainerBuilder<>();
-        CommandContainer<CommandInvocation> container = builder.create((Class) commandClass);
-        return forShell(type).generate(container.getParser(), programName);
+    static String generate(ShellType type, Class<? extends Command> commandClass, String programName) throws CommandLineParserException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -115,10 +102,7 @@ public interface ShellCompletionGenerator {
      * @throws CommandLineParserException if the command class cannot be parsed
      */
     @SuppressWarnings("unchecked")
-    static String generateDynamic(ShellType type, Class<? extends Command> commandClass, String programName)
-            throws CommandLineParserException {
-        CommandContainerBuilder<CommandInvocation> builder = new AeshCommandContainerBuilder<>();
-        CommandContainer<CommandInvocation> container = builder.create((Class) commandClass);
-        return forShell(type).generateDynamic(container.getParser(), programName);
+    static String generateDynamic(ShellType type, Class<? extends Command> commandClass, String programName) throws CommandLineParserException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.aesh.command.converter.Converter;
 import org.aesh.command.impl.converter.BooleanConverter;
 import org.aesh.command.impl.converter.ByteConverter;
@@ -52,11 +51,12 @@ public class CLConverterManager {
     private final Map<Class, Converter> converters;
 
     private static class CLConvertManagerHolder {
+
         static final CLConverterManager INSTANCE = new CLConverterManager();
     }
 
     public static CLConverterManager getInstance() {
-        return CLConvertManagerHolder.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private CLConverterManager() {
@@ -94,25 +94,19 @@ public class CLConverterManager {
     }
 
     public boolean hasConverter(Class clazz) {
-        return converters.containsKey(clazz);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public Converter getConverter(Class clazz) {
-        Converter converter = converters.get(clazz);
-        if (converter == null && clazz.isEnum()) {
-            converter = new org.aesh.command.impl.converter.EnumConverter(clazz);
-            converters.put(clazz, converter);
-        }
-        return converter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setConverter(Class<?> clazz, Converter converter) {
-        converters.put(clazz, converter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Set<Class> getConvertedTypes() {
-        return Collections.unmodifiableSet(new HashSet<>(converters.keySet()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

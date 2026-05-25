@@ -18,7 +18,6 @@
 package org.aesh.tamboui.examples;
 
 import static dev.tamboui.toolkit.Toolkit.*;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,14 +25,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-
 import org.aesh.AeshConsoleRunner;
 import org.aesh.command.CommandDefinition;
 import org.aesh.command.invocation.CommandInvocation;
 import org.aesh.command.option.Option;
 import org.aesh.tamboui.TuiAppCommand;
 import org.aesh.tamboui.TuiCommand;
-
 import dev.tamboui.layout.Constraint;
 import dev.tamboui.style.Color;
 import dev.tamboui.style.Style;
@@ -68,9 +65,7 @@ public class TuiDemoExample {
 
         @Override
         protected Element render() {
-            return panel("Hello TamboUI!",
-                    text("Welcome to aesh + TamboUI integration.\n\nPress 'q' to quit.")).rounded().borderColor(Color.CYAN)
-                    .fill();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -86,38 +81,12 @@ public class TuiDemoExample {
 
         @Override
         protected TuiConfig.Builder configure(TuiConfig.Builder builder) {
-            return builder.tickRate(Duration.ofMillis(speedMs));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected void runTui(TuiRunner runner, CommandInvocation invocation) throws Exception {
-            AtomicInteger progress = new AtomicInteger(0);
-
-            runner.run(
-                    (event, r) -> {
-                        if (event instanceof KeyEvent) {
-                            KeyEvent key = (KeyEvent) event;
-                            if (key.isQuit()) {
-                                r.quit();
-                                return false;
-                            }
-                        }
-                        if (event instanceof TickEvent) {
-                            progress.getAndUpdate(v -> (v + 1) % 101);
-                            return true;
-                        }
-                        return false;
-                    },
-                    frame -> {
-                        Gauge gauge = Gauge.builder()
-                                .percent(progress.get())
-                                .label("Loading... " + progress.get() + "%")
-                                .gaugeColor(Color.GREEN)
-                                .block(Block.bordered())
-                                .build();
-
-                        frame.renderWidget(gauge, frame.area());
-                    });
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -132,43 +101,12 @@ public class TuiDemoExample {
 
         @Override
         protected Element render() {
-            return column(
-                    panel("Employee Directory",
-                            table()
-                                    .header("ID", "Name", "Role", "City")
-                                    .widths(
-                                            Constraint.length(4),
-                                            Constraint.percentage(25),
-                                            Constraint.percentage(25),
-                                            Constraint.fill(1))
-                                    .row("1", "Alice", "Engineer", "San Francisco")
-                                    .row("2", "Bob", "Designer", "New York")
-                                    .row("3", "Carol", "Manager", "London")
-                                    .row("4", "Dave", "Analyst", "Berlin")
-                                    .row("5", "Eve", "Developer", "Tokyo")
-                                    .highlightStyle(Style.EMPTY.bg(Color.DARK_GRAY))
-                                    .highlightSymbol(">> ")
-                                    .state(tableState)
-                                    .fill())
-                            .rounded().borderColor(Color.BLUE).fill(),
-                    text("Navigate: Up/Down | Quit: q").dim()).fill();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected boolean onKeyEvent(KeyEvent event, ToolkitRunner runner) {
-            if (event.isQuit()) {
-                runner.quit();
-                return true;
-            }
-            if (event.isUp()) {
-                tableState.selectPrevious();
-                return true;
-            }
-            if (event.isDown()) {
-                tableState.selectNext(5);
-                return true;
-            }
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -181,45 +119,12 @@ public class TuiDemoExample {
 
         @Override
         protected TuiConfig.Builder configure(TuiConfig.Builder builder) {
-            return builder.tickRate(Duration.ofMillis(200));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected void runTui(TuiRunner runner, CommandInvocation invocation) throws Exception {
-            Random rng = new Random();
-            List<Long> data = new ArrayList<>();
-            for (int i = 0; i < 40; i++) {
-                data.add((long) rng.nextInt(100));
-            }
-
-            runner.run(
-                    (event, r) -> {
-                        if (event instanceof KeyEvent && ((KeyEvent) event).isQuit()) {
-                            r.quit();
-                            return false;
-                        }
-                        if (event instanceof TickEvent) {
-                            data.add((long) rng.nextInt(100));
-                            if (data.size() > 200) {
-                                data.remove(0);
-                            }
-                            return true;
-                        }
-                        return false;
-                    },
-                    frame -> {
-                        long[] arr = new long[data.size()];
-                        for (int i = 0; i < data.size(); i++) {
-                            arr[i] = data.get(i);
-                        }
-                        Sparkline sparkline = Sparkline.builder()
-                                .data(arr)
-                                .block(Block.builder().title("Live Data Feed").build())
-                                .style(Style.EMPTY.fg(Color.YELLOW))
-                                .build();
-
-                        frame.renderWidget(sparkline, frame.area());
-                    });
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -231,34 +136,7 @@ public class TuiDemoExample {
 
         @Override
         protected Element render() {
-            return column(
-                    barChart()
-                            .groups(
-                                    BarGroup.of("web-1",
-                                            bar(72, "CPU", Color.RED),
-                                            bar(45, "Mem", Color.GREEN),
-                                            bar(28, "IO", Color.BLUE)),
-                                    BarGroup.of("web-2",
-                                            bar(55, "CPU", Color.RED),
-                                            bar(68, "Mem", Color.GREEN),
-                                            bar(15, "IO", Color.BLUE)),
-                                    BarGroup.of("db-1",
-                                            bar(90, "CPU", Color.RED),
-                                            bar(82, "Mem", Color.GREEN),
-                                            bar(63, "IO", Color.BLUE)),
-                                    BarGroup.of("cache",
-                                            bar(20, "CPU", Color.RED),
-                                            bar(95, "Mem", Color.GREEN),
-                                            bar(5, "IO", Color.BLUE)))
-                            .barWidth(5)
-                            .barGap(1)
-                            .groupGap(3)
-                            .max(100)
-                            .title("Server Metrics (%)")
-                            .rounded()
-                            .borderColor(Color.MAGENTA)
-                            .fill(),
-                    text("Press 'q' to quit").dim()).fill();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private static Bar bar(long value, String label, Color color) {
@@ -277,86 +155,12 @@ public class TuiDemoExample {
 
         @Override
         protected Element render() {
-            Element content;
-            int selected = tabsState.selected() != null ? tabsState.selected() : 0;
-            switch (selected) {
-                case 0:
-                    content = column(
-                            text("System Overview").bold(),
-                            spacer(1),
-                            row(
-                                    gauge(72).label("CPU: 72%").gaugeColor(Color.RED).title("CPU").rounded().fill(),
-                                    gauge(45).label("Mem: 45%").gaugeColor(Color.GREEN).title("Memory").rounded().fill())
-                                    .fill(),
-                            row(
-                                    gauge(28).label("Disk: 28%").gaugeColor(Color.BLUE).title("Disk").rounded().fill(),
-                                    gauge(12).label("Net: 12%").gaugeColor(Color.YELLOW).title("Network").rounded().fill())
-                                    .fill())
-                            .fill();
-                    break;
-                case 1:
-                    content = column(
-                            text("Process List").bold(),
-                            spacer(1),
-                            list("  java        - 12.3% CPU", "  postgres     -  8.1% CPU",
-                                    "  nginx        -  2.4% CPU", "  redis        -  1.8% CPU",
-                                    "  node         -  1.2% CPU", "  cron         -  0.1% CPU")
-                                    .highlightColor(Color.CYAN)
-                                    .title("Top Processes")
-                                    .rounded()
-                                    .fill())
-                            .fill();
-                    break;
-                case 2:
-                    content = column(
-                            text("Event Log").bold(),
-                            spacer(1),
-                            list("[INFO]  Service started on port 8080",
-                                    "[INFO]  Connected to database",
-                                    "[WARN]  High memory usage detected",
-                                    "[INFO]  Cache warmed up (1234 entries)",
-                                    "[ERROR] Connection timeout to upstream",
-                                    "[INFO]  Retry succeeded",
-                                    "[INFO]  Health check passed")
-                                    .title("Recent Events")
-                                    .rounded()
-                                    .borderColor(Color.YELLOW)
-                                    .displayOnly()
-                                    .fill())
-                            .fill();
-                    break;
-                default:
-                    content = text("Unknown tab");
-                    break;
-            }
-
-            return column(
-                    tabs("Overview", "Processes", "Logs")
-                            .state(tabsState)
-                            .highlightColor(Color.CYAN)
-                            .divider(" | ")
-                            .rounded()
-                            .borderColor(Color.WHITE),
-                    panel(content).fill()).fill();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected boolean onKeyEvent(KeyEvent event, ToolkitRunner runner) {
-            if (event.isQuit()) {
-                runner.quit();
-                return true;
-            }
-            if (event.isLeft()) {
-                int current = tabsState.selected() != null ? tabsState.selected() : 0;
-                tabsState.select(Math.max(0, current - 1));
-                return true;
-            }
-            if (event.isRight()) {
-                int current = tabsState.selected() != null ? tabsState.selected() : 0;
-                tabsState.select(Math.min(2, current + 1));
-                return true;
-            }
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -371,34 +175,12 @@ public class TuiDemoExample {
 
         @Override
         protected Element render() {
-            LocalDate date = currentDate.get();
-            return column(
-                    calendar(date)
-                            .showMonthHeader(Style.EMPTY.bold().fg(Color.CYAN))
-                            .showWeekdaysHeader(Style.EMPTY.fg(Color.YELLOW))
-                            .highlightToday(Color.GREEN)
-                            .showSurrounding(Style.EMPTY.dim())
-                            .rounded()
-                            .borderColor(Color.WHITE)
-                            .fill(),
-                    text("<< Left/Right to change month | 'q' to quit >>").dim()).fill();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected boolean onKeyEvent(KeyEvent event, ToolkitRunner runner) {
-            if (event.isQuit()) {
-                runner.quit();
-                return true;
-            }
-            if (event.isLeft()) {
-                currentDate.updateAndGet(d -> d.minusMonths(1));
-                return true;
-            }
-            if (event.isRight()) {
-                currentDate.updateAndGet(d -> d.plusMonths(1));
-                return true;
-            }
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -411,95 +193,12 @@ public class TuiDemoExample {
 
         @Override
         protected TuiConfig.Builder configure(TuiConfig.Builder builder) {
-            return builder.tickRate(Duration.ofMillis(500));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected void runTui(TuiRunner runner, CommandInvocation invocation) throws Exception {
-            Random rng = new Random();
-            AtomicInteger cpu = new AtomicInteger(50);
-            AtomicInteger mem = new AtomicInteger(60);
-            AtomicInteger disk = new AtomicInteger(35);
-            List<Long> cpuHistory = new ArrayList<>();
-            for (int i = 0; i < 60; i++) {
-                cpuHistory.add(50L);
-            }
-
-            runner.run(
-                    (event, r) -> {
-                        if (event instanceof KeyEvent && ((KeyEvent) event).isQuit()) {
-                            r.quit();
-                            return false;
-                        }
-                        if (event instanceof TickEvent) {
-                            cpu.set(clamp(cpu.get() + rng.nextInt(11) - 5, 0, 100));
-                            mem.set(clamp(mem.get() + rng.nextInt(7) - 3, 0, 100));
-                            disk.set(clamp(disk.get() + rng.nextInt(3) - 1, 0, 100));
-                            cpuHistory.add((long) cpu.get());
-                            if (cpuHistory.size() > 120) {
-                                cpuHistory.remove(0);
-                            }
-                            return true;
-                        }
-                        return false;
-                    },
-                    frame -> {
-                        dev.tamboui.layout.Rect area = frame.area();
-                        List<dev.tamboui.layout.Rect> rows = dev.tamboui.layout.Layout.vertical()
-                                .constraints(
-                                        Constraint.length(3),
-                                        Constraint.fill(1),
-                                        Constraint.length(1))
-                                .split(area);
-
-                        // Top row: three gauges side by side
-                        List<dev.tamboui.layout.Rect> gaugeCols = dev.tamboui.layout.Layout.horizontal()
-                                .constraints(
-                                        Constraint.percentage(33),
-                                        Constraint.percentage(34),
-                                        Constraint.percentage(33))
-                                .split(rows.get(0));
-
-                        Gauge cpuGauge = Gauge.builder()
-                                .percent(cpu.get())
-                                .label("CPU " + cpu.get() + "%")
-                                .gaugeColor(cpu.get() > 80 ? Color.RED : cpu.get() > 50 ? Color.YELLOW : Color.GREEN)
-                                .build();
-                        Gauge memGauge = Gauge.builder()
-                                .percent(mem.get())
-                                .label("MEM " + mem.get() + "%")
-                                .gaugeColor(mem.get() > 80 ? Color.RED : mem.get() > 50 ? Color.YELLOW : Color.GREEN)
-                                .build();
-                        Gauge diskGauge = Gauge.builder()
-                                .percent(disk.get())
-                                .label("DISK " + disk.get() + "%")
-                                .gaugeColor(disk.get() > 80 ? Color.RED : disk.get() > 50 ? Color.YELLOW : Color.GREEN)
-                                .build();
-
-                        frame.renderWidget(cpuGauge, gaugeCols.get(0));
-                        frame.renderWidget(memGauge, gaugeCols.get(1));
-                        frame.renderWidget(diskGauge, gaugeCols.get(2));
-
-                        // Middle: CPU history sparkline
-                        long[] histArr = new long[cpuHistory.size()];
-                        for (int i = 0; i < cpuHistory.size(); i++) {
-                            histArr[i] = cpuHistory.get(i);
-                        }
-                        Sparkline spark = Sparkline.builder()
-                                .data(histArr)
-                                .max(100)
-                                .block(Block.builder().title("CPU History").build())
-                                .style(Style.EMPTY.fg(Color.CYAN))
-                                .build();
-                        frame.renderWidget(spark, rows.get(1));
-
-                        // Bottom: status line
-                        dev.tamboui.widgets.paragraph.Paragraph status = dev.tamboui.widgets.paragraph.Paragraph.builder()
-                                .text(dev.tamboui.text.Text.from("Press 'q' to quit"))
-                                .style(Style.EMPTY.dim())
-                                .build();
-                        frame.renderWidget(status, rows.get(2));
-                    });
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private static int clamp(int value, int min, int max) {
@@ -509,18 +208,6 @@ public class TuiDemoExample {
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-        AeshConsoleRunner.builder()
-                .commands(
-                        HelloCommand.class,
-                        GaugeCommand.class,
-                        TableCommand.class,
-                        SparklineCommand.class,
-                        BarChartCommand.class,
-                        TabsCommand.class,
-                        CalendarCommand.class,
-                        DashboardCommand.class)
-                .addExitCommand()
-                .prompt("[tui-demo]$ ")
-                .start();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

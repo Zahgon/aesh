@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.invocation;
 
 import org.aesh.command.activator.CommandActivatorProvider;
@@ -35,19 +34,27 @@ public class AeshInvocationProviders implements InvocationProviders {
 
     private static final ConverterInvocationProvider DEFAULT_CONVERTER = new ConverterInvocationProvider() {
     };
+
     private static final CompleterInvocationProvider DEFAULT_COMPLETER = new CompleterInvocationProvider() {
     };
+
     private static final ValidatorInvocationProvider DEFAULT_VALIDATOR = new ValidatorInvocationProvider() {
     };
+
     private static final OptionActivatorProvider DEFAULT_OPTION_ACTIVATOR = new OptionActivatorProvider() {
     };
+
     private static final CommandActivatorProvider DEFAULT_COMMAND_ACTIVATOR = new CommandActivatorProvider() {
     };
 
     private final ConverterInvocationProvider converterInvocationProvider;
+
     private final CompleterInvocationProvider completerInvocationProvider;
+
     private final ValidatorInvocationProvider validatorInvocationProvider;
+
     private final OptionActivatorProvider optionActivatorProvider;
+
     private final CommandActivatorProvider commandActivatorProvider;
 
     public AeshInvocationProviders() {
@@ -62,11 +69,7 @@ public class AeshInvocationProviders implements InvocationProviders {
         this.commandActivatorProvider = defaultIfNull(settings.commandActivatorProvider(), DEFAULT_COMMAND_ACTIVATOR);
     }
 
-    public AeshInvocationProviders(ConverterInvocationProvider converterInvocationProvider,
-            CompleterInvocationProvider completerInvocationProvider,
-            ValidatorInvocationProvider validatorInvocationProvider,
-            OptionActivatorProvider optionActivatorProvider,
-            CommandActivatorProvider commandActivatorProvider) {
+    public AeshInvocationProviders(ConverterInvocationProvider converterInvocationProvider, CompleterInvocationProvider completerInvocationProvider, ValidatorInvocationProvider validatorInvocationProvider, OptionActivatorProvider optionActivatorProvider, CommandActivatorProvider commandActivatorProvider) {
         this.converterInvocationProvider = defaultIfNull(converterInvocationProvider, DEFAULT_CONVERTER);
         this.completerInvocationProvider = defaultIfNull(completerInvocationProvider, DEFAULT_COMPLETER);
         this.validatorInvocationProvider = defaultIfNull(validatorInvocationProvider, DEFAULT_VALIDATOR);
@@ -80,26 +83,26 @@ public class AeshInvocationProviders implements InvocationProviders {
 
     @Override
     public ConverterInvocationProvider getConverterProvider() {
-        return converterInvocationProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandActivatorProvider getCommandActivatorProvider() {
-        return commandActivatorProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CompleterInvocationProvider getCompleterProvider() {
-        return completerInvocationProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ValidatorInvocationProvider getValidatorProvider() {
-        return validatorInvocationProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public OptionActivatorProvider getOptionActivatorProvider() {
-        return optionActivatorProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

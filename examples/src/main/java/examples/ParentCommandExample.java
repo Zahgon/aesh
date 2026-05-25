@@ -20,7 +20,6 @@
 package examples;
 
 import java.io.IOException;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandDefinition;
 import org.aesh.command.CommandException;
@@ -75,35 +74,7 @@ import org.aesh.terminal.formatting.TerminalString;
 public class ParentCommandExample {
 
     public static void main(String[] args) throws CommandLineParserException, IOException, CommandRegistryException {
-
-        CommandRegistry registry = AeshCommandRegistryBuilder.builder()
-                .command(ExitCommand.class)
-                .command(ProjectCommand.class)
-                .create();
-
-        // Configure sub-command mode settings (optional - defaults work well for most cases)
-        // You can customize exit commands, prompts, messages, etc.
-        SubCommandModeSettings subCommandSettings = SubCommandModeSettings.builder()
-                .exitCommand("exit") // Primary exit command (default: "exit")
-                .alternativeExitCommand("..") // Alternative exit command (default: "..")
-                .contextSeparator(":") // Separator for nested contexts (default: ":")
-                .showArgumentInPrompt(true) // Show option value in prompt (default: true)
-                .enterMessage("Entering {name} mode.") // Message when entering (default)
-                .exitHint("Type '{exit}' or '{alt}' to return.") // Exit hint
-                .exitOnCtrlC(true) // Ctrl+C exits sub-command mode (default: true)
-                .build();
-
-        SettingsBuilder<CommandInvocation> builder = SettingsBuilder
-                .builder()
-                .logging(true)
-                .commandRegistry(registry)
-                .subCommandModeSettings(subCommandSettings);
-
-        ReadlineConsole console = new ReadlineConsole(builder.build());
-        console.setPrompt(new Prompt(new TerminalString("[parent-example]$ ",
-                new TerminalColor(Color.CYAN, Color.DEFAULT, Color.Intensity.BRIGHT))));
-
-        console.start();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @CommandDefinition(name = "exit", description = "Exit the application", aliases = { "quit" })
@@ -111,8 +82,7 @@ public class ParentCommandExample {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            commandInvocation.stop();
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -123,8 +93,7 @@ public class ParentCommandExample {
      * When executed without a subcommand, enters sub-command mode where
      * subsequent commands have access to the project's options.
      */
-    @GroupCommandDefinition(name = "project", description = "Project management commands", groupCommands = { BuildCommand.class,
-            TestCommand.class, DeployCommand.class, StatusCommand.class })
+    @GroupCommandDefinition(name = "project", description = "Project management commands", groupCommands = { BuildCommand.class, TestCommand.class, DeployCommand.class, StatusCommand.class })
     public static class ProjectCommand implements Command<CommandInvocation> {
 
         @Option(name = "name", shortName = 'n', required = true, description = "Project name")
@@ -140,37 +109,20 @@ public class ParentCommandExample {
 
         // Getters for subcommands to access
         public String getProjectName() {
-            return projectName;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public boolean isVerbose() {
-            return verbose;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public String getConfigFile() {
-            return configFile;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public CommandResult execute(CommandInvocation invocation) throws CommandException, InterruptedException {
-            // Display current settings
-            invocation.println("Project: " + projectName);
-            invocation.println("Verbose: " + verbose);
-            if (configFile != null) {
-                invocation.println("Config: " + configFile);
-            }
-            invocation.println("");
-
-            // Enter sub-command mode - this pushes the current command onto the context
-            // Subsequent commands (build, test, deploy) will have access to projectName, verbose, etc.
-            if (invocation.enterSubCommandMode(this)) {
-                invocation.println("Available subcommands: build, test, deploy");
-            } else {
-                invocation.println("Sub-command mode not available.");
-                invocation.println("Use: project build --name=<project-name>");
-            }
-
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -204,33 +156,7 @@ public class ParentCommandExample {
 
         @Override
         public CommandResult execute(CommandInvocation invocation) throws CommandException, InterruptedException {
-            // Get project name from parent (if in sub-command mode) or from local option
-            String projectName = (parent != null) ? parent.getProjectName() : name;
-            boolean verbose = (parent != null) && parent.isVerbose();
-
-            if (projectName == null) {
-                invocation.println("Error: Project name is required.");
-                invocation.println("Usage: project build --name=<project-name>");
-                invocation.println("   Or: Enter sub-command mode first with: project --name=<project-name>");
-                return CommandResult.FAILURE;
-            }
-
-            invocation.println("=== Building Project ===");
-            invocation.println("Project: " + projectName);
-            invocation.println("Target: " + target);
-            invocation.println("Skip tests: " + skipTests);
-
-            if (verbose) {
-                String configFile = parent.getConfigFile();
-                invocation.println("\n[VERBOSE] Build configuration:");
-                invocation.println("[VERBOSE]   Config file: " + configFile);
-                invocation.println("[VERBOSE]   Starting build process...");
-                invocation.println("[VERBOSE]   Compiling sources...");
-                invocation.println("[VERBOSE]   Packaging " + target + "...");
-            }
-
-            invocation.println("\nBuild completed successfully!");
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -260,42 +186,7 @@ public class ParentCommandExample {
 
         @Override
         public CommandResult execute(CommandInvocation invocation) throws CommandException, InterruptedException {
-            // Try to get parent values via CommandInvocation (works in sub-command mode)
-            String projectName = invocation.getParentValue("projectName", String.class);
-            Boolean verbose = invocation.getParentValue("verbose", Boolean.class, false);
-
-            // Fall back to local option if not in sub-command mode
-            if (projectName == null) {
-                projectName = name;
-            }
-
-            if (projectName == null) {
-                invocation.println("Error: Project name is required.");
-                invocation.println("Usage: project test --name=<project-name>");
-                invocation.println("   Or: Enter sub-command mode first with: project --name=<project-name>");
-                return CommandResult.FAILURE;
-            }
-
-            invocation.println("=== Running Tests ===");
-            invocation.println("Project: " + projectName);
-            invocation.println("Coverage: " + coverage);
-            if (filter != null) {
-                invocation.println("Filter: " + filter);
-            }
-
-            if (verbose) {
-                invocation.println("\n[VERBOSE] Test configuration:");
-                invocation.println("[VERBOSE]   Running all test suites...");
-                if (filter != null) {
-                    invocation.println("[VERBOSE]   Applying filter: " + filter);
-                }
-                if (coverage) {
-                    invocation.println("[VERBOSE]   Generating coverage report...");
-                }
-            }
-
-            invocation.println("\nAll tests passed!");
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -328,45 +219,7 @@ public class ParentCommandExample {
 
         @Override
         public CommandResult execute(CommandInvocation invocation) throws CommandException, InterruptedException {
-            // Get project name from parent (if in sub-command mode) or from local option
-            String projectName = (parent != null) ? parent.getProjectName() : name;
-            boolean verbose = (parent != null) && parent.isVerbose();
-
-            if (projectName == null) {
-                invocation.println("Error: Project name is required.");
-                invocation.println("Usage: project deploy --name=<project-name> --env=<environment>");
-                invocation.println("   Or: Enter sub-command mode first with: project --name=<project-name>");
-                return CommandResult.FAILURE;
-            }
-
-            invocation.println("=== Deploying Project ===");
-            invocation.println("Project: " + projectName);
-            invocation.println("Environment: " + environment);
-            invocation.println("Dry run: " + dryRun);
-
-            // Can also use CommandInvocation for specific values (works in sub-command mode)
-            String configFile = invocation.getParentValue("configFile", String.class);
-            if (configFile != null) {
-                invocation.println("Using config: " + configFile);
-            }
-
-            if (verbose) {
-                invocation.println("\n[VERBOSE] Deployment steps:");
-                invocation.println("[VERBOSE]   1. Building artifact...");
-                invocation.println("[VERBOSE]   2. Uploading to " + environment + " server...");
-                invocation.println("[VERBOSE]   3. Restarting services...");
-                if (dryRun) {
-                    invocation.println("[VERBOSE]   (Dry run - no actual changes made)");
-                }
-            }
-
-            if (dryRun) {
-                invocation.println("\nDry run completed - no changes made.");
-            } else {
-                invocation.println("\nDeployment to " + environment + " completed successfully!");
-            }
-
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -394,31 +247,7 @@ public class ParentCommandExample {
 
         @Override
         public CommandResult execute(CommandInvocation invocation) throws CommandException, InterruptedException {
-            invocation.println("=== Project Status ===");
-
-            // Get the project name from parent context
-            String projectName = invocation.getParentValue("projectName", String.class);
-            if (projectName != null) {
-                invocation.println("Project: " + projectName);
-            }
-
-            invocation.println("Status: Active");
-            invocation.println("Health: Good");
-
-            // The verbose field was auto-populated from parent's inherited option
-            if (verbose) {
-                invocation.println("\n[VERBOSE] Detailed status:");
-                invocation.println("[VERBOSE]   Last build: 2 hours ago");
-                invocation.println("[VERBOSE]   Test coverage: 87%");
-                invocation.println("[VERBOSE]   Dependencies: 42 (3 outdated)");
-                invocation.println("[VERBOSE]   Code quality: A");
-
-                // Also demonstrate getInheritedValue for explicit inherited value access
-                Boolean inheritedVerbose = invocation.getInheritedValue("verbose", Boolean.class);
-                invocation.println("[VERBOSE]   (verbose inherited from parent: " + inheritedVerbose + ")");
-            }
-
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

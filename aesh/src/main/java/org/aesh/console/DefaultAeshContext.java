@@ -21,7 +21,6 @@ package org.aesh.console;
 
 import java.util.Collections;
 import java.util.Set;
-
 import org.aesh.command.export.ExportManager;
 import org.aesh.io.FileResource;
 import org.aesh.io.Resource;
@@ -33,6 +32,7 @@ import org.aesh.terminal.utils.Config;
 public class DefaultAeshContext implements AeshContext {
 
     private Resource cwd;
+
     private final ExportManager exportManager;
 
     public DefaultAeshContext() {
@@ -48,7 +48,6 @@ public class DefaultAeshContext implements AeshContext {
             this.cwd = cwd;
         else
             throw new IllegalArgumentException("Current working directory must be a directory");
-
         this.exportManager = exportManager;
     }
 
@@ -58,31 +57,21 @@ public class DefaultAeshContext implements AeshContext {
 
     @Override
     public Resource getCurrentWorkingDirectory() {
-        return cwd;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setCurrentWorkingDirectory(Resource cwd) {
-        if (!cwd.isLeaf())
-            this.cwd = cwd;
-        else
-            throw new IllegalArgumentException("Current working directory must be a directory");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Set<String> exportedVariableNames() {
-        if (exportManager != null)
-            return exportManager.keys();
-        else
-            return Collections.emptySet();
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String exportedVariable(String key) {
-        if (exportManager != null)
-            return exportManager.getValue(key);
-        else
-            return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

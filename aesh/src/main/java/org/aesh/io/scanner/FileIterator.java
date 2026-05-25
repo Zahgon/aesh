@@ -45,7 +45,9 @@ import java.util.NoSuchElementException;
 final class FileIterator {
 
     private final Deque<File> stack = new LinkedList<File>();
+
     private int rootCount;
+
     private File current;
 
     /**
@@ -69,7 +71,7 @@ final class FileIterator {
      * @see #next()
      */
     public File getFile() {
-        return current;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -78,10 +80,7 @@ final class FileIterator {
      * or directory.
      */
     public boolean isRootFile() {
-        if (current == null) {
-            throw new NoSuchElementException();
-        }
-        return stack.size() < rootCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -91,21 +90,7 @@ final class FileIterator {
      * @see #getFile()
      */
     public File next() throws IOException {
-        if (stack.isEmpty()) {
-            current = null;
-            return null;
-        } else {
-            current = stack.removeLast();
-            if (current.isDirectory()) {
-                if (stack.size() < rootCount) {
-                    rootCount = stack.size();
-                }
-                addReverse(current.listFiles());
-                return next();
-            } else {
-                return current;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -116,5 +101,4 @@ final class FileIterator {
             stack.add(files[i]);
         }
     }
-
 }

@@ -25,8 +25,9 @@ import org.aesh.io.Resource;
  * @author Aesh team
  */
 public class DirectoryResourceFilter implements ResourceFilter {
+
     @Override
     public boolean accept(Resource path) {
-        return path.isDirectory();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

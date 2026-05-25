@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.populator;
 
 import org.aesh.command.Command;
@@ -44,8 +43,7 @@ public interface CommandPopulator<T, CI extends CommandInvocation> {
      * @param mode based on rules given to the parser
      * @throws CommandLineParserException
      */
-    void populateObject(ProcessedCommand<Command<CI>, CI> processedCommand, InvocationProviders invocationProviders,
-            AeshContext aeshContext, CommandLineParser.Mode mode) throws CommandLineParserException, OptionValidatorException;
+    void populateObject(ProcessedCommand<Command<CI>, CI> processedCommand, InvocationProviders invocationProviders, AeshContext aeshContext, CommandLineParser.Mode mode) throws CommandLineParserException, OptionValidatorException;
 
     /**
      * Populate a Command instance with the values parsed from a command line,
@@ -59,13 +57,8 @@ public interface CommandPopulator<T, CI extends CommandInvocation> {
      * @throws CommandLineParserException
      * @throws OptionValidatorException
      */
-    default void populateObject(ProcessedCommand<Command<CI>, CI> processedCommand,
-            InvocationProviders invocationProviders,
-            AeshContext aeshContext,
-            CommandLineParser.Mode mode,
-            CommandContext commandContext) throws CommandLineParserException, OptionValidatorException {
-        // Default implementation ignores context for backward compatibility
-        populateObject(processedCommand, invocationProviders, aeshContext, mode);
+    default void populateObject(ProcessedCommand<Command<CI>, CI> processedCommand, InvocationProviders invocationProviders, AeshContext aeshContext, CommandLineParser.Mode mode, CommandContext commandContext) throws CommandLineParserException, OptionValidatorException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**

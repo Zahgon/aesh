@@ -22,7 +22,6 @@ package org.aesh.command.impl.provider;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
 import org.aesh.command.HelpEntry;
 import org.aesh.command.HelpSectionProvider;
 
@@ -30,8 +29,9 @@ import org.aesh.command.HelpSectionProvider;
  * @author Aesh team
  */
 public class NullHelpSectionProvider implements HelpSectionProvider {
+
     @Override
     public Map<String, List<HelpEntry>> getAdditionalSections() {
-        return Collections.emptyMap();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

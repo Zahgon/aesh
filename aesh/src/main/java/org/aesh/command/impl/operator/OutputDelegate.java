@@ -21,16 +21,15 @@ package org.aesh.command.impl.operator;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-
 import org.aesh.terminal.utils.Parser;
 
 /**
- *
  * @author Aesh team
  */
 public abstract class OutputDelegate {
 
     private BufferedWriter writer;
+
     private IOException exception;
 
     protected OutputDelegate() {
@@ -39,27 +38,10 @@ public abstract class OutputDelegate {
     protected abstract BufferedWriter buildWriter() throws IOException;
 
     public void write(String msg) {
-        try {
-            msg = Parser.stripAwayAnsiCodes(msg);
-            if (writer == null && exception == null) {
-                writer = buildWriter();
-            }
-            if (writer != null) {
-                writer.append(msg);
-            }
-        } catch (IOException e) {
-            exception = e;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void close() throws IOException {
-        try {
-            if (writer != null)
-                writer.close();
-        } finally {
-            if (exception != null)
-                throw exception;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -27,7 +27,6 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.aesh.command.Command;
 import org.aesh.command.impl.internal.ProcessedCommand;
 import org.aesh.command.impl.internal.ProcessedOption;
@@ -42,8 +41,11 @@ import org.aesh.command.settings.SubCommandModeSettings;
  * @author Aesh team
  */
 public class CommandContext {
+
     private final Deque<ContextFrame> contextStack;
+
     private final String originalPrompt;
+
     private SubCommandModeSettings settings;
 
     public CommandContext(String originalPrompt) {
@@ -62,7 +64,7 @@ public class CommandContext {
      * @return the settings
      */
     public SubCommandModeSettings getSettings() {
-        return settings;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -71,7 +73,7 @@ public class CommandContext {
      * @param settings the settings
      */
     public void setSettings(SubCommandModeSettings settings) {
-        this.settings = settings != null ? settings : SubCommandModeSettings.defaults();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -81,7 +83,7 @@ public class CommandContext {
      * @param command The populated command instance with parsed values
      */
     public void push(CommandLineParser<?> parser, Command<?> command) {
-        contextStack.push(new ContextFrame(parser, command));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -90,7 +92,7 @@ public class CommandContext {
      * @return the popped context frame
      */
     public ContextFrame pop() {
-        return contextStack.pop();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -99,7 +101,7 @@ public class CommandContext {
      * @return the current frame, or null if not in sub-command mode
      */
     public ContextFrame current() {
-        return contextStack.peek();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,7 +110,7 @@ public class CommandContext {
      * @return true if in sub-command mode
      */
     public boolean isInSubCommandMode() {
-        return !contextStack.isEmpty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -117,7 +119,7 @@ public class CommandContext {
      * @return the number of nested contexts
      */
     public int depth() {
-        return contextStack.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -126,11 +128,7 @@ public class CommandContext {
      * @return the context path
      */
     public String getContextPath() {
-        List<String> names = new ArrayList<>();
-        for (ContextFrame frame : contextStack) {
-            names.add(0, frame.getCommandName());
-        }
-        return String.join(settings.getContextSeparator(), names);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -139,11 +137,7 @@ public class CommandContext {
      * @return the context path with spaces
      */
     public String getContextPathWithSpaces() {
-        List<String> names = new ArrayList<>();
-        for (ContextFrame frame : contextStack) {
-            names.add(0, frame.getCommandName());
-        }
-        return String.join(" ", names);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -154,34 +148,7 @@ public class CommandContext {
      * @return the formatted prompt string
      */
     public String buildPrompt(boolean showArgumentInPrompt) {
-        if (contextStack.isEmpty()) {
-            return originalPrompt;
-        }
-
-        StringBuilder prompt = new StringBuilder();
-        List<ContextFrame> frames = new ArrayList<>(contextStack);
-        Collections.reverse(frames);
-
-        String separator = settings.getContextSeparator();
-        boolean showArg = showArgumentInPrompt && settings.showArgumentInPrompt();
-
-        for (int i = 0; i < frames.size(); i++) {
-            if (i > 0) {
-                prompt.append(separator);
-            }
-            ContextFrame frame = frames.get(i);
-            prompt.append(frame.getCommandName());
-
-            // Show primary argument value in prompt if present and enabled
-            if (showArg) {
-                String argValue = frame.getPrimaryArgumentValue();
-                if (argValue != null && !argValue.isEmpty()) {
-                    prompt.append("[").append(argValue).append("]");
-                }
-            }
-        }
-        prompt.append("> ");
-        return prompt.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -190,7 +157,7 @@ public class CommandContext {
      * @return the original prompt string
      */
     public String getOriginalPrompt() {
-        return originalPrompt;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -200,17 +167,7 @@ public class CommandContext {
      * @return true if the command should exit sub-command mode
      */
     public boolean isExitCommand(String command) {
-        if (command == null || command.isEmpty()) {
-            return false;
-        }
-        String trimmed = command.trim();
-        if (settings.getExitCommand() != null && trimmed.equals(settings.getExitCommand())) {
-            return true;
-        }
-        if (settings.getAlternativeExitCommand() != null && trimmed.equals(settings.getAlternativeExitCommand())) {
-            return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -220,11 +177,7 @@ public class CommandContext {
      * @return the formatted enter message, or null if no message configured
      */
     public String formatEnterMessage(String commandName) {
-        String message = settings.getEnterMessage();
-        if (message == null || message.isEmpty()) {
-            return null;
-        }
-        return message.replace("{name}", commandName);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -233,14 +186,7 @@ public class CommandContext {
      * @return the formatted exit hint, or null if no hint configured
      */
     public String formatExitHint() {
-        String hint = settings.getExitHint();
-        if (hint == null || hint.isEmpty()) {
-            return null;
-        }
-        hint = hint.replace("{exit}", settings.getExitCommand() != null ? settings.getExitCommand() : "exit");
-        hint = hint.replace("{alt}",
-                settings.getAlternativeExitCommand() != null ? settings.getAlternativeExitCommand() : "..");
-        return hint;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -250,15 +196,10 @@ public class CommandContext {
      * @return the formatted exit message, or null if no message configured
      */
     public String formatExitMessage(String commandName) {
-        String message = settings.getExitMessage();
-        if (message == null || message.isEmpty()) {
-            return null;
-        }
-        return message.replace("{name}", commandName);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // ========== Parent Value Access Methods ==========
-
     /**
      * Get a value from any parent command in the context stack.
      * Searches from immediate parent up to root.
@@ -269,7 +210,7 @@ public class CommandContext {
      * @return The value, or null if not found
      */
     public <T> T getParentValue(String fieldName, Class<T> type) {
-        return getParentValue(fieldName, type, null);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -282,13 +223,7 @@ public class CommandContext {
      * @return The value, or defaultValue if not found
      */
     public <T> T getParentValue(String fieldName, Class<T> type, T defaultValue) {
-        for (ContextFrame frame : contextStack) {
-            Object value = frame.getFieldValue(fieldName);
-            if (value != null && type.isInstance(value)) {
-                return type.cast(value);
-            }
-        }
-        return defaultValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -297,8 +232,7 @@ public class CommandContext {
      * @return the parent command, or null if not in sub-command mode
      */
     public Command<?> getParentCommand() {
-        ContextFrame frame = contextStack.peek();
-        return frame != null ? frame.getCommand() : null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -307,11 +241,7 @@ public class CommandContext {
      * @return list of parent commands
      */
     public List<Command<?>> getParentCommands() {
-        List<Command<?>> parents = new ArrayList<>();
-        for (ContextFrame frame : contextStack) {
-            parents.add(frame.getCommand());
-        }
-        return parents;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -323,16 +253,10 @@ public class CommandContext {
      */
     @SuppressWarnings("unchecked")
     public <T extends Command<?>> T getParentCommand(Class<T> type) {
-        for (ContextFrame frame : contextStack) {
-            if (type.isInstance(frame.getCommand())) {
-                return (T) frame.getCommand();
-            }
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // ========== Inherited Value Access Methods ==========
-
     /**
      * Get an inherited value from parent commands.
      * Only returns values from options marked with inherited=true.
@@ -343,7 +267,7 @@ public class CommandContext {
      * @return The inherited value, or null if not found
      */
     public <T> T getInheritedValue(String fieldName, Class<T> type) {
-        return getInheritedValue(fieldName, type, null);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -357,13 +281,7 @@ public class CommandContext {
      * @return The inherited value, or defaultValue if not found
      */
     public <T> T getInheritedValue(String fieldName, Class<T> type, T defaultValue) {
-        for (ContextFrame frame : contextStack) {
-            Object value = frame.getInheritedValue(fieldName);
-            if (value != null && type.isInstance(value)) {
-                return type.cast(value);
-            }
-        }
-        return defaultValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -373,14 +291,7 @@ public class CommandContext {
      * @return map of inherited field names to values
      */
     public Map<String, Object> getAllInheritedValues() {
-        Map<String, Object> inherited = new HashMap<>();
-        // Process from root to immediate parent to get correct override order
-        List<ContextFrame> frames = new ArrayList<>(contextStack);
-        Collections.reverse(frames);
-        for (ContextFrame frame : frames) {
-            inherited.putAll(frame.getInheritedValues());
-        }
-        return inherited;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -390,14 +301,7 @@ public class CommandContext {
      * @return map of field names to ProcessedOptions
      */
     public Map<String, ProcessedOption> getAllInheritedOptions() {
-        Map<String, ProcessedOption> inherited = new HashMap<>();
-        // Process from root to immediate parent to get correct override order
-        List<ContextFrame> frames = new ArrayList<>(contextStack);
-        Collections.reverse(frames);
-        for (ContextFrame frame : frames) {
-            inherited.putAll(frame.getInheritedOptions());
-        }
-        return inherited;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -406,39 +310,24 @@ public class CommandContext {
      * @return formatted string showing all context values
      */
     public String formatContextValues() {
-        if (contextStack.isEmpty()) {
-            return "Not in sub-command mode.";
-        }
-
-        StringBuilder sb = new StringBuilder();
-        List<ContextFrame> frames = new ArrayList<>(contextStack);
-        Collections.reverse(frames);
-
-        for (ContextFrame frame : frames) {
-            sb.append("Context: ").append(frame.getCommandName()).append("\n");
-            Map<String, Object> values = frame.getAllValues();
-            for (Map.Entry<String, Object> entry : values.entrySet()) {
-                // Skip internal keys
-                if (!entry.getKey().startsWith("_")) {
-                    sb.append("  ").append(entry.getKey()).append(": ")
-                            .append(entry.getValue()).append("\n");
-                }
-            }
-        }
-        return sb.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // ========== Context Frame Inner Class ==========
-
     /**
      * Represents a single frame in the context stack.
      * Contains the parser, command instance, and provides value access.
      */
     public static class ContextFrame {
+
         private final CommandLineParser<?> parser;
+
         private final Command<?> command;
+
         private final Map<String, Object> cachedValues;
+
         private final Map<String, Object> inheritedValues;
+
         private final Map<String, ProcessedOption> inheritedOptions;
 
         public ContextFrame(CommandLineParser<?> parser, Command<?> command) {
@@ -453,7 +342,6 @@ public class CommandContext {
         private void cacheFieldValues() {
             // Cache all option and argument values for quick access
             ProcessedCommand<?, ?> pc = parser.getProcessedCommand();
-
             for (ProcessedOption opt : pc.getOptions()) {
                 Object value = getFieldValueByReflection(opt.getFieldName());
                 if (value != null) {
@@ -472,7 +360,6 @@ public class CommandContext {
                     }
                 }
             }
-
             // Cache singular arguments
             for (ProcessedOption arg : pc.getArgumentOptions()) {
                 Object value = getFieldValueByReflection(arg.getFieldName());
@@ -486,7 +373,6 @@ public class CommandContext {
                     }
                 }
             }
-
             // Cache arguments (list)
             if (pc.getArguments() != null) {
                 Object value = getFieldValueByReflection(pc.getArguments().getFieldName());
@@ -527,7 +413,7 @@ public class CommandContext {
          * @return the command name
          */
         public String getCommandName() {
-            return parser.getProcessedCommand().name();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -537,8 +423,7 @@ public class CommandContext {
          * @return the command with restored values
          */
         public Command<?> getCommand() {
-            restoreCachedValues();
-            return command;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -565,7 +450,7 @@ public class CommandContext {
          * @return the command line parser
          */
         public CommandLineParser<?> getParser() {
-            return parser;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -575,7 +460,7 @@ public class CommandContext {
          * @return the value, or null if not found
          */
         public Object getFieldValue(String fieldName) {
-            return cachedValues.get(fieldName);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -585,25 +470,7 @@ public class CommandContext {
          * @return the primary value as string, or null if none
          */
         public String getPrimaryArgumentValue() {
-            // First check for @Argument
-            Object arg = cachedValues.get("_argument");
-            if (arg != null) {
-                return arg.toString();
-            }
-            // Check for @Arguments
-            Object args = cachedValues.get("_arguments");
-            if (args instanceof List && !((List<?>) args).isEmpty()) {
-                return ((List<?>) args).get(0).toString();
-            }
-            // Look for common option names that typically identify the context
-            String[] commonNames = { "name", "projectName", "moduleName", "id", "target" };
-            for (String name : commonNames) {
-                Object value = cachedValues.get(name);
-                if (value != null) {
-                    return value.toString();
-                }
-            }
-            return null;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -612,7 +479,7 @@ public class CommandContext {
          * @return unmodifiable map of all values
          */
         public Map<String, Object> getAllValues() {
-            return Collections.unmodifiableMap(cachedValues);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -622,7 +489,7 @@ public class CommandContext {
          * @return the inherited value, or null if not found or not inherited
          */
         public Object getInheritedValue(String fieldName) {
-            return inheritedValues.get(fieldName);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -631,7 +498,7 @@ public class CommandContext {
          * @return unmodifiable map of inherited values
          */
         public Map<String, Object> getInheritedValues() {
-            return Collections.unmodifiableMap(inheritedValues);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -640,7 +507,7 @@ public class CommandContext {
          * @return unmodifiable map of inherited ProcessedOptions
          */
         public Map<String, ProcessedOption> getInheritedOptions() {
-            return Collections.unmodifiableMap(inheritedOptions);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -649,24 +516,7 @@ public class CommandContext {
          * @return formatted string for display
          */
         public String formatEntryMessage() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("Entering ").append(getCommandName()).append(" mode:");
-
-            boolean hasValues = false;
-            for (Map.Entry<String, Object> entry : cachedValues.entrySet()) {
-                // Skip internal keys
-                if (!entry.getKey().startsWith("_")) {
-                    sb.append("\n  ").append(entry.getKey()).append(": ").append(entry.getValue());
-                    hasValues = true;
-                }
-            }
-
-            if (!hasValues) {
-                sb.append("\n  (no options set)");
-            }
-
-            sb.append("\nType 'exit' to return.");
-            return sb.toString();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

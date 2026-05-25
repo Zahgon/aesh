@@ -20,7 +20,6 @@
 package org.aesh.util.table;
 
 import static org.aesh.util.table.TableCharacters.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,12 +55,14 @@ import java.util.function.Function;
 public class Table<T> {
 
     private final int maxWidth;
+
     private final List<String> headers;
+
     private final List<Function<T, Object>> accessors;
+
     private final Map<String, String> characters;
 
-    private Table(int maxWidth, List<String> headers, List<Function<T, Object>> accessors,
-            Map<String, String> characters) {
+    private Table(int maxWidth, List<String> headers, List<Function<T, Object>> accessors, Map<String, String> characters) {
         this.maxWidth = maxWidth;
         this.headers = headers;
         this.accessors = accessors;
@@ -72,310 +73,28 @@ public class Table<T> {
      * Renders the given values using this table's configuration.
      */
     public String render(List<T> values) {
-        return render(maxWidth, values, headers, accessors, characters);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Renders a table using the default DUCKDB style.
      */
-    public static <T> String render(int maxWidth, List<T> values,
-            List<String> headers, List<Function<T, Object>> accessors) {
-        return render(maxWidth, values, headers, accessors, TableStyle.DUCKDB.characters());
+    public static <T> String render(int maxWidth, List<T> values, List<String> headers, List<Function<T, Object>> accessors) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Renders a table with the specified border characters.
      */
-    public static <T> String render(int maxWidth, List<T> values,
-            List<String> headers, List<Function<T, Object>> accessors,
-            Map<String, String> characters) {
-
-        if (headers.size() != accessors.size()) {
-            throw new IllegalArgumentException(
-                    "Number of headers (" + headers.size() + ") must match number of accessors (" + accessors.size() + ")");
-        }
-
-        characters = isValid(characters) ? characters : TableStyle.SQLITE.characters();
-        boolean outsideBorder = hasOutsideBorder(characters);
-        List<List<String>> headerRows = lineSplit(headers);
-        int columnCount = headers.size();
-        List<Object[]> rows = new ArrayList<>();
-
-        // Calculate initial column widths from headers
-        int[] columnWidths = new int[columnCount];
-        for (int i = 0; i < columnCount; i++) {
-            String header = headers.get(i);
-            String[] parts = header.split(System.lineSeparator());
-            int max = 0;
-            for (String part : parts) {
-                if (part.length() > max) {
-                    max = part.length();
-                }
-            }
-            columnWidths[i] = max;
-        }
-
-        String[] columnFormats = new String[columnCount];
-
-        for (int vIdx = 0; vIdx < values.size(); vIdx++) {
-            T value = values.get(vIdx);
-            List<Object> rowCells = new ArrayList<>();
-            for (int a = 0; a < columnCount; a++) {
-                Object c = accessors.get(a).apply(value);
-                if (c == null) {
-                    c = "";
-                } else if (c instanceof Long || c instanceof Integer) {
-                    if (columnFormats[a] == null) {
-                        columnFormats[a] = "d";
-                    }
-                } else if (c instanceof Double || c instanceof Float) {
-                    if (columnFormats[a] == null || columnFormats[a].equals("d")) {
-                        columnFormats[a] = "f";
-                    }
-                    c = String.format("%.2f", c);
-                } else {
-                    columnFormats[a] = "s";
-                }
-                int cellWidth = c.toString().length();
-                if (cellWidth > columnWidths[a]) {
-                    columnWidths[a] = cellWidth;
-                }
-                rowCells.add(c);
-            }
-            rows.add(rowCells.toArray());
-        }
-        for (int i = 0; i < columnFormats.length; i++) {
-            if (columnFormats[i] == null) {
-                columnFormats[i] = "s";
-            }
-        }
-
-        // Enforce maxWidth by shrinking columns proportionally (widest first)
-        if (maxWidth > 0 && columnCount > 0) {
-            // Calculate total overhead: borders + separators + padding
-            int overhead;
-            if (outsideBorder) {
-                // "| " + (" | " * (n-1)) + " |" = 2 + 3*(n-1) + 2 = 4 + 3*(n-1)
-                overhead = 4 + 3 * (columnCount - 1);
-            } else {
-                // " | " * (n-1) = 3*(n-1)
-                overhead = 3 * (columnCount - 1);
-            }
-            int totalContentWidth = 0;
-            for (int w : columnWidths) {
-                totalContentWidth += w;
-            }
-            int totalWidth = totalContentWidth + overhead;
-            if (totalWidth > maxWidth) {
-                int availableContent = maxWidth - overhead;
-                if (availableContent < columnCount) {
-                    availableContent = columnCount; // minimum 1 char per column
-                }
-                // Shrink widest columns first until total fits
-                while (totalContentWidth > availableContent) {
-                    // Find the widest column
-                    int widestIdx = 0;
-                    for (int i = 1; i < columnCount; i++) {
-                        if (columnWidths[i] > columnWidths[widestIdx]) {
-                            widestIdx = i;
-                        }
-                    }
-                    // Find the second widest width to determine target
-                    int secondWidest = 0;
-                    for (int i = 0; i < columnCount; i++) {
-                        if (i != widestIdx && columnWidths[i] > secondWidest) {
-                            secondWidest = columnWidths[i];
-                        }
-                    }
-                    int excess = totalContentWidth - availableContent;
-                    int canShrink = columnWidths[widestIdx] - Math.max(secondWidest, 1);
-                    if (canShrink <= 0) {
-                        // All columns are the same width, shrink all equally
-                        int perColumn = excess / columnCount;
-                        int remainder = excess % columnCount;
-                        for (int i = 0; i < columnCount; i++) {
-                            int shrink = perColumn + (i < remainder ? 1 : 0);
-                            columnWidths[i] = Math.max(1, columnWidths[i] - shrink);
-                        }
-                        break;
-                    }
-                    int shrink = Math.min(canShrink, excess);
-                    columnWidths[widestIdx] -= shrink;
-                    totalContentWidth -= shrink;
-                }
-
-                // Truncate cell content to fit constrained column widths
-                for (Object[] row : rows) {
-                    for (int c = 0; c < row.length; c++) {
-                        String cellStr = row[c].toString();
-                        if (cellStr.length() > columnWidths[c]) {
-                            if (columnWidths[c] > 3) {
-                                row[c] = cellStr.substring(0, columnWidths[c] - 3) + "...";
-                            } else {
-                                row[c] = cellStr.substring(0, columnWidths[c]);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        StringBuilder topBorderFormat = new StringBuilder();
-        StringBuilder bottomBorderFormat = new StringBuilder();
-        StringBuilder headerFormat = new StringBuilder();
-        StringBuilder rowFormat = new StringBuilder();
-
-        if (outsideBorder) {
-            topBorderFormat.append(String.format("%s ", characters.get(HEADER_TOP_LEFT)));
-            bottomBorderFormat.append(String.format("%s ", characters.get(TABLE_BOTTOM_LEFT)));
-            headerFormat.append(String.format("%s ", characters.get(HEADER_BORDER_VERTICAL)));
-            rowFormat.append(String.format("%s ", characters.get(TABLE_BORDER_VERTICAL)));
-        }
-
-        for (int i = 0; i < columnCount; i++) {
-            if (i > 0) {
-                topBorderFormat.append(String.format(" %s ", characters.get(HEADER_TOP_INTERSECT)));
-                bottomBorderFormat.append(String.format(" %s ", characters.get(TABLE_BOTTOM_INTERSECT)));
-                headerFormat.append(String.format(" %s ", characters.get(HEADER_BORDER_VERTICAL)));
-                rowFormat.append(String.format(" %s ", characters.get(TABLE_COLUMN_SEPARATOR)));
-            }
-            int width = columnWidths[i];
-            if (columnFormats[i] == null) {
-                columnFormats[i] = "s";
-            }
-            String format = columnFormats[i];
-
-            headerFormat.append("%" + width + "s");
-            topBorderFormat.append("%" + width + "s");
-            bottomBorderFormat.append("%" + width + "s");
-            switch (format) {
-                case "d":
-                    rowFormat.append("%" + width + "d");
-                    break;
-                case "f":
-                    rowFormat.append("%" + width + "s");
-                    break;
-                default:
-                    rowFormat.append("%-" + width + "s");
-            }
-        }
-
-        if (outsideBorder) {
-            topBorderFormat.append(String.format(" %s", characters.get(HEADER_TOP_RIGHT)));
-            bottomBorderFormat.append(String.format(" %s", characters.get(TABLE_BOTTOM_RIGHT)));
-            headerFormat.append(String.format(" %s", characters.get(HEADER_BORDER_VERTICAL)));
-            rowFormat.append(String.format(" %s", characters.get(TABLE_BORDER_VERTICAL)));
-        }
-
-        topBorderFormat.append("%n");
-        bottomBorderFormat.append("%n");
-        headerFormat.append("%n");
-        rowFormat.append("%n");
-
-        StringBuilder rtrn = new StringBuilder();
-
-        // Top border
-        if (outsideBorder) {
-            rtrn.append(String.format(topBorderFormat.toString(),
-                    Collections.nCopies(columnCount, "").toArray())
-                    .replace(" ", characters.get(HEADER_BORDER_HORIZONTAL)));
-        }
-
-        // Headers
-        if (!headers.isEmpty()) {
-            for (int r = 0; r < headerRows.size(); r++) {
-                List<String> headerRow = headerRows.get(r);
-                StringBuilder row = new StringBuilder();
-                if (outsideBorder) {
-                    row.append(characters.get(HEADER_BORDER_VERTICAL));
-                    row.append(" ");
-                }
-                for (int c = 0; c < columnCount; c++) {
-                    int width = columnWidths[c];
-                    String header = headerRow.get(c);
-                    int leftPad = (width - header.length()) / 2;
-                    int remainder = width - header.length() - leftPad;
-                    if (c > 0) {
-                        row.append(" ");
-                        row.append(characters.get(HEADER_COLUMN_SEPARATOR));
-                        row.append(" ");
-                    }
-                    if (leftPad > 0) {
-                        row.append(String.format("%" + leftPad + "s", ""));
-                    }
-                    row.append(header);
-                    if (remainder > 0) {
-                        row.append(String.format("%" + remainder + "s", ""));
-                    }
-                }
-                if (outsideBorder) {
-                    row.append(" ");
-                    row.append(characters.get(HEADER_BORDER_VERTICAL));
-                }
-                rtrn.append(row.toString());
-                rtrn.append(System.lineSeparator());
-            }
-
-            // Header-body separator
-            if (outsideBorder) {
-                rtrn.append(
-                        String.format(
-                                topBorderFormat.toString(),
-                                Collections.nCopies(columnCount, "").toArray())
-                                .replace(" ", characters.get(TABLE_TOP_HORIZONTAL))
-                                .replace(characters.get(HEADER_TOP_LEFT), characters.get(TABLE_TOP_LEFT))
-                                .replace(characters.get(HEADER_TOP_RIGHT), characters.get(TABLE_TOP_RIGHT))
-                                .replace(characters.get(HEADER_TOP_INTERSECT),
-                                        characters.get(TABLE_TOP_INTERSECT)));
-            } else {
-                rtrn.append(String.format(headerFormat.toString(),
-                        Collections.nCopies(columnCount, "").toArray())
-                        .replace(" ", characters.get(TABLE_TOP_HORIZONTAL))
-                        .replace(characters.get(HEADER_COLUMN_SEPARATOR),
-                                characters.get(TABLE_COLUMN_SEPARATOR)));
-            }
-        }
-
-        // Data rows
-        for (int i = 0; i < rows.size(); i++) {
-            Object[] row = rows.get(i);
-            rtrn.append(String.format(rowFormat.toString(), row));
-            if (i < rows.size() - 1 && hasRowSeparator(characters)) {
-                rtrn.append(characters.get(ROW_SEPARATOR_LEFT));
-                rtrn.append(characters.get(ROW_SEPARATOR_HORIZONTAL));
-                for (int c = 0; c < columnCount; c++) {
-                    int width = columnWidths[c];
-                    if (c > 0) {
-                        rtrn.append(characters.get(ROW_SEPARATOR_HORIZONTAL));
-                        rtrn.append(characters.get(ROW_SEPARATOR_INTERSECT));
-                        rtrn.append(characters.get(ROW_SEPARATOR_HORIZONTAL));
-                    }
-                    rtrn.append(repeat(characters.get(ROW_SEPARATOR_HORIZONTAL), width));
-                }
-                rtrn.append(characters.get(ROW_SEPARATOR_HORIZONTAL));
-                rtrn.append(characters.get(ROW_SEPARATOR_RIGHT));
-                rtrn.append(System.lineSeparator());
-            }
-        }
-
-        // Bottom border
-        if (outsideBorder) {
-            rtrn.append(String.format(topBorderFormat.toString(),
-                    Collections.nCopies(columnCount, "").toArray())
-                    .replace(characters.get(HEADER_TOP_LEFT), characters.get(TABLE_BOTTOM_LEFT))
-                    .replace(characters.get(HEADER_TOP_RIGHT), characters.get(TABLE_BOTTOM_RIGHT))
-                    .replace(characters.get(HEADER_TOP_INTERSECT), characters.get(TABLE_BOTTOM_INTERSECT))
-                    .replace(" ", characters.get(TABLE_BORDER_HORIZONTAL)));
-        }
-
-        return rtrn.toString();
+    public static <T> String render(int maxWidth, List<T> values, List<String> headers, List<Function<T, Object>> accessors, Map<String, String> characters) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Creates a new builder for constructing a Table.
      */
     public static <T> Builder<T> builder() {
-        return new Builder<>();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static String repeat(String s, int count) {
@@ -390,9 +109,13 @@ public class Table<T> {
      * Builder for constructing Table instances with a fluent API.
      */
     public static class Builder<T> {
+
         private int maxWidth = 80;
+
         private final List<String> headers = new ArrayList<>();
+
         private final List<Function<T, Object>> accessors = new ArrayList<>();
+
         private Map<String, String> characters = TableStyle.DUCKDB.characters();
 
         private Builder() {
@@ -402,43 +125,35 @@ public class Table<T> {
          * Sets the maximum width for the table output.
          */
         public Builder<T> maxWidth(int maxWidth) {
-            this.maxWidth = maxWidth;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * Sets the table border style.
          */
         public Builder<T> style(TableStyle style) {
-            this.characters = style.characters();
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * Sets custom border characters.
          */
         public Builder<T> characters(Map<String, String> characters) {
-            this.characters = characters;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * Adds a column with the given header and accessor function.
          */
         public Builder<T> column(String header, Function<T, Object> accessor) {
-            this.headers.add(header);
-            this.accessors.add(accessor);
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * Builds an immutable Table instance.
          */
         public Table<T> build() {
-            return new Table<>(maxWidth,
-                    Collections.unmodifiableList(new ArrayList<>(headers)),
-                    Collections.unmodifiableList(new ArrayList<>(accessors)),
-                    characters);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

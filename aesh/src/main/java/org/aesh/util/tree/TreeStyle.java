@@ -57,14 +57,14 @@ package org.aesh.util.tree;
  */
 public enum TreeStyle {
 
-    ASCII("+-- ", "\\-- ", "|   ", "    "),
-    UNICODE("\u251C\u2500\u2500 ", "\u2514\u2500\u2500 ", "\u2502   ", "    "),
-    COMPACT("\u251C\u2500 ", "\u2514\u2500 ", "\u2502  ", "   "),
-    ROUNDED("\u251C\u2500\u2500 ", "\u2570\u2500\u2500 ", "\u2502   ", "    ");
+    ASCII("+-- ", "\\-- ", "|   ", "    "), UNICODE("\u251C\u2500\u2500 ", "\u2514\u2500\u2500 ", "\u2502   ", "    "), COMPACT("\u251C\u2500 ", "\u2514\u2500 ", "\u2502  ", "   "), ROUNDED("\u251C\u2500\u2500 ", "\u2570\u2500\u2500 ", "\u2502   ", "    ");
 
     private final String branch;
+
     private final String last;
+
     private final String vertical;
+
     private final String space;
 
     TreeStyle(String branch, String last, String vertical, String space) {
@@ -75,18 +75,18 @@ public enum TreeStyle {
     }
 
     public String branch() {
-        return branch;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String last() {
-        return last;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String vertical() {
-        return vertical;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String space() {
-        return space;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

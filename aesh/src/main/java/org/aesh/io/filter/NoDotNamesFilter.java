@@ -25,12 +25,11 @@ import org.aesh.io.Resource;
 /**
  * @author Aesh team
  * @author Aesh team
- *
  */
 public class NoDotNamesFilter implements ResourceFilter {
 
     @Override
     public boolean accept(Resource pathname) {
-        return !pathname.getName().startsWith(Character.toString(AeshConstants.DOT));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

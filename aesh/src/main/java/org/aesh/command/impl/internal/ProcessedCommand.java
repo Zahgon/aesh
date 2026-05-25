@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.aesh.command.Command;
 import org.aesh.command.DefaultValueProvider;
 import org.aesh.command.HelpSectionProvider;
@@ -54,97 +53,74 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
     private static final Pattern DESCRIPTION_VARIABLE_PATTERN = Pattern.compile("\\$\\{([^}]+)}");
 
     private final String name;
+
     private final String description;
+
     private final CommandValidator<C, CI> validator;
+
     private final ResultHandler resultHandler;
+
     private final CommandPopulator<Object, CI> populator;
+
     private final boolean disableParsing;
+
     private final boolean stopAtFirstPositional;
+
     private final boolean sortOptions;
+
     private DefaultValueProvider defaultValueProvider;
+
     private CommandActivator activator;
+
     private final boolean generateHelp;
+
     private String version;
+
     private String helpUrl;
+
     private String helpGroup = "";
+
     private Class<? extends HelpSectionProvider> helpSectionProviderClass;
+
     private HelpSectionProvider helpSectionProvider;
 
     private List<ProcessedOption> options;
+
     private ProcessedOption arguments;
+
     private ProcessedOption argument;
+
     private final List<ProcessedOption> argumentOptions;
+
     private final C command;
+
     private final List<String> aliases;
+
     private List<CommandLineParserException> parserExceptions;
+
     private CompleteStatus completeStatus;
+
     private java.util.function.BiConsumer<Object, Object> parentCommandInjector;
+
     private int optionDeclarationCounter;
 
-    public ProcessedCommand(String name, List<String> aliases, C command,
-            String description, CommandValidator<C, CI> validator,
-            ResultHandler resultHandler,
-            boolean generateHelp, boolean disableParsing,
-            String version,
-            ProcessedOption arguments, List<ProcessedOption> options,
-            ProcessedOption argument,
-            CommandPopulator<Object, CI> populator, CommandActivator activator) throws OptionParserException {
-        this(name, aliases, command, description, validator, resultHandler, generateHelp, disableParsing,
-                version, arguments, options, argument, populator, activator, null);
+    public ProcessedCommand(String name, List<String> aliases, C command, String description, CommandValidator<C, CI> validator, ResultHandler resultHandler, boolean generateHelp, boolean disableParsing, String version, ProcessedOption arguments, List<ProcessedOption> options, ProcessedOption argument, CommandPopulator<Object, CI> populator, CommandActivator activator) throws OptionParserException {
+        this(name, aliases, command, description, validator, resultHandler, generateHelp, disableParsing, version, arguments, options, argument, populator, activator, null);
     }
 
-    public ProcessedCommand(String name, List<String> aliases, C command,
-            String description, CommandValidator<C, CI> validator,
-            ResultHandler resultHandler,
-            boolean generateHelp, boolean disableParsing,
-            String version,
-            ProcessedOption arguments, List<ProcessedOption> options,
-            ProcessedOption argument,
-            CommandPopulator<Object, CI> populator, CommandActivator activator,
-            String helpUrl) throws OptionParserException {
-        this(name, aliases, command, description, validator, resultHandler, generateHelp, disableParsing,
-                version, arguments, options, argument, populator, activator, helpUrl, false);
+    public ProcessedCommand(String name, List<String> aliases, C command, String description, CommandValidator<C, CI> validator, ResultHandler resultHandler, boolean generateHelp, boolean disableParsing, String version, ProcessedOption arguments, List<ProcessedOption> options, ProcessedOption argument, CommandPopulator<Object, CI> populator, CommandActivator activator, String helpUrl) throws OptionParserException {
+        this(name, aliases, command, description, validator, resultHandler, generateHelp, disableParsing, version, arguments, options, argument, populator, activator, helpUrl, false);
     }
 
-    public ProcessedCommand(String name, List<String> aliases, C command,
-            String description, CommandValidator<C, CI> validator,
-            ResultHandler resultHandler,
-            boolean generateHelp, boolean disableParsing,
-            String version,
-            ProcessedOption arguments, List<ProcessedOption> options,
-            ProcessedOption argument,
-            CommandPopulator<Object, CI> populator, CommandActivator activator,
-            String helpUrl, boolean stopAtFirstPositional) throws OptionParserException {
-        this(name, aliases, command, description, validator, resultHandler, generateHelp, disableParsing,
-                version, arguments, options, argument, populator, activator, helpUrl, stopAtFirstPositional, null);
+    public ProcessedCommand(String name, List<String> aliases, C command, String description, CommandValidator<C, CI> validator, ResultHandler resultHandler, boolean generateHelp, boolean disableParsing, String version, ProcessedOption arguments, List<ProcessedOption> options, ProcessedOption argument, CommandPopulator<Object, CI> populator, CommandActivator activator, String helpUrl, boolean stopAtFirstPositional) throws OptionParserException {
+        this(name, aliases, command, description, validator, resultHandler, generateHelp, disableParsing, version, arguments, options, argument, populator, activator, helpUrl, stopAtFirstPositional, null);
     }
 
-    public ProcessedCommand(String name, List<String> aliases, C command,
-            String description, CommandValidator<C, CI> validator,
-            ResultHandler resultHandler,
-            boolean generateHelp, boolean disableParsing,
-            String version,
-            ProcessedOption arguments, List<ProcessedOption> options,
-            ProcessedOption argument,
-            CommandPopulator<Object, CI> populator, CommandActivator activator,
-            String helpUrl, boolean stopAtFirstPositional,
-            DefaultValueProvider defaultValueProvider) throws OptionParserException {
-        this(name, aliases, command, description, validator, resultHandler, generateHelp, disableParsing,
-                version, arguments, options, argument, populator, activator, helpUrl, stopAtFirstPositional,
-                defaultValueProvider, false);
+    public ProcessedCommand(String name, List<String> aliases, C command, String description, CommandValidator<C, CI> validator, ResultHandler resultHandler, boolean generateHelp, boolean disableParsing, String version, ProcessedOption arguments, List<ProcessedOption> options, ProcessedOption argument, CommandPopulator<Object, CI> populator, CommandActivator activator, String helpUrl, boolean stopAtFirstPositional, DefaultValueProvider defaultValueProvider) throws OptionParserException {
+        this(name, aliases, command, description, validator, resultHandler, generateHelp, disableParsing, version, arguments, options, argument, populator, activator, helpUrl, stopAtFirstPositional, defaultValueProvider, false);
     }
 
-    public ProcessedCommand(String name, List<String> aliases, C command,
-            String description, CommandValidator<C, CI> validator,
-            ResultHandler resultHandler,
-            boolean generateHelp, boolean disableParsing,
-            String version,
-            ProcessedOption arguments, List<ProcessedOption> options,
-            ProcessedOption argument,
-            CommandPopulator<Object, CI> populator, CommandActivator activator,
-            String helpUrl, boolean stopAtFirstPositional,
-            DefaultValueProvider defaultValueProvider,
-            boolean sortOptions) throws OptionParserException {
+    public ProcessedCommand(String name, List<String> aliases, C command, String description, CommandValidator<C, CI> validator, ResultHandler resultHandler, boolean generateHelp, boolean disableParsing, String version, ProcessedOption arguments, List<ProcessedOption> options, ProcessedOption argument, CommandPopulator<Object, CI> populator, CommandActivator activator, String helpUrl, boolean stopAtFirstPositional, DefaultValueProvider defaultValueProvider, boolean sortOptions) throws OptionParserException {
         this.name = name;
         this.description = description;
         this.aliases = aliases == null ? Collections.emptyList() : aliases;
@@ -161,8 +137,7 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
         this.argumentOptions = new ArrayList<>(1);
         if (argument != null)
             this.argumentOptions.add(argument);
-        this.options = new ArrayList<>(
-                options.size() + (generateHelp ? 1 : 0) + (version != null && version.length() > 0 ? 1 : 0));
+        this.options = new ArrayList<>(options.size() + (generateHelp ? 1 : 0) + (version != null && version.length() > 0 ? 1 : 0));
         this.optionDeclarationCounter = 0;
         this.command = command;
         this.activator = activator;
@@ -171,49 +146,39 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
         else
             this.populator = populator;
         setOptions(options);
-
         if (generateHelp)
             doGenerateHelp();
-
         if (version != null && version.length() > 0) {
             this.version = version;
             doGenerateVersion();
         }
-
         parserExceptions = Collections.emptyList();
-
         // Capture initial field values for arguments/argument set before command
         if (command != null) {
             if (this.arguments != null)
                 this.arguments.captureInitialValue(command);
-            for (ProcessedOption argOpt : this.argumentOptions)
-                argOpt.captureInitialValue(command);
+            for (ProcessedOption argOpt : this.argumentOptions) argOpt.captureInitialValue(command);
         }
     }
 
     public List<ProcessedOption> getOptions() {
-        return options;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandActivator getActivator() {
-        return activator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isActivated(ParsedCommand parsedCommand) {
-        return activator == null || activator.isActivated(parsedCommand);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> getAliases() {
-        return aliases;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void addOption(ProcessedOption opt) throws OptionParserException {
-        verifyThatNamesAreUnique(opt.shortName(), opt.name());
-        opt.setDeclarationOrder(optionDeclarationCounter++);
-        this.options.add(opt);
-        opt.setParent(this);
-        if (command != null)
-            opt.captureInitialValue(command);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -223,33 +188,11 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
      * command registration.
      */
     public void addOptionDirect(ProcessedOption opt) {
-        opt.setDeclarationOrder(optionDeclarationCounter++);
-        this.options.add(opt);
-        opt.setParent(this);
-        if (command != null)
-            opt.captureInitialValue(command);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<ProcessedOption> getDisplayOptions() {
-        List<ProcessedOption> display = new ArrayList<>(getOptions());
-        java.util.Comparator<ProcessedOption> byOrder = (left, right) -> {
-            int cmp = Integer.compare(left.getOrder(), right.getOrder());
-            return cmp;
-        };
-        java.util.Comparator<ProcessedOption> byDeclarationOrder = (left, right) -> Integer
-                .compare(left.getDeclarationOrder(), right.getDeclarationOrder());
-
-        if (sortOptions) {
-            java.util.Comparator<ProcessedOption> byName = (left, right) -> {
-                String leftName = left.name() != null ? left.name() : "";
-                String rightName = right.name() != null ? right.name() : "";
-                return leftName.compareTo(rightName);
-            };
-            display.sort(byOrder.thenComparing(byName).thenComparing(byDeclarationOrder));
-        } else {
-            display.sort(byOrder.thenComparing(byDeclarationOrder));
-        }
-        return display;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void setOptions(List<ProcessedOption> options) throws OptionParserException {
@@ -259,77 +202,67 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
     }
 
     public String name() {
-        return name;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String description() {
-        return description;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandValidator<C, CI> validator() {
-        return validator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ResultHandler resultHandler() {
-        return resultHandler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasArguments() {
-        return arguments != null && arguments.hasMultipleValues();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption getArguments() {
-        return arguments;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setArguments(ProcessedOption arguments) {
-        this.arguments = arguments;
-        this.arguments.setParent(this);
-        if (command != null)
-            arguments.captureInitialValue(command);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<ProcessedOption> getArgumentOptions() {
-        return argumentOptions;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void addArgument(ProcessedOption arg) {
-        if (arg == null)
-            return;
-        argumentOptions.add(arg);
-        if (argument == null)
-            argument = arg;
-        arg.setParent(this);
-        if (command != null)
-            arg.captureInitialValue(command);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandPopulator<Object, CI> getCommandPopulator() {
-        return populator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public C getCommand() {
-        return command;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean generateHelp() {
-        return generateHelp;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean disableParsing() {
-        return disableParsing;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean stopAtFirstPositional() {
-        return stopAtFirstPositional;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean sortOptions() {
-        return sortOptions;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public DefaultValueProvider getDefaultValueProvider() {
-        return defaultValueProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -337,47 +270,47 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
      * registry-level fallback when the command has no per-command provider.
      */
     public void setDefaultValueProvider(DefaultValueProvider provider) {
-        this.defaultValueProvider = provider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String version() {
-        return version;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String helpUrl() {
-        return helpUrl;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String helpGroup() {
-        return helpGroup;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setHelpGroup(String helpGroup) {
-        this.helpGroup = helpGroup != null ? helpGroup : "";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Class<? extends HelpSectionProvider> getHelpSectionProviderClass() {
-        return helpSectionProviderClass;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setHelpSectionProviderClass(Class<? extends HelpSectionProvider> helpSectionProviderClass) {
-        this.helpSectionProviderClass = helpSectionProviderClass;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public HelpSectionProvider getHelpSectionProvider() {
-        return helpSectionProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setHelpSectionProvider(HelpSectionProvider helpSectionProvider) {
-        this.helpSectionProvider = helpSectionProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setParentCommandInjector(java.util.function.BiConsumer<Object, Object> injector) {
-        this.parentCommandInjector = injector;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public java.util.function.BiConsumer<Object, Object> getParentCommandInjector() {
-        return parentCommandInjector;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private char verifyThatNamesAreUnique(String name, String longName) throws OptionParserException {
@@ -394,31 +327,18 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
         if (name != '\u0000' && findOption(String.valueOf(name)) != null) {
             throw new OptionParserException("Option -" + name + " is already added to Param: " + this.toString());
         }
-
         //if name is null, use one based on name
         if (name == '\u0000' && (longName == null || longName.length() == 0))
             throw new OptionParserException("Neither option name and option long name can be both null");
-
         return name;
     }
 
     public ProcessedOption findOption(String name) {
-        for (ProcessedOption option : getOptions())
-            if (option.shortName() != null &&
-                    option.shortName().equals(name) &&
-                    option.isActivated(new ParsedCommand(this)))
-                return option;
-
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption findOptionNoActivatorCheck(String name) {
-        for (ProcessedOption option : getOptions())
-            if (option.shortName() != null &&
-                    option.shortName().equals(name))
-                return option;
-
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -428,61 +348,15 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
      * @return matching option
      */
     public ProcessedOption searchAllOptions(String input) {
-        if (input.startsWith("--")) {
-            String optionName = input.substring(2);
-            ProcessedOption currentOption = findLongOptionNoActivatorCheck(optionName);
-            if (currentOption == null && input.contains("="))
-                currentOption = startWithLongOptionNoActivatorCheck(optionName);
-            // Check for negated options (e.g., --no-verbose)
-            if (currentOption == null) {
-                currentOption = findNegatedOptionNoActivatorCheck(optionName);
-            }
-            if (currentOption != null)
-                currentOption.setLongNameUsed(true);
-            //need to handle spaces in option names
-            else if (Parser.containsNonEscapedSpace(input)) {
-                return searchAllOptions(Parser.switchSpacesToEscapedSpacesInWord(input));
-            }
-
-            return currentOption;
-        } else if (input.startsWith("-")) {
-            ProcessedOption currentOption = findOption(input.substring(1));
-            if (currentOption == null)
-                currentOption = startWithOption(input.substring(1));
-
-            if (currentOption != null)
-                currentOption.setLongNameUsed(false);
-
-            return currentOption;
-        } else {
-            // Check for bare long names
-            ProcessedOption currentOption = findBareLongOption(input);
-            if (currentOption == null && input.contains("=")) {
-                currentOption = findBareLongOption(input.substring(0, input.indexOf("=")));
-            }
-            if (currentOption != null) {
-                currentOption.setLongNameUsed(true);
-            }
-            return currentOption;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption findLongOption(String name) {
-        for (ProcessedOption option : getOptions())
-            if (option.name() != null &&
-                    (option.name().equals(name) || option.hasAlias(name)) &&
-                    option.isActivated(new ParsedCommand(this)))
-                return option;
-
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption findLongOptionNoActivatorCheck(String name) {
-        for (ProcessedOption option : getOptions())
-            if (option.name() != null && (option.name().equals(name) || option.hasAlias(name)))
-                return option;
-
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -493,15 +367,7 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
      * @return the matching option, or null if not found
      */
     public ProcessedOption findNegatedOption(String name) {
-        for (ProcessedOption option : getOptions()) {
-            if (option.isNegatable() && option.getNegatedName() != null &&
-                    option.getNegatedName().equals(name) &&
-                    option.isActivated(new ParsedCommand(this))) {
-                option.setNegatedByUser(true);
-                return option;
-            }
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -511,74 +377,27 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
      * @return the matching option, or null if not found
      */
     public ProcessedOption findNegatedOptionNoActivatorCheck(String name) {
-        for (ProcessedOption option : getOptions()) {
-            if (option.isNegatable() && option.getNegatedName() != null &&
-                    option.getNegatedName().equals(name)) {
-                option.setNegatedByUser(true);
-                return option;
-            }
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption findBareLongOption(String name) {
-        for (ProcessedOption option : getOptions())
-            if (option.name() != null && (option.name().equals(name) || option.hasAlias(name))
-                    && option.acceptNameWithoutDashes())
-                return option;
-
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<TerminalString> findPossibleBareLongNamesWithDash(String name) {
-        List<ProcessedOption> opts = getDisplayOptions();
-        List<TerminalString> names = new ArrayList<>(opts.size());
-        for (ProcessedOption o : opts) {
-            if (o.name() != null && o.acceptNameWithoutDashes()
-                    && o.getValues().size() == 0
-                    && o.isActivated(new ParsedCommand(this))) {
-                if (o.name().startsWith(name)) {
-                    names.add(o.getRenderedNameWithDashes());
-                }
-                for (TerminalString alias : o.getRenderedAliasNamesWithDashes()) {
-                    if (alias.getCharacters().startsWith(name)) {
-                        names.add(alias);
-                    }
-                }
-            }
-        }
-        return names;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption startWithOption(String name) {
-        for (ProcessedOption option : getOptions())
-            if (option.shortName() != null && name.startsWith(option.shortName()) &&
-                    option.isActivated(new ParsedCommand(this)))
-                return option;
-
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption startWithLongOption(String name) {
-        for (ProcessedOption option : getOptions())
-            if ((name.startsWith(option.name()) || startsWithAlias(option, name)) &&
-                    option.isActivated(new ParsedCommand(this)))
-                return option;
-
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption startWithLongOptionNoActivatorCheck(String name) {
-        ProcessedOption longestMatch = null;
-        int longestLen = -1;
-        for (ProcessedOption option : getOptions()) {
-            int matchLen = startsWithNameOrAlias(option, name);
-            if (matchLen > longestLen) {
-                longestMatch = option;
-                longestLen = matchLen;
-            }
-        }
-        return longestMatch;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static boolean startsWithAlias(ProcessedOption option, String name) {
@@ -601,42 +420,18 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
     }
 
     public void clear() {
-        clearOptions();
-        if (arguments != null)
-            arguments.clear();
-        for (ProcessedOption argOpt : argumentOptions)
-            argOpt.clear();
-
-        if (parserExceptions instanceof ArrayList)
-            parserExceptions.clear();
-        else
-            parserExceptions = Collections.emptyList();
-        completeStatus = null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void clearOptions() {
-        for (ProcessedOption processedOption : getOptions()) {
-            processedOption.clear();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void doGenerateHelp() {
         //only generate a help option if there is no other option already called help
         if (findOption("help") == null) {
             try {
-                ProcessedOption helpOption = ProcessedOptionBuilder
-                        .builder()
-                        .name("help")
-                        .shortName('h')
-                        .description("Display this help and exit")
-                        .required(false)
-                        .optionType(OptionType.BOOLEAN)
-                        .type(Boolean.class)
-                        .hasValue(false)
-                        .overrideRequired(true)
-                        .fieldName("generatedHelp")
-                        .build();
-
+                ProcessedOption helpOption = ProcessedOptionBuilder.builder().name("help").shortName('h').description("Display this help and exit").required(false).optionType(OptionType.BOOLEAN).type(Boolean.class).hasValue(false).overrideRequired(true).fieldName("generatedHelp").build();
                 helpOption.setDeclarationOrder(optionDeclarationCounter++);
                 options.add(helpOption);
                 helpOption.setParent(this);
@@ -647,39 +442,18 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
     }
 
     public boolean isGenerateHelpOptionSet() {
-        ProcessedOption helpOption = findLongOptionNoActivatorCheck("help");
-        return helpOption != null && helpOption.getValue() != null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isFullHelpRequested() {
-        ProcessedOption helpOption = findLongOptionNoActivatorCheck("help");
-        if (helpOption == null)
-            return false;
-        // --help=all or --help=full: the = value is stored even for boolean options
-        for (String val : helpOption.getValues()) {
-            if ("all".equalsIgnoreCase(val) || "full".equalsIgnoreCase(val))
-                return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void doGenerateVersion() {
         //only generate a version option if there is no other option already called version
         if (findOption("version") == null) {
             try {
-                ProcessedOption versionOption = ProcessedOptionBuilder
-                        .builder()
-                        .name("version")
-                        .shortName('v')
-                        .description("Displays version information of the command")
-                        .hasValue(false)
-                        .required(false)
-                        .optionType(OptionType.BOOLEAN)
-                        .type(Boolean.class)
-                        .overrideRequired(true)
-                        .fieldName("generatedVersion")
-                        .build();
-
+                ProcessedOption versionOption = ProcessedOptionBuilder.builder().name("version").shortName('v').description("Displays version information of the command").hasValue(false).required(false).optionType(OptionType.BOOLEAN).type(Boolean.class).overrideRequired(true).fieldName("generatedVersion").build();
                 versionOption.setDeclarationOrder(optionDeclarationCounter++);
                 options.add(versionOption);
                 versionOption.setParent(this);
@@ -690,8 +464,7 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
     }
 
     public boolean isGenerateVersionOptionSet() {
-        ProcessedOption versionOption = findLongOptionNoActivatorCheck("version");
-        return versionOption != null && versionOption.getValue() != null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -699,59 +472,11 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
      * and is enabled. For negatable options, also includes the negated form.
      */
     public List<TerminalString> getOptionLongNamesWithDash() {
-        List<ProcessedOption> opts = getDisplayOptions();
-        List<TerminalString> names = new ArrayList<>(opts.size());
-        for (ProcessedOption o : opts) {
-            if (o.getVisibility() == org.aesh.command.option.OptionVisibility.HIDDEN)
-                continue;
-            if (o.getValues().size() == 0 &&
-                    o.isActivated(new ParsedCommand(this)) &&
-                    !isExcludedBySetOption(o)) {
-                names.add(o.getRenderedNameWithDashes());
-                names.addAll(o.getRenderedAliasNamesWithDashes());
-                // Also add the negated form for negatable options
-                TerminalString negated = o.getRenderedNegatedNameWithDashes();
-                if (negated != null) {
-                    names.add(negated);
-                }
-            }
-        }
-
-        return names;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<TerminalString> findPossibleLongNamesWithDash(String name) {
-        List<ProcessedOption> opts = getDisplayOptions();
-        List<TerminalString> names = new ArrayList<>(opts.size());
-        for (ProcessedOption o : opts) {
-            if (o.getVisibility() == org.aesh.command.option.OptionVisibility.HIDDEN)
-                continue;
-            if (isExcludedBySetOption(o))
-                continue;
-            if (((o.shortName() != null && o.shortName().equals(name) &&
-                    !o.isLongNameUsed() && o.getValues().size() == 0) ||
-                    (o.name().startsWith(name) && o.getValues().size() == 0)) &&
-                    o.isActivated(new ParsedCommand(this)))
-                names.add(o.getRenderedNameWithDashes());
-            // Check aliases
-            if (o.getValues().size() == 0 && o.isActivated(new ParsedCommand(this))) {
-                for (String alias : o.getAliases()) {
-                    if (alias.startsWith(name)) {
-                        names.add(new TerminalString("--" + alias, true));
-                    }
-                }
-            }
-            // Also check negated option names for negatable options
-            if (o.isNegatable() && o.getNegatedName() != null &&
-                    o.getNegatedName().startsWith(name) && o.getValues().size() == 0 &&
-                    o.isActivated(new ParsedCommand(this))) {
-                TerminalString negated = o.getRenderedNegatedNameWithDashes();
-                if (negated != null) {
-                    names.add(negated);
-                }
-            }
-        }
-        return names;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean isExcludedBySetOption(ProcessedOption option) {
@@ -766,30 +491,7 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
     }
 
     public List<String> findPossibleLongNames(String name) {
-        if (name.startsWith("--"))
-            name = name.substring(2);
-        List<ProcessedOption> opts = getDisplayOptions();
-        List<String> names = new ArrayList<>(opts.size());
-        for (ProcessedOption o : opts) {
-            if (((o.shortName() != null && o.shortName().equals(name) &&
-                    !o.isLongNameUsed() && o.getValues().size() == 0) ||
-                    (o.name().startsWith(name) && o.getValues().size() == 0)) &&
-                    o.isActivated(new ParsedCommand(this)))
-                names.add(o.name());
-            // Check aliases
-            if (o.getValues().size() == 0 && o.isActivated(new ParsedCommand(this))) {
-                for (String alias : o.getAliases()) {
-                    if (alias.startsWith(name))
-                        names.add(alias);
-                }
-            }
-            // Also check negated option names for negatable options
-            if (o.isNegatable() && o.getNegatedName() != null &&
-                    o.getNegatedName().startsWith(name) && o.getValues().size() == 0 &&
-                    o.isActivated(new ParsedCommand(this)))
-                names.add(o.getNegatedName());
-        }
-        return names;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -797,41 +499,23 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
      *         and its value is not set.
      */
     public boolean hasAskIfNotSet() {
-        for (ProcessedOption opt : getOptions()) {
-            if (opt.askIfNotSet() && opt.hasValue() && opt.getValues().isEmpty() && !opt.hasDefaultValue())
-                return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<ProcessedOption> getAllAskIfNotSet() {
-        List<ProcessedOption> options = new ArrayList<>();
-        for (ProcessedOption opt : getOptions()) {
-            if (opt.askIfNotSet() && opt.hasValue() && opt.getValues().isEmpty() && !opt.hasDefaultValue())
-                options.add(opt);
-        }
-        for (ProcessedOption argOpt : argumentOptions) {
-            if (argOpt.askIfNotSet() && argOpt.hasValue() && argOpt.getValues().isEmpty() && !argOpt.hasDefaultValue())
-                options.add(argOpt);
-        }
-        if (arguments != null && arguments.askIfNotSet() && arguments.hasValue() && arguments.getValues().isEmpty()
-                && !arguments.hasDefaultValue())
-            options.add(arguments);
-
-        return options;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns a description String based on the defined command and options.
      * Useful when printing "help" info etc.
-     *
      */
     public String printHelp(String commandName) {
-        return printHelp(commandName, false, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String printHelp(String commandName, boolean supportsHyperlinks) {
-        return printHelp(commandName, supportsHyperlinks, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -843,105 +527,12 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
      * @param showAll when true, includes FULL visibility options in output
      */
     public String printHelp(String commandName, boolean supportsHyperlinks, boolean showAll) {
-        int maxLength = 0;
-        int maxOptionColumnWidth = 24;
-        int width = 80;
-        DescriptionResolver descriptionResolver = new DescriptionResolver(name, commandName, null, null, null);
-        List<ProcessedOption> opts = getDisplayOptions();
-        List<ProcessedOption> visibleOpts = new ArrayList<>(opts.size());
-        for (ProcessedOption o : opts) {
-            if (o.getVisibility() == org.aesh.command.option.OptionVisibility.HIDDEN)
-                continue;
-            if (!showAll && o.getVisibility() == org.aesh.command.option.OptionVisibility.FULL)
-                continue;
-            visibleOpts.add(o);
-        }
-        for (ProcessedOption o : visibleOpts) {
-            if (o.getFormattedLength() > maxLength)
-                maxLength = o.getFormattedLength();
-        }
-        // Cap option name column width to prevent very long names from pushing descriptions too far right
-        if (maxLength > maxOptionColumnWidth)
-            maxLength = maxOptionColumnWidth;
-
-        StringBuilder sb = new StringBuilder();
-        //first line — description
-        sb.append(descriptionResolver.resolveCommandDescription(description())).append(Config.getLineSeparator());
-        //second line — detailed synopsis with wrapping
-        boolean ansi = !visibleOpts.isEmpty() && visibleOpts.get(0).isAnsiMode();
-        String cmdDisplay = (commandName == null || commandName.length() == 0) ? name() : commandName;
-        String prefix = ansi
-                ? "Usage: " + ANSI.BOLD + cmdDisplay + ANSI.BOLD_OFF
-                : "Usage: " + cmdDisplay;
-        String synopsisOpts = buildDetailedSynopsis(visibleOpts);
-        List<ProcessedOption> positionalOptions = getPositionalOptionsInDisplayOrder();
-        StringBuilder positionalSuffix = new StringBuilder();
-        for (ProcessedOption positional : positionalOptions) {
-            positionalSuffix.append(formatArgumentSynopsis(positional));
-        }
-        sb.append(wrapSynopsis(prefix, synopsisOpts + positionalSuffix, width));
-        sb.append(Config.getLineSeparator());
-
-        //options and arguments — group by helpGroup
-        if (visibleOpts.size() > 0) {
-            Map<String, List<ProcessedOption>> groups = new LinkedHashMap<>();
-            for (ProcessedOption o : visibleOpts) {
-                String group = o.getHelpGroup().isEmpty() ? "" : o.getHelpGroup();
-                groups.computeIfAbsent(group, k -> new ArrayList<>()).add(o);
-            }
-
-            // Print named groups first
-            for (Map.Entry<String, List<ProcessedOption>> entry : groups.entrySet()) {
-                if (!entry.getKey().isEmpty()) {
-                    sb.append(Config.getLineSeparator()).append(entry.getKey()).append(":").append(Config.getLineSeparator());
-                    for (ProcessedOption o : entry.getValue())
-                        sb.append(o.getFormattedOption(2, maxLength + 4, width, supportsHyperlinks,
-                                descriptionResolver.resolveOptionDescription(o)))
-                                .append(Config.getLineSeparator());
-                }
-            }
-            // Then default group
-            List<ProcessedOption> defaultGroup = groups.get("");
-            if (defaultGroup != null && !defaultGroup.isEmpty()) {
-                sb.append(Config.getLineSeparator()).append("Options:").append(Config.getLineSeparator());
-                for (ProcessedOption o : defaultGroup)
-                    sb.append(o.getFormattedOption(2, maxLength + 4, width, supportsHyperlinks,
-                            descriptionResolver.resolveOptionDescription(o)))
-                            .append(Config.getLineSeparator());
-            }
-        }
-        // Render positional arguments inline after the options section
-        if (!positionalOptions.isEmpty()) {
-            // If no options were rendered, start the Options section for positionals
-            if (visibleOpts.isEmpty()) {
-                sb.append(Config.getLineSeparator()).append("Options:").append(Config.getLineSeparator());
-            }
-            for (ProcessedOption positional : positionalOptions) {
-                sb.append(positional.getFormattedOption(2, maxLength + 4, width, supportsHyperlinks,
-                        descriptionResolver.resolveOptionDescription(positional)))
-                        .append(Config.getLineSeparator());
-            }
-        }
-        // Append documentation link if helpUrl is set
-        if (helpUrl != null && helpUrl.length() > 0) {
-            sb.append(Config.getLineSeparator());
-            if (supportsHyperlinks) {
-                sb.append("Documentation: ").append(ANSI.hyperlink(helpUrl, helpUrl));
-            } else {
-                sb.append("Documentation: ").append(helpUrl);
-            }
-            sb.append(Config.getLineSeparator());
-        }
-        return sb.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "ProcessedCommand{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", options=" + getOptions()
-                + '}';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -955,18 +546,15 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
         String visualFull = full.replaceAll("\u001B\\[[;\\d]*m", "");
         if (visualFull.length() <= width)
             return full;
-
         int indent = visualPrefixLen + 1;
         String pad = String.format("%" + indent + "s", "");
         StringBuilder result = new StringBuilder();
         result.append(prefix);
-
         int currentLineLen = visualPrefixLen;
         // Split on spaces but keep the tokens (option groups like "[--foo]")
         // Note: do NOT use trim() — it strips chars <= 0x20 which includes ESC (0x1B)
         String trimmed = options;
-        while (trimmed.startsWith(" "))
-            trimmed = trimmed.substring(1);
+        while (trimmed.startsWith(" ")) trimmed = trimmed.substring(1);
         String[] tokens = trimmed.split(" +");
         for (String token : tokens) {
             int visualTokenLen = token.replaceAll("\u001B\\[[;\\d]*m", "").length();
@@ -989,25 +577,18 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
     private String buildDetailedSynopsis(List<ProcessedOption> visibleOpts) {
         if (visibleOpts.isEmpty())
             return "";
-
         // Determine ansiMode from the first option
         boolean ansi = visibleOpts.get(0).isAnsiMode();
-
         // Collect mutually exclusive groups to avoid showing them individually
         java.util.Set<String> exclusiveHandled = new java.util.HashSet<>();
-
         // 1. Group boolean short flags (exclude negatable — they need --[no-]name format)
         StringBuilder shortFlags = new StringBuilder();
         for (ProcessedOption o : visibleOpts) {
-            if (o.getOptionType() == OptionType.BOOLEAN && o.shortName() != null
-                    && !o.isRequired() && o.getExclusiveWith().isEmpty()
-                    && !o.isNegatable()) {
+            if (o.getOptionType() == OptionType.BOOLEAN && o.shortName() != null && !o.isRequired() && o.getExclusiveWith().isEmpty() && !o.isNegatable()) {
                 shortFlags.append(o.shortName());
             }
         }
-
         StringBuilder synopsis = new StringBuilder();
-
         // Emit grouped short flags: [-hVx]
         if (shortFlags.length() > 0) {
             if (ansi)
@@ -1015,16 +596,12 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
             else
                 synopsis.append(" [-").append(shortFlags).append("]");
         }
-
         // 2. Emit remaining options
         for (ProcessedOption o : visibleOpts) {
             // Skip boolean short flags already grouped (but not negatable ones)
-            if (o.getOptionType() == OptionType.BOOLEAN && o.shortName() != null
-                    && !o.isRequired() && o.getExclusiveWith().isEmpty()
-                    && !o.isNegatable()) {
+            if (o.getOptionType() == OptionType.BOOLEAN && o.shortName() != null && !o.isRequired() && o.getExclusiveWith().isEmpty() && !o.isNegatable()) {
                 continue;
             }
-
             // For negatable options, use --[no-]name format
             String optName;
             if (o.isNegatable()) {
@@ -1034,7 +611,6 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
             }
             // Apply yellow styling to option name
             String styledOptName = ansi ? ANSI.YELLOW_TEXT + optName + ANSI.RESET : optName;
-
             // Handle mutually exclusive options
             if (!o.getExclusiveWith().isEmpty() && !exclusiveHandled.contains(o.name())) {
                 StringBuilder exclusive = new StringBuilder();
@@ -1058,39 +634,27 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
             }
             if (exclusiveHandled.contains(o.name()))
                 continue;
-
             // Regular option
             String rendered = styledOptName;
             if (o.getOptionType() == OptionType.GROUP) {
                 String placeholder = ansi ? ANSI.CYAN_TEXT + "<key>=<value>" + ANSI.RESET : "<key>=<value>";
                 rendered = styledOptName + placeholder;
-            } else if (o.hasValue() && o.getOptionType() != OptionType.BOOLEAN
-                    && (o.type() != Boolean.class && o.type() != boolean.class)
-                    && !o.isOptionalValue() && !o.hasFallbackValue()) {
-                String placeholder = o.getArgument() != null && !o.getArgument().isEmpty()
-                        ? o.getArgument()
-                        : o.name();
-                String styledPlaceholder = ansi
-                        ? ANSI.CYAN_TEXT + "=<" + placeholder + ">" + ANSI.RESET
-                        : "=<" + placeholder + ">";
+            } else if (o.hasValue() && o.getOptionType() != OptionType.BOOLEAN && (o.type() != Boolean.class && o.type() != boolean.class) && !o.isOptionalValue() && !o.hasFallbackValue()) {
+                String placeholder = o.getArgument() != null && !o.getArgument().isEmpty() ? o.getArgument() : o.name();
+                String styledPlaceholder = ansi ? ANSI.CYAN_TEXT + "=<" + placeholder + ">" + ANSI.RESET : "=<" + placeholder + ">";
                 rendered = styledOptName + styledPlaceholder;
             }
-
             if (o.isRequired()) {
                 synopsis.append(" ").append(rendered);
             } else {
                 synopsis.append(" [").append(rendered).append("]");
             }
         }
-
         return synopsis.toString();
     }
 
     private String formatArgumentSynopsis(ProcessedOption arg) {
-        String label = arg.isTypeAssignableByResourcesOrFile()
-                ? (arg.getOptionType() == OptionType.ARGUMENTS ? "files" : "file")
-                : arg.getDisplayLabel();
-
+        String label = arg.isTypeAssignableByResourcesOrFile() ? (arg.getOptionType() == OptionType.ARGUMENTS ? "files" : "file") : arg.getDisplayLabel();
         org.aesh.command.option.Arity arity = arg.getArity();
         if (arity != null) {
             StringBuilder sb = new StringBuilder();
@@ -1112,7 +676,6 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
                 sb.append("]");
             return sb.toString();
         }
-
         // Legacy behavior when no arity is set
         if (arg.getOptionType() == OptionType.ARGUMENTS)
             return " [<" + label + ">]";
@@ -1122,251 +685,121 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof ProcessedCommand))
-            return false;
-
-        ProcessedCommand that = (ProcessedCommand) o;
-
-        if (!name.equals(that.name))
-            return false;
-        if (description != null ? !description.equals(that.description) : that.description != null)
-            return false;
-
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean anyOptionsSet() {
-        for (ProcessedOption o : getOptions()) {
-            if (o.getValue() != null)
-                return true;
-        }
-        for (ProcessedOption argOpt : argumentOptions) {
-            if (argOpt.getValue() != null)
-                return true;
-        }
-        if (hasArguments() && arguments.getValue() != null)
-            return true;
-
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasLongOption(String optionName) {
-        for (ProcessedOption o : getOptions()) {
-            if (o.name().equals(optionName))
-                return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasOptions() {
-        List<ProcessedOption> opts = getOptions();
-        return opts != null && opts.size() > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //will only return true if the optionName equals an option and it does
     //not start with another option name
     public boolean hasUniqueLongOption(String optionName) {
-        if (hasLongOption(optionName)) {
-            for (ProcessedOption o : getOptions()) {
-                if (o.name().startsWith(optionName) && !o.name().equals(optionName))
-                    return false;
-            }
-            return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void updateInvocationProviders(InvocationProviders invocationProviders) {
-        updateOptionsInvocationProviders(invocationProviders);
-        for (ProcessedOption argOpt : argumentOptions)
-            argOpt.updateInvocationProviders(invocationProviders);
-        if (arguments != null) {
-            arguments.updateInvocationProviders(invocationProviders);
-        }
-        if (activator != null)
-            activator = invocationProviders.getCommandActivatorProvider().enhanceCommandActivator(activator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void updateOptionsInvocationProviders(InvocationProviders invocationProviders) {
-        for (ProcessedOption option : getOptions()) {
-            option.updateInvocationProviders(invocationProviders);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void addParserException(CommandLineParserException exception) {
-        if (!(parserExceptions instanceof ArrayList))
-            parserExceptions = new ArrayList<>();
-        parserExceptions.add(exception);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<CommandLineParserException> parserExceptions() {
-        return parserExceptions;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasOptionsWithInjectedValues() {
-        for (ProcessedOption option : options)
-            if (option.getValue() != null)
-                return true;
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasOptionWithOverrideRequired() {
-        for (ProcessedOption option : options) {
-            if (option.getValue() != null && option.doOverrideRequired())
-                return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CompleteStatus completeStatus() {
-        return completeStatus;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCompleteStatus(CompleteStatus completeStatus) {
-        this.completeStatus = completeStatus;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setArgument(ProcessedOption arg) {
-        this.argument = arg;
-        this.argumentOptions.clear();
-        addArgument(arg);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption getArgument() {
-        return argument;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasArgument() {
-        return !argumentOptions.isEmpty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasArgumentWithNoValue() {
-        for (ProcessedOption argOpt : argumentOptions) {
-            if (argOpt.getValue() == null)
-                return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getPositionalValueCount() {
-        int count = 0;
-        for (ProcessedOption argOpt : argumentOptions)
-            count += argOpt.getValues().size();
-        if (arguments != null)
-            count += arguments.getValues().size();
-        return count;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption getPositionalForIndex(int index) {
-        // Backward compatibility: commands that only define @Arguments historically
-        // accepted all positional values starting from index 0.
-        if (argumentOptions.isEmpty() && arguments != null
-                && !arguments.isArityFull()
-                && (!arguments.hasIndexRange()
-                        || (arguments.getIndexRange().getMin() == 1
-                                && arguments.getIndexRange().getMax() == Integer.MAX_VALUE))) {
-            return arguments;
-        }
-
-        ProcessedOption match = null;
-        for (ProcessedOption positional : getPositionalOptionsInDisplayOrder()) {
-            boolean containsIndex;
-            if (positional.hasIndexRange()) {
-                containsIndex = positional.getIndexRange().contains(index);
-            } else {
-                containsIndex = positional.getOptionType() == OptionType.ARGUMENT ? index == 0 : index >= 1;
-            }
-
-            if (containsIndex) {
-                if (!positional.isArityFull())
-                    return positional;
-                if (match == null)
-                    match = positional;
-            }
-        }
-        if (match != null)
-            return match;
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedOption getPositionalForNextValue() {
-        return getPositionalForIndex(getPositionalValueCount());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String positionalRangeSummary() {
-        List<ProcessedOption> positional = getPositionalOptionsInDisplayOrder();
-        if (positional.isEmpty())
-            return "none";
-        StringBuilder sb = new StringBuilder();
-        for (ProcessedOption opt : positional) {
-            if (sb.length() > 0)
-                sb.append(", ");
-            sb.append(opt.getDisplayLabel()).append("=");
-            if (opt.hasIndexRange()) {
-                int min = opt.getIndexRange().getMin();
-                int max = opt.getIndexRange().getMax();
-                if (min == max)
-                    sb.append(min);
-                else if (max == Integer.MAX_VALUE)
-                    sb.append(min).append("..*");
-                else
-                    sb.append(min).append("..").append(max);
-            } else {
-                sb.append(opt.getOptionType() == OptionType.ARGUMENT ? "0" : "1..*");
-            }
-        }
-        return sb.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<ProcessedOption> getPositionalOptionsInDisplayOrder() {
-        if (argumentOptions.isEmpty() && arguments == null)
-            return Collections.emptyList();
-
-        List<ProcessedOption> positional = new ArrayList<>(argumentOptions.size() + 1);
-        positional.addAll(argumentOptions);
-        if (arguments != null)
-            positional.add(arguments);
-
-        positional.sort((left, right) -> {
-            int leftMin = left.hasIndexRange() ? left.getIndexRange().getMin()
-                    : (left.getOptionType() == OptionType.ARGUMENT ? 0 : 1);
-            int rightMin = right.hasIndexRange() ? right.getIndexRange().getMin()
-                    : (right.getOptionType() == OptionType.ARGUMENT ? 0 : 1);
-            return Integer.compare(leftMin, rightMin);
-        });
-        return positional;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public String resolveCommandDescription(String description, String commandName, String fullCommandName,
-            String rootCommandName, String parentCommandName, String parentCommandFullName) {
-        return new DescriptionResolver(commandName, fullCommandName, rootCommandName, parentCommandName,
-                parentCommandFullName).resolveCommandDescription(description);
+    public String resolveCommandDescription(String description, String commandName, String fullCommandName, String rootCommandName, String parentCommandName, String parentCommandFullName) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public String resolveOptionDescription(ProcessedOption option, String commandName, String fullCommandName,
-            String rootCommandName, String parentCommandName, String parentCommandFullName) {
-        return new DescriptionResolver(commandName, fullCommandName, rootCommandName, parentCommandName,
-                parentCommandFullName).resolveOptionDescription(option);
+    public String resolveOptionDescription(ProcessedOption option, String commandName, String fullCommandName, String rootCommandName, String parentCommandName, String parentCommandFullName) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static final class DescriptionResolver {
+
         private final String commandName;
+
         private final String commandFullName;
+
         private final String rootCommandName;
+
         private final String parentCommandName;
+
         private final String parentCommandFullName;
 
-        private DescriptionResolver(String commandName, String commandFullName, String rootCommandName,
-                String parentCommandName, String parentCommandFullName) {
+        private DescriptionResolver(String commandName, String commandFullName, String rootCommandName, String parentCommandName, String parentCommandFullName) {
             String fullName = commandFullName != null ? commandFullName : commandName;
             this.commandFullName = fullName;
             this.commandName = commandName != null ? commandName : lastToken(fullName);
@@ -1386,7 +819,6 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
         private String resolve(String raw, ProcessedOption option) {
             if (raw == null || raw.isEmpty())
                 return raw;
-
             Matcher matcher = DESCRIPTION_VARIABLE_PATTERN.matcher(raw);
             StringBuffer out = new StringBuffer(raw.length());
             while (matcher.find()) {
@@ -1401,7 +833,7 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
         }
 
         private String resolveVariable(String key, ProcessedOption option) {
-            switch (key) {
+            switch(key) {
                 case "COMMAND-NAME":
                     return commandName;
                 case "COMMAND-FULL-NAME":
@@ -1462,36 +894,14 @@ public class ProcessedCommand<C extends Command<CI>, CI extends CommandInvocatio
     }
 
     public boolean hasArgumentsWithNoValue() {
-        return arguments != null && arguments.getValue() == null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasSelector() {
-        boolean selector = false;
-        for (ProcessedOption opt : getOptions()) {
-            // if we have an option that's marked with override required and is set
-            // it should override selector
-            if (opt.doOverrideRequired() && opt.getValue() != null)
-                return false;
-            if (opt.selectorType() != SelectorType.NO_OP && opt.hasValue())
-                selector = true;
-        }
-        return selector;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<ProcessedOption> getAllSelectors() {
-        List<ProcessedOption> options = new ArrayList<>();
-        for (ProcessedOption opt : getOptions()) {
-            if (opt.selectorType() != SelectorType.NO_OP && opt.hasValue() && opt.getValue() == null)
-                options.add(opt);
-        }
-        for (ProcessedOption argOpt : argumentOptions) {
-            if (argOpt.selectorType() != SelectorType.NO_OP
-                    && (argOpt.hasValue() || argOpt.getOptionType().equals(OptionType.BOOLEAN)))
-                options.add(argOpt);
-        }
-        if (arguments != null && arguments.selectorType() != SelectorType.NO_OP && arguments.hasValue())
-            options.add(arguments);
-
-        return options;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

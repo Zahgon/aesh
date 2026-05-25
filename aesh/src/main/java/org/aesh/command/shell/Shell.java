@@ -17,11 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.shell;
 
 import java.util.concurrent.TimeUnit;
-
 import org.aesh.readline.prompt.Prompt;
 import org.aesh.terminal.Connection;
 import org.aesh.terminal.Key;
@@ -37,14 +35,14 @@ public interface Shell {
      * @param out write out to the output stream
      */
     default void write(String out) {
-        write(out, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @param out write out to the output stream including a line separator at the end
      */
     default void writeln(String out) {
-        writeln(out, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -95,7 +93,7 @@ public interface Shell {
      * @return input line
      */
     default String readLine(String prompt) throws InterruptedException {
-        return readLine(new Prompt(prompt));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -139,7 +137,7 @@ public interface Shell {
      * @return the Connection, or null if not available
      */
     default Connection connection() {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -151,12 +149,7 @@ public interface Shell {
      * @param text the visible text for the hyperlink
      */
     default void writeHyperlink(String url, String text) {
-        Connection conn = connection();
-        if (conn != null && conn.terminal().supportsHyperlinks()) {
-            write(ANSI.hyperlink(url, text));
-        } else {
-            write(text);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,7 +158,6 @@ public interface Shell {
      * @return true if hyperlinks are supported
      */
     default boolean supportsHyperlinks() {
-        Connection conn = connection();
-        return conn != null && conn.terminal().supportsHyperlinks();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

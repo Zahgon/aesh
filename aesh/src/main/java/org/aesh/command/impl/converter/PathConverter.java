@@ -21,7 +21,6 @@ package org.aesh.command.impl.converter;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import org.aesh.command.converter.Converter;
 import org.aesh.command.converter.ConverterInvocation;
 
@@ -35,8 +34,6 @@ public class PathConverter implements Converter<Path, ConverterInvocation> {
 
     @Override
     public Path convert(ConverterInvocation input) {
-        return Paths.get(FileConverter.translatePath(
-                input.getAeshContext().getCurrentWorkingDirectory().getAbsolutePath(),
-                input.getInput()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

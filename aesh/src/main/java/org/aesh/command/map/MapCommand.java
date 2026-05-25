@@ -24,47 +24,44 @@ package org.aesh.command.map;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.aesh.command.Command;
 import org.aesh.command.invocation.CommandInvocation;
 import org.aesh.parser.ParsedLine;
 
 /**
- *
  * A command that stores option values in a map.
  *
  * @author Aesh team
- *
  */
 public abstract class MapCommand<T extends CommandInvocation> implements Command<T> {
 
     private final Map<String, Object> values = new HashMap<>();
 
     public Object getValue(String name) {
-        return values.get(name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setValue(String name, Object value) {
-        values.put(name, value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void resetValue(String name) {
-        values.remove(name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean contains(String name) {
-        return values.containsKey(name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Map<String, Object> getValues() {
-        return Collections.unmodifiableMap(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean checkForRequiredOptions(ParsedLine pl) {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     void resetAll() {
-        values.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

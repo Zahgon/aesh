@@ -20,7 +20,6 @@
 package org.aesh.command.alias;
 
 import java.util.List;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandDefinition;
 import org.aesh.command.CommandException;
@@ -47,36 +46,19 @@ public class UnAliasCommand implements Command<CommandInvocation> {
     }
 
     public AliasManager manager() {
-        return manager;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-        if (arguments == null || arguments.size() == 0) {
-            commandInvocation.println(manager.unaliasUsage());
-        } else if (arguments.size() == 1) {
-            String out = manager.removeAlias("unalias " + arguments.get(0));
-            if (out != null && out.length() > 0)
-                commandInvocation.println(out);
-        }
-
-        return CommandResult.SUCCESS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static class AliasCompletor implements OptionCompleter<CompleterInvocation> {
 
         @Override
         public void complete(CompleterInvocation completerInvocation) {
-
-            if (completerInvocation.getCommand() instanceof AliasCommand) {
-                AliasManager manager = ((AliasCommand) completerInvocation.getCommand()).manager();
-                if (completerInvocation.getGivenCompleteValue() == null ||
-                        completerInvocation.getGivenCompleteValue().length() == 0)
-                    completerInvocation.addAllCompleterValues(manager.findAllMatchingNames(""));
-                else
-                    completerInvocation
-                            .addAllCompleterValues(manager.findAllMatchingNames(completerInvocation.getGivenCompleteValue()));
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

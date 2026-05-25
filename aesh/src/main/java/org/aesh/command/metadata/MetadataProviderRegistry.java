@@ -20,7 +20,6 @@ package org.aesh.command.metadata;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.aesh.command.Command;
 
 /**
@@ -45,7 +44,7 @@ public final class MetadataProviderRegistry {
      */
     @SuppressWarnings("unchecked")
     public static <C extends Command> CommandMetadataProvider<C> getProvider(Class<C> commandClass) {
-        return (CommandMetadataProvider<C>) getProviders().get(commandClass);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static Map<Class<?>, CommandMetadataProvider<?>> getProviders() {
@@ -77,8 +76,6 @@ public final class MetadataProviderRegistry {
      * Package-private for testing.
      */
     static void reset() {
-        synchronized (MetadataProviderRegistry.class) {
-            providers = null;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

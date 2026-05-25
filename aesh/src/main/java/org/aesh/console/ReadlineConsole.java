@@ -30,7 +30,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.aesh.command.AeshCommandRuntimeBuilder;
 import org.aesh.command.Command;
 import org.aesh.command.CommandNotFoundException;
@@ -89,25 +88,39 @@ import org.aesh.terminal.utils.LoggerUtil;
 public class ReadlineConsole implements Console, Consumer<Connection> {
 
     private AliasManager aliasManager;
+
     private final Settings<? extends CommandInvocation> settings;
+
     private Prompt prompt;
+
     private List<Completion> completions;
+
     private Connection connection;
+
     private final AeshCommandResolver<? extends CommandInvocation> commandResolver;
+
     private final AeshContext context;
+
     private Readline readline;
+
     private CommandRuntime<? extends CommandInvocation> runtime;
+
     private ProcessManager processManager;
+
     private ExportManager exportManager;
+
     private final List<Function<String, Optional<String>>> preProcessors = new ArrayList<>();
 
     private static final Logger LOGGER = LoggerUtil.getLogger(ReadlineConsole.class.getName());
 
     private volatile boolean running = false;
+
     private History history;
+
     private SuggestionProvider suggestionProvider;
 
     private ShellImpl shell;
+
     private CommandContext commandContext;
 
     private final EnumMap<ReadlineFlag, Integer> readlineFlags = new EnumMap<>(ReadlineFlag.class);
@@ -117,24 +130,19 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
             settings = SettingsBuilder.builder().build();
         else
             settings = givenSettings;
-
         if (settings.getScanForCommandPackages() == null || settings.getScanForCommandPackages().length == 0)
             commandResolver = new AeshCommandResolver<>(settings.commandRegistry());
         else
             commandResolver = getCommandResolverThroughScan();
-
         addCompletion(new AeshCompletion());
         if (settings.connection() != null)
             connection = settings.connection();
-
         //enabling export
         if (this.settings.exportEnabled()) {
-            exportManager = new ExportManager(settings.exportFile(), settings.exportUsesSystemEnvironment(),
-                    settings.exportListener());
+            exportManager = new ExportManager(settings.exportFile(), settings.exportUsesSystemEnvironment(), settings.exportListener());
             preProcessors.add(new ExportPreProcessor(exportManager));
             completions.add(new ExportCompletion(exportManager));
-            if (commandResolver.getRegistry() != null &&
-                    commandResolver.getRegistry() instanceof MutableCommandRegistry) {
+            if (commandResolver.getRegistry() != null && commandResolver.getRegistry() instanceof MutableCommandRegistry) {
                 try {
                     ((MutableCommandRegistry) commandResolver.getRegistry()).addCommand(new ExportCommand(exportManager));
                 } catch (CommandRegistryException e) {
@@ -147,12 +155,10 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
                 if (this.settings.aliasManager() != null)
                     aliasManager = this.settings.aliasManager();
                 else
-                    aliasManager = new AeshAliasManager(settings.aliasFile(), settings.persistAlias(),
-                            commandResolver.getRegistry());
+                    aliasManager = new AeshAliasManager(settings.aliasFile(), settings.persistAlias(), commandResolver.getRegistry());
                 preProcessors.add(new AliasPreProcessor(aliasManager));
                 completions.add(new AliasCompletion(aliasManager, false));
-                if (commandResolver.getRegistry() != null &&
-                        commandResolver.getRegistry() instanceof MutableCommandRegistry) {
+                if (commandResolver.getRegistry() != null && commandResolver.getRegistry() instanceof MutableCommandRegistry) {
                     try {
                         ((MutableCommandRegistry) commandResolver.getRegistry()).addCommand(new AliasCommand(aliasManager));
                         ((MutableCommandRegistry) commandResolver.getRegistry()).addCommand(new UnAliasCommand(aliasManager));
@@ -164,34 +170,24 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
                 LOGGER.log(Level.WARNING, "Failed to initialize alias manager", e);
             }
         }
-
         if (!this.settings.isRedrawPromptOnInterrupt()) {
             readlineFlags.put(ReadlineFlag.NO_PROMPT_REDRAW_ON_INTR, Integer.MAX_VALUE);
         }
-
         context = new DefaultAeshContext(exportManager);
-
     }
 
     public void start() throws IOException {
-        init();
-
-        if (connection == null)
-            new TerminalConnection(Charset.defaultCharset(), settings.stdIn(), settings.stdOut(), this);
-        else
-            accept(connection);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void doStop(boolean closeConnection) {
         if (running) {
             running = false;
-
             if (settings.connectionClosedHandler() != null) {
                 connection.setCloseHandler(c -> {
                     settings.connectionClosedHandler().accept(null);
                 });
             }
-
             if (history != null) {
                 history.stop();
             }
@@ -205,56 +201,17 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
 
     @Override
     public void stop() {
-        doStop(true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean running() {
-        return running;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void accept(Connection connection) {
-        if (this.connection == null)
-            this.connection = connection;
-
-        connection.setCloseHandler((Void t) -> {
-            doStop(false);
-        });
-        if (!settings.isEchoCtrl()) {
-            // Do not display ^C
-            Attributes attr = connection.attributes();
-            attr.setLocalFlag(Attributes.LocalFlag.ECHOCTL, false);
-            connection.setAttributes(attr);
-        }
-        // Set up signal handler for Ctrl+C
-        connection.setSignalHandler((Signal t) -> {
-            if (t == Signal.INT) {
-                // If in sub-command mode and exitOnCtrlC is enabled, exit sub-command mode
-                if (commandContext != null && commandContext.isInSubCommandMode()
-                        && commandContext.getSettings().exitOnCtrlC()) {
-                    commandContext.pop();
-                    // Update prompt - the readline will finish with empty string
-                    // and the normal flow will restart with the new prompt
-                    if (commandContext.isInSubCommandMode()) {
-                        setPrompt(new Prompt(commandContext.buildPrompt(true)));
-                    } else {
-                        setPrompt(new Prompt(commandContext.getOriginalPrompt()));
-                    }
-                    // Don't call the user's interrupt handler since we handled it
-                    return;
-                }
-            }
-            // Call user's interrupt handler if set
-            if (settings.getInterruptHandler() != null) {
-                settings.getInterruptHandler().accept(null);
-            }
-        });
-
-        this.runtime = generateRuntime();
-        read(this.connection, readline);
-        processManager = new ProcessManager(this);
-        this.connection.openBlocking();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void init() {
@@ -272,13 +229,11 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
         // Initialize command context for sub-command mode
         commandContext = new CommandContext(originalPromptString, settings.subCommandModeSettings());
         if (settings.historyPersistent()) {
-            history = new FileHistory(settings.historyFile(), settings.historySize(),
-                    buildPermission(settings.historyFilePermission()), settings.logging());
+            history = new FileHistory(settings.historyFile(), settings.historySize(), buildPermission(settings.historyFilePermission()), settings.logging());
         } else {
             history = new InMemoryHistory(settings.historySize());
         }
-        readline = new Readline(EditModeBuilder.builder(settings.mode()).create(), history,
-                completionHandler);
+        readline = new Readline(EditModeBuilder.builder(settings.mode()).create(), history, completionHandler);
         if (suggestionProvider != null) {
             readline.setSuggestionProvider(suggestionProvider);
         }
@@ -287,7 +242,7 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
 
     @Override
     public void read() {
-        read(connection, readline);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -298,35 +253,7 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
      */
     @Override
     public void read(final Connection conn, final Readline readline) {
-        // In case there is some collected ouput from previous command execution
-        shell.printCollectedOutput();
-
-        if (running) {
-            readline.readline(
-                    ReadlineRequest.builder()
-                            .connection(conn)
-                            .prompt(prompt)
-                            .requestHandler(line -> {
-                                if (line != null && !line.trim().isEmpty()) {
-                                    shell.startCollectOutput();
-                                    processLine(line, conn);
-                                } else
-                                    read(conn, readline);
-                            })
-                            .completions(completions)
-                            .preProcessors(preProcessors)
-                            .history(history)
-                            .flags(readlineFlags)
-                            .build());
-        }
-        // Just call readline and get a callback when line is startBlockingReader
-        else {
-            if (settings.logging())
-                LOGGER.info("not running, returning");
-            conn.close();
-            if (settings.quitHandler() != null)
-                settings.quitHandler().quit();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -337,16 +264,13 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
             conn.write("Not in sub-command mode.\n");
             return;
         }
-
         StringBuilder sb = new StringBuilder();
         sb.append("=== Current Context ===\n");
         sb.append("Path: ").append(commandContext.getContextPath()).append("\n");
         sb.append("Depth: ").append(commandContext.depth()).append("\n");
         sb.append("\n");
-
         // Display values from each context level
         sb.append(commandContext.formatContextValues());
-
         // Display inherited values if any
         java.util.Map<String, Object> inherited = commandContext.getAllInheritedValues();
         if (!inherited.isEmpty()) {
@@ -358,14 +282,12 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
                 }
             }
         }
-
         // Display exit hints
         sb.append("\n");
         String exitHint = commandContext.formatExitHint();
         if (exitHint != null) {
             sb.append(exitHint).append("\n");
         }
-
         conn.write(sb.toString());
     }
 
@@ -384,7 +306,6 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
                 read(conn, readline);
                 return;
             }
-
             // Handle context command - display current context values
             String contextCommand = commandContext.getSettings().getContextCommand();
             if (contextCommand != null && line.trim().equals(contextCommand)) {
@@ -392,14 +313,12 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
                 read(conn, readline);
                 return;
             }
-
             // Prefix command with context path
             String contextPath = commandContext.getContextPathWithSpaces();
             if (!contextPath.isEmpty()) {
                 line = contextPath + " " + line;
             }
         }
-
         try {
             Executor<? extends CommandInvocation> executor = runtime.buildExecutor(line);
             processManager.execute(executor, conn);
@@ -411,8 +330,7 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
                 conn.write(cnfe.getMessage() + Config.getLineSeparator());
             }
             read(conn, readline);
-        } catch (IllegalArgumentException | OptionValidatorException | CommandValidatorException
-                | CommandLineParserException e) {
+        } catch (IllegalArgumentException | OptionValidatorException | CommandValidatorException | CommandLineParserException e) {
             conn.write(e.getMessage() + Config.getLineSeparator());
             read(conn, readline);
         } catch (Exception e) {
@@ -423,47 +341,35 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
 
     @Override
     public Prompt prompt() {
-        return prompt;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setPrompt(Prompt prompt) {
-        if (prompt != null)
-            this.prompt = prompt;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setPrompt(String prompt) {
-        if (prompt != null)
-            this.prompt = new Prompt(prompt);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AeshContext context() {
-        return context;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String helpInfo(String commandName) {
-        try (CommandContainer commandContainer = commandResolver.resolveCommand(commandName)) {
-            if (commandContainer != null) {
-                return commandContainer.printHelp(commandName);
-            }
-        } catch (Exception e) { // ignored
-        }
-        return "";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void addCompletion(Completion completion) {
-        if (completions == null)
-            completions = new ArrayList<>();
-        completions.add(completion);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void addCompletions(List<Completion> completions) {
-        if (this.completions == null)
-            this.completions = new ArrayList<>();
-        this.completions.addAll(completions);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private FileAccessPermission buildPermission(org.aesh.command.settings.FileAccessPermission historyFilePermission) {
@@ -483,7 +389,6 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
     @SuppressWarnings("unchecked")
     private AeshCommandResolver<? extends CommandInvocation> getCommandResolverThroughScan() {
         MutableCommandRegistry<CommandInvocation> registry = new MutableCommandRegistryImpl<>();
-
         CommandDefinitionReporter reporter = new CommandDefinitionReporter();
         AnnotationDetector detector = new AnnotationDetector(reporter);
         try {
@@ -498,59 +403,20 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
         } catch (ClassNotFoundException | CommandRegistryException e) {
             LOGGER.log(Level.WARNING, "Failed to load CommandDefinition class.", e);
         }
-
         return new AeshCommandResolver<>(registry);
     }
 
     class AeshCompletion implements Completion<AeshCompleteOperation> {
+
         @Override
         public void complete(AeshCompleteOperation completeOperation) {
-            // In sub-command mode, prefix the buffer with context path
-            if (commandContext != null && commandContext.isInSubCommandMode()) {
-                String contextPath = commandContext.getContextPathWithSpaces();
-                if (!contextPath.isEmpty()) {
-                    String originalBuffer = completeOperation.getBuffer();
-                    int originalCursor = completeOperation.getCursor();
-
-                    // Create a new complete operation with context prefix
-                    String prefixedBuffer = contextPath + " " + originalBuffer;
-                    int prefixLength = contextPath.length() + 1;
-
-                    AeshCompleteOperation prefixedOperation = new AeshCompleteOperation(
-                            context, prefixedBuffer, originalCursor + prefixLength);
-
-                    // Run completion on the prefixed buffer
-                    runtime.complete(prefixedOperation);
-
-                    // Transfer results back to original operation
-                    completeOperation.addCompletionCandidatesTerminalString(
-                            prefixedOperation.getCompletionCandidates());
-                    completeOperation.setIgnoreOffset(prefixedOperation.isIgnoreOffset());
-                    completeOperation.setIgnoreStartsWith(prefixedOperation.isIgnoreStartsWith());
-                    completeOperation.setAppendSeparator(prefixedOperation.isAppendSeparator());
-                    completeOperation.setSeparator(prefixedOperation.getSeparator());
-
-                    // Adjust offset to account for the prefix
-                    int newOffset = prefixedOperation.getOffset() - prefixLength;
-                    if (newOffset >= 0) {
-                        completeOperation.setOffset(newOffset);
-                    }
-
-                    return;
-                }
-            }
-            runtime.complete(completeOperation);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     private CommandRuntime<? extends CommandInvocation> generateRuntime() {
         shell = new ShellImpl(connection, settings.enableSearchInPaging());
-        return AeshCommandRuntimeBuilder.builder()
-                .settings(settings)
-                .commandInvocationBuilder(new AeshCommandInvocationBuilder(shell, this))
-                .aeshContext(context)
-                .operators(EnumSet.allOf(OperatorType.class))
-                .build();
+        return AeshCommandRuntimeBuilder.builder().settings(settings).commandInvocationBuilder(new AeshCommandInvocationBuilder(shell, this)).aeshContext(context).operators(EnumSet.allOf(OperatorType.class)).build();
     }
 
     /**
@@ -559,7 +425,7 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
      * @return the command context
      */
     public CommandContext getCommandContext() {
-        return commandContext;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -568,7 +434,7 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
      * @return true if in sub-command mode
      */
     public boolean isInSubCommandMode() {
-        return commandContext != null && commandContext.isInSubCommandMode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -577,7 +443,7 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
      * @param provider the suggestion provider
      */
     public void setSuggestionProvider(SuggestionProvider provider) {
-        this.suggestionProvider = provider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -586,7 +452,7 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
      * @return the history instance
      */
     public History getHistory() {
-        return history;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -595,7 +461,6 @@ public class ReadlineConsole implements Console, Consumer<Connection> {
      * @return the command registry
      */
     public CommandRegistry<?> getCommandRegistry() {
-        return commandResolver.getRegistry();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

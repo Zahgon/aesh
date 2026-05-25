@@ -25,7 +25,6 @@ import org.aesh.command.CommandResult;
 import org.aesh.command.invocation.CommandInvocation;
 
 /**
- *
  * @author Aesh team
  */
 public class EndOperator<T extends CommandInvocation> implements ExecutableOperator<T> {
@@ -33,16 +32,15 @@ public class EndOperator<T extends CommandInvocation> implements ExecutableOpera
     private Command<T> executable;
 
     public EndOperator() {
-
     }
 
     @Override
     public CommandResult execute(T ic) throws CommandException, InterruptedException {
-        return executable.execute(ic);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setCommand(Command<T> executable) {
-        this.executable = executable;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

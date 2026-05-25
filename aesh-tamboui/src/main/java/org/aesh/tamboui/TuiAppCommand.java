@@ -23,7 +23,6 @@ import org.aesh.command.CommandResult;
 import org.aesh.command.invocation.CommandInvocation;
 import org.aesh.command.shell.Shell;
 import org.aesh.terminal.Connection;
-
 import dev.tamboui.backend.aesh.AeshBackend;
 import dev.tamboui.toolkit.app.ToolkitRunner;
 import dev.tamboui.toolkit.element.Element;
@@ -73,11 +72,7 @@ public abstract class TuiAppCommand implements Command<CommandInvocation> {
      * @return true if the event was handled
      */
     protected boolean onKeyEvent(KeyEvent event, ToolkitRunner runner) {
-        if (event.isQuit()) {
-            runner.quit();
-            return true;
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -87,6 +82,7 @@ public abstract class TuiAppCommand implements Command<CommandInvocation> {
      * @param runner the ToolkitRunner
      */
     protected void onStart(ToolkitRunner runner) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -97,38 +93,11 @@ public abstract class TuiAppCommand implements Command<CommandInvocation> {
      * @return the builder (for chaining)
      */
     protected TuiConfig.Builder configure(TuiConfig.Builder builder) {
-        return builder;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public final CommandResult execute(CommandInvocation invocation) throws CommandException, InterruptedException {
-        Shell shell = invocation.getShell();
-        Connection conn = shell.connection();
-        if (conn == null) {
-            invocation.println("TUI commands require a terminal connection.");
-            return CommandResult.FAILURE;
-        }
-        try {
-            AeshBackend backend = new AeshBackend(new NonClosingConnection(conn));
-            TuiConfig.Builder builder = TuiConfig.builder()
-                    .backend(backend)
-                    .shutdownHook(false); // aesh manages the lifecycle
-            TuiConfig config = configure(builder).build();
-            try (ToolkitRunner runner = ToolkitRunner.create(config)) {
-                runner.eventRouter().addGlobalHandler(event -> {
-                    if (event instanceof KeyEvent) {
-                        return onKeyEvent((KeyEvent) event, runner)
-                                ? EventResult.HANDLED
-                                : EventResult.UNHANDLED;
-                    }
-                    return EventResult.UNHANDLED;
-                });
-                onStart(runner);
-                runner.run(this::render);
-            }
-            return CommandResult.SUCCESS;
-        } catch (Exception e) {
-            throw new CommandException("TUI error: " + e.getMessage(), e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

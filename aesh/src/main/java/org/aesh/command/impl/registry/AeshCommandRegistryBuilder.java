@@ -17,11 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.registry;
 
 import java.util.List;
-
 import org.aesh.command.Command;
 import org.aesh.command.DefaultValueProvider;
 import org.aesh.command.container.CommandContainer;
@@ -42,7 +40,7 @@ public class AeshCommandRegistryBuilder<CI extends CommandInvocation> {
     private final MutableCommandRegistryImpl<CI> commandRegistry;
 
     public static <T extends CommandInvocation> AeshCommandRegistryBuilder<T> builder() {
-        return new AeshCommandRegistryBuilder<>();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private AeshCommandRegistryBuilder() {
@@ -50,8 +48,7 @@ public class AeshCommandRegistryBuilder<CI extends CommandInvocation> {
     }
 
     public AeshCommandRegistryBuilder<CI> containerBuilder(CommandContainerBuilder<CI> builder) {
-        commandRegistry.setCommandContainerBuilder(builder);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -59,52 +56,38 @@ public class AeshCommandRegistryBuilder<CI extends CommandInvocation> {
      * that don't declare their own per-command provider via the annotation.
      */
     public AeshCommandRegistryBuilder<CI> defaultValueProvider(DefaultValueProvider provider) {
-        commandRegistry.setDefaultValueProvider(provider);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRegistryBuilder<CI> command(Class<? extends Command> command) throws CommandRegistryException {
-        commandRegistry.addCommand((Class<Command>) command);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRegistryBuilder<CI> commands(Class<? extends Command>... commands) throws CommandRegistryException {
-        for (Class<? extends Command> c : commands) {
-            commandRegistry.addCommand((Class<Command>) c);
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRegistryBuilder<CI> commands(List<Class<? extends Command>> commands) throws CommandRegistryException {
-        for (Class<? extends Command> c : commands) {
-            commandRegistry.addCommand(c);
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRegistryBuilder<CI> command(ProcessedCommand<Command<CI>, CI> processedCommand) {
-        commandRegistry.addCommand(new AeshCommandContainer<>(processedCommand));
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRegistryBuilder<CI> command(CommandContainer commandContainer) {
-        commandRegistry.addCommand(commandContainer);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRegistryBuilder<CI> command(CommandLineParser<CI> parser) {
-        commandRegistry.addCommand(new AeshCommandContainer<>(parser));
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AeshCommandRegistryBuilder<CI> command(Command command) throws CommandRegistryException {
-        commandRegistry.addCommand(command);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CommandRegistry<CI> create() {
-        commandRegistry.applyDefaultValueProvider();
-        return commandRegistry;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

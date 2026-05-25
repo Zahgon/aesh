@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.container;
 
 import org.aesh.command.CommandResult;
@@ -26,6 +25,7 @@ import org.aesh.command.result.ResultHandler;
 public final class CommandContainerResult {
 
     private ResultHandler resultHandler;
+
     private CommandResult commandResult;
 
     public CommandContainerResult(ResultHandler resultHandler, CommandResult commandResult) {
@@ -34,18 +34,18 @@ public final class CommandContainerResult {
     }
 
     public CommandResult getCommandResult() {
-        return commandResult;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCommandResult(CommandResult commandResult) {
-        this.commandResult = commandResult;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ResultHandler getResultHandler() {
-        return resultHandler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setResultHandler(ResultHandler resultHandler) {
-        this.resultHandler = resultHandler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

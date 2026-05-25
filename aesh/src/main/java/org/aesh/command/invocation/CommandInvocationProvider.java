@@ -23,8 +23,9 @@ package org.aesh.command.invocation;
  * @author Aesh team
  */
 public interface CommandInvocationProvider<CI extends CommandInvocation> {
+
     @SuppressWarnings("unchecked")
     default CI enhanceCommandInvocation(CommandInvocation commandInvocation) {
-        return (CI) commandInvocation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

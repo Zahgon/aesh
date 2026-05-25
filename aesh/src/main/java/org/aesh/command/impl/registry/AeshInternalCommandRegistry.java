@@ -17,13 +17,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.registry;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import org.aesh.command.Command;
 import org.aesh.command.container.CommandContainer;
 import org.aesh.command.impl.container.AeshCommandContainerBuilder;
@@ -39,20 +37,19 @@ public class AeshInternalCommandRegistry {
     private final Map<String, CommandContainer> registry = new HashMap<String, CommandContainer>();
 
     public void addCommand(Command command) throws CommandLineParserException {
-        putIntoRegistry(new AeshCommandContainerBuilder().create(command));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void putIntoRegistry(CommandContainer commandContainer) {
-        if (!commandContainer.haveBuildError() &&
-                !registry.containsKey(commandContainer.getParser().getProcessedCommand().name()))
+        if (!commandContainer.haveBuildError() && !registry.containsKey(commandContainer.getParser().getProcessedCommand().name()))
             registry.put(commandContainer.getParser().getProcessedCommand().name(), commandContainer);
     }
 
     public CommandContainer getCommand(String name) {
-        return registry.get(name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Set<String> getAllCommandNames() {
-        return registry.keySet();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

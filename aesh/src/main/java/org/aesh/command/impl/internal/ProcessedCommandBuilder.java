@@ -22,7 +22,6 @@ package org.aesh.command.impl.internal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.aesh.command.Command;
 import org.aesh.command.DefaultValueProvider;
 import org.aesh.command.activator.CommandActivator;
@@ -45,22 +44,39 @@ import org.aesh.util.ReflectionUtil;
 public class ProcessedCommandBuilder<C extends Command<CI>, CI extends CommandInvocation> {
 
     private String name;
+
     private String description;
+
     private CommandValidator<C, CI> validator;
+
     private ResultHandler resultHandler;
+
     private ProcessedOption arguments;
+
     private ProcessedOption arg;
+
     private final List<ProcessedOption> options;
+
     private CommandPopulator<Object, CI> populator;
+
     private C command;
+
     private List<String> aliases;
+
     private CommandActivator activator;
+
     private boolean generateHelp;
+
     private boolean disableParsing;
+
     private boolean stopAtFirstPositional;
+
     private DefaultValueProvider defaultValueProvider;
+
     private String version;
+
     private String helpUrl;
+
     private boolean sortOptions;
 
     private ProcessedCommandBuilder() {
@@ -68,53 +84,43 @@ public class ProcessedCommandBuilder<C extends Command<CI>, CI extends CommandIn
     }
 
     public static <T extends Command<I>, I extends CommandInvocation> ProcessedCommandBuilder<T, I> builder() {
-        return new ProcessedCommandBuilder<>();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> name(String name) {
-        this.name = name;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> aliases(List<String> aliases) {
-        this.aliases = aliases == null ? Collections.emptyList()
-                : Collections.unmodifiableList(aliases);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> description(String usage) {
-        this.description = usage;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> version(String version) {
-        this.version = version;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> generateHelp(boolean help) {
-        this.generateHelp = help;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> disableParsing(boolean disableParsing) {
-        this.disableParsing = disableParsing;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> stopAtFirstPositional(boolean stopAtFirstPositional) {
-        this.stopAtFirstPositional = stopAtFirstPositional;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> defaultValueProvider(DefaultValueProvider defaultValueProvider) {
-        this.defaultValueProvider = defaultValueProvider;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> defaultValueProvider(Class<? extends DefaultValueProvider> defaultValueProvider) {
-        this.defaultValueProvider = initDefaultValueProvider(defaultValueProvider);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private DefaultValueProvider initDefaultValueProvider(Class<? extends DefaultValueProvider> defaultValueProvider) {
@@ -125,33 +131,27 @@ public class ProcessedCommandBuilder<C extends Command<CI>, CI extends CommandIn
     }
 
     public ProcessedCommandBuilder<C, CI> helpUrl(String helpUrl) {
-        this.helpUrl = helpUrl;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> sortOptions(boolean sortOptions) {
-        this.sortOptions = sortOptions;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> arguments(ProcessedOption arguments) {
-        this.arguments = arguments;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> argument(ProcessedOption argument) {
-        this.arg = argument;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> validator(CommandValidator<C, CI> validator) {
-        this.validator = validator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> validator(Class<? extends CommandValidator<C, CI>> validator) {
-        this.validator = initValidator(validator);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
@@ -163,8 +163,7 @@ public class ProcessedCommandBuilder<C extends Command<CI>, CI extends CommandIn
     }
 
     public ProcessedCommandBuilder<C, CI> resultHandler(Class<? extends ResultHandler> resultHandler) {
-        this.resultHandler = initResultHandler(resultHandler);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private ResultHandler initResultHandler(Class<? extends ResultHandler> resultHandler) {
@@ -175,23 +174,19 @@ public class ProcessedCommandBuilder<C extends Command<CI>, CI extends CommandIn
     }
 
     public ProcessedCommandBuilder<C, CI> resultHandler(ResultHandler resultHandler) {
-        this.resultHandler = resultHandler;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> populator(CommandPopulator<Object, CI> populator) {
-        this.populator = populator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> activator(CommandActivator activator) {
-        this.activator = activator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> activator(Class<? extends CommandActivator> activator) {
-        this.activator = initActivator(activator);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private CommandActivator initActivator(Class<? extends CommandActivator> activator) {
@@ -202,34 +197,24 @@ public class ProcessedCommandBuilder<C extends Command<CI>, CI extends CommandIn
     }
 
     public ProcessedCommandBuilder<C, CI> command(C command) {
-        this.command = command;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public ProcessedCommandBuilder<C, CI> command(Class command) {
-        this.command = (C) ReflectionUtil.newInstance(command);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> addOption(ProcessedOption option) {
-        this.options.add(option);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ProcessedCommandBuilder<C, CI> addOptions(List<ProcessedOption> options) {
-        if (options != null)
-            this.options.addAll(options);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public ProcessedCommand<C, CI> create() throws CommandLineParserException {
-        if (name == null || name.length() < 1)
-            throw new CommandLineParserException("The parameter name must be defined");
-
-        return new ProcessedCommand<>(name, aliases, command, description, validator,
-                resultHandler, generateHelp, disableParsing, version, arguments, options, arg, populator, activator,
-                helpUrl, stopAtFirstPositional, defaultValueProvider, sortOptions);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

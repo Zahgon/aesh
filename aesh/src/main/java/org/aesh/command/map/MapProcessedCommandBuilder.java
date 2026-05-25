@@ -22,7 +22,6 @@ package org.aesh.command.map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.aesh.command.activator.CommandActivator;
 import org.aesh.command.impl.internal.ProcessedOption;
 import org.aesh.command.impl.validator.NullCommandValidator;
@@ -36,20 +35,35 @@ import org.aesh.util.ReflectionUtil;
 public class MapProcessedCommandBuilder<CI extends CommandInvocation> {
 
     private MapProcessedOptionProvider provider;
+
     private String name;
+
     private String description;
+
     private CommandValidator<MapCommand<CI>, CI> validator;
+
     private ResultHandler resultHandler;
+
     private ProcessedOption arguments;
+
     private ProcessedOption argument;
+
     private final List<ProcessedOption> options;
+
     private CommandPopulator<Object, CI> populator;
+
     private MapCommand<CI> command;
+
     private List<String> aliases;
+
     private CommandActivator activator;
+
     private boolean lookup;
+
     private boolean generateHelp;
+
     private boolean disableParsing;
+
     private String version;
 
     private MapProcessedCommandBuilder() {
@@ -57,69 +71,56 @@ public class MapProcessedCommandBuilder<CI extends CommandInvocation> {
     }
 
     public static <T extends CommandInvocation> MapProcessedCommandBuilder<T> builder() {
-        return new MapProcessedCommandBuilder<>();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> lookupAtCompletionOnly(boolean lookup) {
-        this.lookup = lookup;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> name(String name) {
-        this.name = name;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> name(List<String> aliases) {
-        this.aliases = aliases == null ? Collections.<String> emptyList()
-                : Collections.unmodifiableList(aliases);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> description(String usage) {
-        this.description = usage;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> version(String version) {
-        this.version = version;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> generateHelp(boolean help) {
-        this.generateHelp = help;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> disableParsing(boolean disableParsing) {
-        this.disableParsing = disableParsing;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> optionProvider(MapProcessedOptionProvider provider) {
-        this.provider = provider;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> arguments(ProcessedOption arguments) {
-        this.arguments = arguments;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> argument(ProcessedOption argument) {
-        this.argument = argument;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> validator(CommandValidator<MapCommand<CI>, CI> validator) {
-        this.validator = validator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public MapProcessedCommandBuilder<CI> validator(Class<? extends CommandValidator> validator) {
-        this.validator = initValidator(validator);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private CommandValidator initValidator(Class<? extends CommandValidator> validator) {
@@ -131,8 +132,7 @@ public class MapProcessedCommandBuilder<CI extends CommandInvocation> {
     }
 
     public MapProcessedCommandBuilder<CI> resultHandler(Class<? extends ResultHandler> resultHandler) {
-        this.resultHandler = initResultHandler(resultHandler);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private ResultHandler initResultHandler(Class<? extends ResultHandler> resultHandler) {
@@ -144,8 +144,7 @@ public class MapProcessedCommandBuilder<CI extends CommandInvocation> {
     }
 
     public MapProcessedCommandBuilder<CI> resultHandler(ResultHandler resultHandler) {
-        this.resultHandler = resultHandler;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -155,62 +154,31 @@ public class MapProcessedCommandBuilder<CI extends CommandInvocation> {
      * @return
      */
     public MapProcessedCommandBuilder<CI> populator(CommandPopulator<Object, CI> populator) {
-        this.populator = populator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> command(MapCommand<CI> command) {
-        this.command = command;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> command(Class<? extends MapCommand<CI>> command) {
-        this.command = ReflectionUtil.newInstance(command);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> addOption(ProcessedOption option) {
-        this.options.add(option);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> addOptions(List<ProcessedOption> options) {
-        if (options != null) {
-            this.options.addAll(options);
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MapProcessedCommandBuilder<CI> activator(CommandActivator activator) {
-        this.activator = activator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public MapProcessedCommand<CI> create() throws CommandLineParserException {
-        if (name == null || name.length() < 1) {
-            throw new CommandLineParserException("The parameter name must be defined");
-        }
-
-        if (populator == null) {
-            populator = new MapCommandPopulator<>(command);
-        }
-
-        return new MapProcessedCommand<>(name,
-                aliases,
-                command,
-                description,
-                validator,
-                resultHandler,
-                generateHelp,
-                disableParsing,
-                version,
-                arguments,
-                options,
-                argument,
-                populator,
-                provider,
-                activator,
-                lookup);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

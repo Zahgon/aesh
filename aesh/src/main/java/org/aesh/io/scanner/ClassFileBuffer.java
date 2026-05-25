@@ -38,8 +38,12 @@ import java.io.InputStream;
 final class ClassFileBuffer implements DataInput {
 
     private byte[] buffer;
-    private int size; // the number of significant bytes read
-    private int pointer; // the "read pointer"
+
+    // the number of significant bytes read
+    private int size;
+
+    // the "read pointer"
+    private int pointer;
 
     /**
      * Create a new, empty {@code ClassFileBuffer} with the default initial capacity (8 kb).
@@ -68,16 +72,7 @@ final class ClassFileBuffer implements DataInput {
      * The read pointer is reset to the start of the byte array.
      */
     public void readFrom(final InputStream in) throws IOException {
-        pointer = 0;
-        size = 0;
-        int n;
-        do {
-            n = in.read(buffer, size, buffer.length - size);
-            if (n > 0) {
-                size += n;
-            }
-            resizeIfNeeded();
-        } while (n >= 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -85,122 +80,80 @@ final class ClassFileBuffer implements DataInput {
      * at which the next read or write occurs.
      */
     public void seek(final int position) throws IOException {
-        if (position < 0) {
-            throw new IllegalArgumentException("position < 0: " + position);
-        }
-        if (position > size) {
-            throw new EOFException();
-        }
-        this.pointer = position;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Return the size (in bytes) of this Java ClassFile file.
      */
     public int size() {
-        return size;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // DataInput
-
     @Override
     public void readFully(final byte[] bytes) throws IOException {
-        readFully(bytes, 0, bytes.length);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public void readFully(final byte[] bytes, final int offset, final int length)
-            throws IOException {
-
-        if (length < 0 || offset < 0 || offset + length > bytes.length) {
-            throw new IndexOutOfBoundsException();
-        }
-        if (pointer + length > size) {
-            throw new EOFException();
-        }
-        System.arraycopy(buffer, pointer, bytes, offset, length);
-        pointer += length;
+    public void readFully(final byte[] bytes, final int offset, final int length) throws IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int skipBytes(final int n) throws IOException {
-        seek(pointer + n);
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public byte readByte() throws IOException {
-        if (pointer >= size) {
-            throw new EOFException();
-        }
-        return buffer[pointer++];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean readBoolean() throws IOException {
-        return readByte() != 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int readUnsignedByte() throws IOException {
-        if (pointer >= size) {
-            throw new EOFException();
-        }
-        return read();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int readUnsignedShort() throws IOException {
-        if (pointer + 2 > size) {
-            throw new EOFException();
-        }
-        return (read() << 8) + read();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public short readShort() throws IOException {
-        return (short) readUnsignedShort();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public char readChar() throws IOException {
-        return (char) readUnsignedShort();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int readInt() throws IOException {
-        if (pointer + 4 > size) {
-            throw new EOFException();
-        }
-        return (read() << 24) +
-                (read() << 16) +
-                (read() << 8) +
-                read();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long readLong() throws IOException {
-        if (pointer + 8 > size) {
-            throw new EOFException();
-        }
-        return ((long) read() << 56) +
-                ((long) read() << 48) +
-                ((long) read() << 40) +
-                ((long) read() << 32) +
-                (read() << 24) +
-                (read() << 16) +
-                (read() << 8) +
-                read();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public float readFloat() throws IOException {
-        return Float.intBitsToFloat(readInt());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double readDouble() throws IOException {
-        return Double.longBitsToDouble(readLong());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -217,11 +170,10 @@ final class ClassFileBuffer implements DataInput {
 
     @Override
     public String readUTF() throws IOException {
-        return DataInputStream.readUTF(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // private
-
     private int read() {
         return buffer[pointer++] & 0xff;
     }
@@ -233,5 +185,4 @@ final class ClassFileBuffer implements DataInput {
             buffer = newBuffer;
         }
     }
-
 }

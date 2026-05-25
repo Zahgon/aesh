@@ -31,7 +31,6 @@ public class AeshCompleteOperation extends CompleteOperationImpl {
 
     public AeshCompleteOperation(AeshContext context, String buffer, int cursor) {
         super(buffer, cursor);
-
         this.context = context;
     }
 
@@ -40,7 +39,6 @@ public class AeshCompleteOperation extends CompleteOperationImpl {
     }
 
     public AeshContext getContext() {
-        return context;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

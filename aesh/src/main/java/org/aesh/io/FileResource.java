@@ -34,7 +34,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.aesh.io.filter.ResourceFilter;
 
 /**
@@ -66,163 +65,130 @@ public class FileResource implements Resource {
 
     @Override
     public String getName() {
-        return file.getName();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getAbsolutePath() {
-        return file.getAbsolutePath();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isLeaf() {
-        return file.isFile();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isDirectory() {
-        return file.isDirectory();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isSymbolicLink() {
-        return Files.isSymbolicLink(file.toPath());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Resource readSymbolicLink() throws IOException {
-        if (isSymbolicLink())
-            return new FileResource(Files.readSymbolicLink(file.toPath()).toFile());
-        else
-            return new FileResource("");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean exists() {
-        return file.exists();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean mkdirs() {
-        return file.mkdirs();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean delete() {
-        return file.delete();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void move(Resource target) throws IOException {
-        FileResource destination = (FileResource) target;
-        Files.move(this.file.toPath(), destination.file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Resource getParent() {
-        return new FileResource(file.getParentFile());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Resource> list() {
-        List<Resource> files = new ArrayList<>();
-
-        if (file != null) {
-            File[] listFiles = file.listFiles();
-            if (listFiles != null)
-                for (File f : listFiles)
-                    files.add(new FileResource(f));
-        }
-
-        return files;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Resource> list(ResourceFilter filter) {
-        List<Resource> files = new ArrayList<>();
-        for (Resource f : list()) {
-            if (filter != null && filter.accept(f))
-                files.add(f);
-        }
-
-        return files;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Resource> listRoots() {
-        List<Resource> files = new ArrayList<>();
-        for (File f : File.listRoots())
-            files.add(new FileResource(f));
-
-        return files;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Resource> resolve(Resource cwd) {
-        List<Resource> files = new ArrayList<>();
-        for (File f : PathResolver.resolvePath(getFile(), ((FileResource) cwd).getFile()))
-            files.add(new FileResource(f));
-
-        return files;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public InputStream read() throws FileNotFoundException {
-        if (file.getPath().startsWith("~" + File.separatorChar))
-            file = new File(System.getProperty("user.home") + file.getPath().substring(1));
-        return new FileInputStream(file);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <A extends BasicFileAttributes> A readAttributes(Class<A> type, LinkOption... options) throws IOException {
-        return Files.readAttributes(file.toPath(), type, options);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public OutputStream write(boolean append) throws FileNotFoundException {
-        return new FileOutputStream(file, append);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return file.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Resource newInstance(String path) {
-        return new FileResource(path);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Resource copy(Resource destination) throws IOException {
-        return new FileResource(
-                Files.copy(file.toPath(), new FileResource(destination.getAbsolutePath()).getFile().toPath()).toFile());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean setLastModified(long time) {
-        return file.setLastModified(time);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long lastModified() {
-        return file.lastModified();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setLastAccessed(long time) throws IOException {
-        FileTime fileTime = FileTime.fromMillis(time);
-        Files.setAttribute(file.toPath(), "lastAccessTime", fileTime);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long lastAccessed() throws IOException {
-        BasicFileAttributes bfa = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-        FileTime lastAccessed = bfa.lastAccessTime();
-        return lastAccessed.toMillis();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public File getFile() {
-        return file;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

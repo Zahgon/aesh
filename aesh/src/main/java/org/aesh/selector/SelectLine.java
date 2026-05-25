@@ -22,8 +22,11 @@ package org.aesh.selector;
 public class SelectLine {
 
     private final int maxLength;
+
     private boolean selected = false;
+
     private boolean focus = false;
+
     private final String description;
 
     public SelectLine(String description, int maxLength) {
@@ -38,11 +41,11 @@ public class SelectLine {
     }
 
     public void select() {
-        selected = !selected;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void focus() {
-        focus = !focus;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private char getFocus() {
@@ -50,18 +53,14 @@ public class SelectLine {
     }
 
     public boolean isSelected() {
-        return selected;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String print() {
-        String out = selected ? getFocus() + "[*] " + description : getFocus() + "[ ] " + description;
-        if (out.length() > maxLength)
-            return out.substring(0, maxLength - 3) + "...";
-        else
-            return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String value() {
-        return description;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

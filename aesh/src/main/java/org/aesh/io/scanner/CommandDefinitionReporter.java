@@ -3,7 +3,6 @@ package org.aesh.io.scanner;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.aesh.command.CommandDefinition;
 
 public class CommandDefinitionReporter implements AnnotationDetector.TypeReporter {
@@ -15,23 +14,17 @@ public class CommandDefinitionReporter implements AnnotationDetector.TypeReporte
     }
 
     public List<String> getCommands() {
-        return commands;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportTypeAnnotation(Class<? extends Annotation> annotation, String className) {
-        //only load commands that's outside of org.aesh
-        if (!className.startsWith("org.aesh"))
-            commands.add(className);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Class<? extends Annotation>[] annotations() {
-        try {
-            return new Class[] { Class.forName(CommandDefinition.class.getCanonicalName()) };
-        } catch (ClassNotFoundException e) {
-            return null;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

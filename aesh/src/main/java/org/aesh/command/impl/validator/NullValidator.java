@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.validator;
 
 import org.aesh.command.validator.OptionValidator;
@@ -28,7 +27,9 @@ import org.aesh.command.validator.ValidatorInvocation;
  * @author Aesh team
  */
 public class NullValidator implements OptionValidator {
+
     @Override
     public void validate(ValidatorInvocation validatorInvocation) throws OptionValidatorException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

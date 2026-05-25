@@ -20,7 +20,6 @@
 package org.aesh.command;
 
 import java.io.IOException;
-
 import org.aesh.command.invocation.CommandInvocation;
 import org.aesh.command.invocation.CommandInvocationBuilder;
 import org.aesh.command.invocation.InvocationProviders;
@@ -57,11 +56,7 @@ public interface CommandRuntime<CI extends CommandInvocation> {
      * @throws CommandValidatorException
      * @throws java.io.IOException
      */
-    Executor<CI> buildExecutor(String line) throws CommandNotFoundException,
-            CommandLineParserException,
-            OptionValidatorException,
-            CommandValidatorException,
-            IOException;
+    Executor<CI> buildExecutor(String line) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, IOException;
 
     /**
      * Execute a command line.
@@ -75,13 +70,7 @@ public interface CommandRuntime<CI extends CommandInvocation> {
      * @throws java.lang.InterruptedException
      * @throws java.io.IOException
      */
-    CommandResult executeCommand(String line) throws CommandNotFoundException,
-            CommandLineParserException,
-            OptionValidatorException,
-            CommandValidatorException,
-            CommandException,
-            InterruptedException,
-            IOException;
+    CommandResult executeCommand(String line) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException, InterruptedException, IOException;
 
     /**
      * Execute multiple lines sequentially.
@@ -96,13 +85,7 @@ public interface CommandRuntime<CI extends CommandInvocation> {
      * @throws java.lang.InterruptedException
      * @throws java.io.IOException
      */
-    CommandResult executeCommand(String... lines) throws CommandNotFoundException,
-            CommandLineParserException,
-            OptionValidatorException,
-            CommandValidatorException,
-            CommandException,
-            InterruptedException,
-            IOException;
+    CommandResult executeCommand(String... lines) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException, InterruptedException, IOException;
 
     /**
      * Returns the aesh context.
@@ -112,17 +95,11 @@ public interface CommandRuntime<CI extends CommandInvocation> {
     AeshContext getAeshContext();
 
     /**
-     *
      * @param line input line
      * @return condensed information regarding the specific command
      */
     default String commandInfo(String line) {
-        try {
-            String name = Parser.findFirstWord(line);
-            return getCommandRegistry().getCommand(name, line).printHelp(line);
-        } catch (CommandNotFoundException e) {
-            return null;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -140,20 +117,8 @@ public interface CommandRuntime<CI extends CommandInvocation> {
      * @throws CommandLineParserException
      * @throws java.io.IOException
      */
-    default Executor<CI> buildExecutor(String commandName, String[] args) throws CommandNotFoundException,
-            CommandLineParserException,
-            OptionValidatorException,
-            CommandValidatorException,
-            IOException {
-        // Default fallback: reconstruct a command string and delegate.
-        // Implementations should override for proper pre-tokenized support.
-        StringBuilder sb = new StringBuilder(commandName);
-        if (args != null) {
-            for (String arg : args) {
-                sb.append(' ').append(arg);
-            }
-        }
-        return buildExecutor(sb.toString());
+    default Executor<CI> buildExecutor(String commandName, String[] args) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -166,22 +131,8 @@ public interface CommandRuntime<CI extends CommandInvocation> {
      * @param commandName the command to execute
      * @param args the pre-tokenized arguments (may be null or empty)
      */
-    default CommandResult executeCommand(String commandName, String[] args) throws CommandNotFoundException,
-            CommandLineParserException,
-            OptionValidatorException,
-            CommandValidatorException,
-            CommandException,
-            InterruptedException,
-            IOException {
-        // Default fallback: reconstruct a command string and delegate.
-        // Implementations should override for proper pre-tokenized support.
-        StringBuilder sb = new StringBuilder(commandName);
-        if (args != null) {
-            for (String arg : args) {
-                sb.append(' ').append(arg);
-            }
-        }
-        return executeCommand(sb.toString());
+    default CommandResult executeCommand(String commandName, String[] args) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException, InterruptedException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     CommandInvocationBuilder<CI> commandInvocationBuilder();

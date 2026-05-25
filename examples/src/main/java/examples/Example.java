@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandDefinition;
 import org.aesh.command.CommandException;
@@ -82,65 +81,7 @@ import org.aesh.terminal.utils.Config;
 public class Example {
 
     public static void main(String[] args) throws CommandLineParserException, IOException, CommandRegistryException {
-
-        CommandBuilder<FooCommand> fooCommand = CommandBuilder.<FooCommand> builder()
-                .name("foo")
-                .description("fooing")
-                .addOption(ProcessedOptionBuilder.builder()
-                        .name("bar")
-                        .addDefaultValue("en 1 0")
-                        .addDefaultValue("to 2 0")
-                        .fieldName("bar")
-                        .type(String.class)
-                        .renderer(new BlueBoldRenderer())
-                        .build())
-                .addOption(ProcessedOptionBuilder.builder()
-                        .name("foo")
-                        .fieldName("foo")
-                        .type(String.class)
-                        .build())
-                .command(FooCommand.class);
-
-        CommandRegistry registry = AeshCommandRegistryBuilder.builder()
-                .command(ExitCommand.class)
-                .command(fooCommand.create())
-                .command(HiddenCommand.class)
-                .command(LsCommand.class)
-                .command(TestConsoleCommand.class)
-                .command(PromptCommand.class)
-                .command(RunCommand.class)
-                .command(AskCommand.class)
-                .command(ClearCommand.class)
-                .command(GroupCommand.class)
-                .command(LongOutputCommand.class)
-                .command(ReadlineCommand.class)
-                .command(SelectCommand.class)
-                //example on how to build a command with a simple lambda
-                .command(CommandBuilder.builder().name("quit").command(commandInvocation -> {
-                    commandInvocation.stop();
-                    return CommandResult.SUCCESS;
-                }).create())
-                .create();
-
-        SettingsBuilder<CommandInvocation> builder = SettingsBuilder
-                .builder()
-                .logging(true)
-                .enableMan(true)
-                .enableAlias(true)
-                .enableExport(true)
-                .enableSearchInPaging(true)
-                .setExecuteFileAtStart(new FileResource(
-                        Config.getHomeDir() + Config.getPathSeparator() + ".aeshrc"))
-                .readInputrc(false)
-                .commandRegistry(registry)
-                .manProvider(new ManProviderExample())
-                .validatorInvocationProvider(new ExampleValidatorInvocationProvider());
-
-        ReadlineConsole console = new ReadlineConsole(builder.build());
-        console.setPrompt(new Prompt(new TerminalString("[aesh@rules]$ ",
-                new TerminalColor(Color.GREEN, Color.DEFAULT, Color.Intensity.BRIGHT))));
-
-        console.start();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @CommandDefinition(name = "exit", description = "exit the program", aliases = { "quit" })
@@ -148,15 +89,15 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            commandInvocation.stop();
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     private static class HideActivator implements CommandActivator {
+
         @Override
         public boolean isActivated(ParsedCommand command) {
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -165,8 +106,7 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            commandInvocation.print("Command exists but is not shown");
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -178,20 +118,7 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-
-            if (arguments != null && arguments.size() > 0 && arguments.get(0).isLeaf()) {
-                try {
-                    List<String> script = readScriptFile(arguments.get(0));
-
-                    for (String line : script) {
-                        commandInvocation.executeCommand(line + Config.getLineSeparator());
-                    }
-                } catch (Exception ex) {
-                    throw new CommandException(ex);
-                }
-            }
-
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private List<String> readScriptFile(Resource resource) throws IOException {
@@ -203,7 +130,6 @@ public class Example {
                     lines.add(line);
                 line = br.readLine();
             }
-
             return lines;
         }
     }
@@ -217,14 +143,7 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            if (bar == null)
-                commandInvocation.getShell().writeln("NO BAR!");
-            else {
-                commandInvocation.getShell().writeln("you set bar to: " + bar);
-                commandInvocation.getShell().writeln("lets work a bit...... ");
-                Thread.sleep(2000);
-            }
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -247,19 +166,7 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            this.shell = commandInvocation.getShell();
-            if (help) {
-                shell.writeln(commandInvocation.getHelpInfo("test"));
-            } else {
-                try {
-                    //display();
-                    processOperation(commandInvocation);
-                } catch (IOException ex) {
-                    throw new CommandException(ex);
-                }
-            }
-
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private void display() {
@@ -271,11 +178,7 @@ public class Example {
         }
 
         public void processOperation(CommandInvocation invocation) throws IOException, InterruptedException {
-            //first ask for username, then password
-            String username = promptForUsername(invocation);
-            String password = promptForInput("password: ", '*', invocation);
-
-            shell.writeln("we got username: " + username + ", password: " + password);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private String promptForUsername(CommandInvocation invocation) throws InterruptedException {
@@ -283,8 +186,7 @@ public class Example {
             return invocation.inputLine();
         }
 
-        private String promptForInput(String prompt, Character mask,
-                CommandInvocation invocation) throws IOException, InterruptedException {
+        private String promptForInput(String prompt, Character mask, CommandInvocation invocation) throws IOException, InterruptedException {
             return invocation.inputLine(new Prompt(prompt, mask));
         }
     }
@@ -312,24 +214,7 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            if (help) {
-                commandInvocation.getShell().writeln(commandInvocation.getHelpInfo("ls"));
-            } else {
-                if (foo)
-                    commandInvocation.getShell().writeln("you set foo to: " + foo);
-                if (bar)
-                    commandInvocation.getShell().writeln("you set bar to: " + bar);
-                if (less != null)
-                    commandInvocation.getShell().writeln("you set less to: " + less);
-                if (files != null)
-                    commandInvocation.getShell().writeln("you set file to: " + files);
-
-                if (arguments != null) {
-                    for (Resource f : arguments)
-                        commandInvocation.getShell().writeln(f.toString());
-                }
-            }
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -344,12 +229,7 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-
-            commandInvocation.println("path is set to: " + path);
-            if (args != null && args.size() > 0)
-                commandInvocation.println("args[0] is: " + args.get(0));
-
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -358,8 +238,7 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            commandInvocation.getShell().clear();
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -371,15 +250,7 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < commandInvocation.getShell().size().getHeight() * 2; i++) {
-                builder.append("A sentence to say " + i + " time how long this content is." + Config.getLineSeparator());
-            }
-            commandInvocation.getShell().writeln(builder.toString(), true);
-            if (prompt) {
-                commandInvocation.inputLine(new Prompt("What was the name of your first pet?: "));
-            }
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -393,28 +264,12 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            this.shell = commandInvocation.getShell();
-            if (bar) {
-                shell.write("are you sure you want bar? (y/n) ");
-                KeyAction operation = null;
-                try {
-                    operation = commandInvocation.input();
-                } catch (InterruptedException e) {
-                    return CommandResult.FAILURE;
-                }
-                if (operation instanceof Key)
-                    processOperation((Key) operation);
-            }
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void processOperation(Key operation) {
-            if (operation == Key.y) {
-                shell.writeln(Config.getLineSeparator() + "you wanted bar!");
-            } else
-                shell.writeln(Config.getLineSeparator() + "you chickened out!!");
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
     @CommandDefinition(name = "select", description = "The select command", generateHelp = true)
@@ -430,20 +285,8 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            this.shell = commandInvocation.getShell();
-
-            commandInvocation.println("Color: " + color + ", Bool: " + bool);
-
-            List<String> selected = new Selector(SelectorType.SELECT, new String[] { "blue", "green", "red" },
-                    "Which color do you want? ")
-                    .doSelect(commandInvocation.getShell());
-
-            if (selected.size() > 0)
-                commandInvocation.println("You selected: " + selected.get(0));
-
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
     @CommandDefinition(name = "readline", description = "")
@@ -451,19 +294,7 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            String msg;
-            try {
-                msg = commandInvocation.inputLine(new Prompt("Type something:"));
-            } catch (InterruptedException e) {
-                commandInvocation.println("Interrupted!");
-                return CommandResult.FAILURE;
-            }
-            if (msg == null) {
-                commandInvocation.println("Exit expected, leaving");
-            } else {
-                commandInvocation.println("Typed message:" + msg);
-            }
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -471,34 +302,24 @@ public class Example {
 
         @Override
         public void complete(CompleterInvocation completerData) {
-            List<String> completeList = new ArrayList<>();
-            if (completerData.getGivenCompleteValue() == null || completerData.getGivenCompleteValue().length() == 0) {
-                completeList.add("1");
-            } else {
-                char lastChar = completerData.getGivenCompleteValue()
-                        .charAt(completerData.getGivenCompleteValue().length() - 1);
-                if (Character.isDigit(lastChar)) {
-                    int i = (int) lastChar;
-                    i++;
-                    completeList.add(completerData.getGivenCompleteValue() + i);
-                }
-            }
-            completerData.addAllCompleterValues(completeList);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     public static class DirectoryValidator implements OptionValidator<DirectoryValidatorInvocation> {
+
         @Override
         public void validate(DirectoryValidatorInvocation validatorInvocation) throws OptionValidatorException {
-            if (!validatorInvocation.getValue().isDirectory())
-                throw new OptionValidatorException("File validation failed, must be a directory.");
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     public static class DirectoryValidatorInvocation implements ValidatorInvocation<File, Command> {
 
         private final File file;
+
         private final Command command;
+
         private final AeshContext aeshContext;
 
         public DirectoryValidatorInvocation(File file, Command command, AeshContext aeshContext) {
@@ -509,30 +330,25 @@ public class Example {
 
         @Override
         public File getValue() {
-            return file;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public Command getCommand() {
-            return command;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public AeshContext getAeshContext() {
-            return aeshContext;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
-    public static class ExampleValidatorInvocationProvider
-            implements ValidatorInvocationProvider {
+    public static class ExampleValidatorInvocationProvider implements ValidatorInvocationProvider {
 
         @Override
         public ValidatorInvocation enhanceValidatorInvocation(ValidatorInvocation validatorInvocation) {
-            if (validatorInvocation.getValue() instanceof File)
-                return new DirectoryValidatorInvocation((File) validatorInvocation.getValue(),
-                        (Command) validatorInvocation.getCommand(), validatorInvocation.getAeshContext());
-            else
-                return validatorInvocation;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -540,24 +356,24 @@ public class Example {
 
         @Override
         public boolean isActivated(ParsedCommand parsedCommand) {
-            ParsedOption bar = parsedCommand.findLongOption("bar");
-            return bar != null && bar.value() != null;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     public static class BlueBoldRenderer implements OptionRenderer {
 
         private static final TerminalTextStyle style = new TerminalTextStyle(CharacterType.UNDERLINE);
+
         private static final TerminalColor color = new TerminalColor(42, Color.BLUE);
 
         @Override
         public TerminalColor getColor() {
-            return color;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public TerminalTextStyle getTextType() {
-            return style;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -565,18 +381,11 @@ public class Example {
 
         @Override
         public InputStream getManualDocument(String commandName) {
-            //this is just a stupid example always returning a file located in /tmp
-            try {
-                return new FileInputStream("/tmp/asciitest2.txt");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            return null;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
-    @GroupCommandDefinition(name = "group", description = "This is a group command", groupCommands = { Base.class,
-            Rebase.class })
+    @GroupCommandDefinition(name = "group", description = "This is a group command", groupCommands = { Base.class, Rebase.class })
     public static class GroupCommand implements Command {
 
         @Option(hasValue = false, description = "display this help option")
@@ -584,11 +393,7 @@ public class Example {
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            if (help)
-                commandInvocation.getShell().writeln(commandInvocation.getHelpInfo());
-            else
-                commandInvocation.getShell().writeln("only executed group, it doesnt do much...");
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -597,28 +402,25 @@ public class Example {
 
         @Option(description = "set foo")
         private String foo;
+
         @Option(hasValue = false, description = "display this help option")
         private boolean help;
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            if (help)
-                commandInvocation.getShell().writeln(commandInvocation.getHelpInfo());
-            else
-                commandInvocation.getShell().writeln("foo is set to: " + foo);
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     @CommandDefinition(name = "rebase", description = "description of rebase command")
     public static class Rebase implements Command {
+
         @Option
         private boolean bar;
 
         @Override
         public CommandResult execute(CommandInvocation commandInvocation) throws CommandException, InterruptedException {
-            commandInvocation.getShell().writeln("bar is set to: " + bar);
-            return CommandResult.SUCCESS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

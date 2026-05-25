@@ -35,11 +35,11 @@ public class AeshGraphicsConfiguration implements GraphicsConfiguration {
 
     @Override
     public Size getBounds() {
-        return connection.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Graphics getGraphics() {
-        return new AeshGraphics(connection, this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

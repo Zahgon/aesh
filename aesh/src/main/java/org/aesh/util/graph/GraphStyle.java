@@ -42,27 +42,31 @@ package org.aesh.util.graph;
  */
 public enum GraphStyle {
 
-    ASCII('-', '|', '+', '+', '+', '+', '+', '+', '+', '+', '+'),
-    UNICODE('\u2500', '\u2502', '\u252C', '\u2534', '\u253C',
-            '\u250C', '\u2510', '\u2514', '\u2518', '\u251C', '\u2524'),
-    ROUNDED('\u2500', '\u2502', '\u252C', '\u2534', '\u253C',
-            '\u256D', '\u256E', '\u2570', '\u256F', '\u251C', '\u2524');
+    ASCII('-', '|', '+', '+', '+', '+', '+', '+', '+', '+', '+'), UNICODE('\u2500', '\u2502', '\u252C', '\u2534', '\u253C', '\u250C', '\u2510', '\u2514', '\u2518', '\u251C', '\u2524'), ROUNDED('\u2500', '\u2502', '\u252C', '\u2534', '\u253C', '\u256D', '\u256E', '\u2570', '\u256F', '\u251C', '\u2524');
 
     private final char horizontal;
+
     private final char vertical;
+
     private final char downTee;
+
     private final char upTee;
+
     private final char cross;
+
     private final char topLeft;
+
     private final char topRight;
+
     private final char bottomLeft;
+
     private final char bottomRight;
+
     private final char rightTee;
+
     private final char leftTee;
 
-    GraphStyle(char horizontal, char vertical, char downTee, char upTee, char cross,
-            char topLeft, char topRight, char bottomLeft, char bottomRight,
-            char rightTee, char leftTee) {
+    GraphStyle(char horizontal, char vertical, char downTee, char upTee, char cross, char topLeft, char topRight, char bottomLeft, char bottomRight, char rightTee, char leftTee) {
         this.horizontal = horizontal;
         this.vertical = vertical;
         this.downTee = downTee;
@@ -77,46 +81,46 @@ public enum GraphStyle {
     }
 
     public char horizontal() {
-        return horizontal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char vertical() {
-        return vertical;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char downTee() {
-        return downTee;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char upTee() {
-        return upTee;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char cross() {
-        return cross;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char topLeft() {
-        return topLeft;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char topRight() {
-        return topRight;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char bottomLeft() {
-        return bottomLeft;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char bottomRight() {
-        return bottomRight;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char rightTee() {
-        return rightTee;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public char leftTee() {
-        return leftTee;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

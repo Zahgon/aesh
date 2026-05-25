@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.registry;
 
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandNotFoundException;
 import org.aesh.command.DefaultValueProvider;
@@ -49,15 +47,17 @@ import org.aesh.readline.completion.CompleteOperation;
 public class MutableCommandRegistryImpl<CI extends CommandInvocation> implements MutableCommandRegistry<CI> {
 
     private final Map<String, CommandContainer<CI>> registry = new HashMap<>();
+
     private final Map<String, CommandContainer<CI>> aliases = new HashMap<>();
 
     private CommandContainerBuilder<CI> containerBuilder;
+
     private DefaultValueProvider defaultValueProvider;
 
     private final List<CommandRegistrationListener> listeners = new ArrayList<>();
 
     public void setCommandContainerBuilder(CommandContainerBuilder<CI> containerBuilder) {
-        this.containerBuilder = containerBuilder;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -65,117 +65,67 @@ public class MutableCommandRegistryImpl<CI extends CommandInvocation> implements
      * that don't declare their own per-command provider.
      */
     public void setDefaultValueProvider(DefaultValueProvider provider) {
-        this.defaultValueProvider = provider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandContainer<CI> getCommand(String name, String line) throws CommandNotFoundException {
-        if (registry.containsKey(name))
-            return registry.get(name);
-        //group command
-        else if (name.contains(" ")) {
-            String[] names = name.split(" ");
-            if (registry.containsKey(names[0])) {
-                return registry.get(names[0]);
-            }
-            throw new CommandNotFoundException("Command: " + names[0] + " was not found.", names[0]);
-        } else
-            throw new CommandNotFoundException("Command: " + name + " was not found.", name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<CommandLineParser<CI>> getChildCommandParsers(String parent) throws CommandNotFoundException {
-        CommandContainer<CI> c = getCommand(parent, "");
-        if (c == null) {
-            throw new CommandNotFoundException("Command: " + parent + " was not found.", parent);
-        }
-        return Collections.unmodifiableList(c.getParser().getAllChildParsers());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void completeCommandName(CompleteOperation co, ParsedLine parsedLine) {
-        if (parsedLine.words().isEmpty()) {
-            //add all
-            for (CommandContainer<CI> command : registry.values()) {
-                ProcessedCommand<? extends Command<CI>, CI> com = command.getParser().getProcessedCommand();
-                if (com.isActivated(new ParsedCommand(com)))
-                    co.addCompletionCandidate(com.name());
-            }
-        } else {
-            for (CommandContainer<CI> command : registry.values()) {
-                ProcessedCommand<? extends Command<CI>, CI> com = command.getParser().getProcessedCommand();
-                if (com.name().startsWith(parsedLine.selectedWord().word()) &&
-                        com.isActivated(new ParsedCommand(com))) {
-                    co.addCompletionCandidate(com.name());
-                    co.setOffset(co.getCursor() - parsedLine.selectedWord().word().length());
-                    if (parsedLine.selectedIndex() < parsedLine.size() - 1)
-                        co.setAppendSeparator(false);
-                }
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Set<String> getAllCommandNames() {
-        return registry.keySet();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void addCommand(CommandContainer<CI> container) {
-        putIntoRegistry(container);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void addCommand(Command command) throws CommandRegistryException {
-        try {
-            putIntoRegistry(getBuilder().create(command));
-        } catch (CommandLineParserException e) {
-            throw new CommandRegistryException(e.getMessage(), e.getCause());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void addCommand(Class<? extends Command> command) throws CommandRegistryException {
-        try {
-            putIntoRegistry(getBuilder().create(command));
-        } catch (CommandLineParserException e) {
-            throw new CommandRegistryException(e.getMessage(), e.getCause());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void addAllCommands(List<Command> commands) throws CommandRegistryException {
-        if (commands != null) {
-            for (Command command : commands)
-                addCommand(command);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void addAllCommandContainers(List<CommandContainer<CI>> commands) {
-        if (commands != null) {
-            for (CommandContainer<CI> command : commands)
-                addCommand(command);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean contains(String commandName) {
-        return registry.containsKey(commandName) || aliases.containsKey(commandName);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void putIntoRegistry(CommandContainer<CI> commandContainer) {
-        if (!commandContainer.haveBuildError()
-                && !contains(commandContainer.getParser().getProcessedCommand())) {
-            registry.put(commandContainer.getParser().getProcessedCommand().name(),
-                    commandContainer);
+        if (!commandContainer.haveBuildError() && !contains(commandContainer.getParser().getProcessedCommand())) {
+            registry.put(commandContainer.getParser().getProcessedCommand().name(), commandContainer);
             ProcessedCommand<? extends Command<CI>, CI> command = commandContainer.getParser().getProcessedCommand();
             for (String alias : command.getAliases()) {
                 aliases.put(alias, commandContainer);
             }
-            emit(commandContainer.getParser().getProcessedCommand().name(),
-                    REGISTRATION_ACTION.ADDED);
+            emit(commandContainer.getParser().getProcessedCommand().name(), REGISTRATION_ACTION.ADDED);
         }
     }
 
@@ -185,11 +135,7 @@ public class MutableCommandRegistryImpl<CI extends CommandInvocation> implements
      * have been registered and the provider has been set.
      */
     public void applyDefaultValueProvider() {
-        if (defaultValueProvider == null)
-            return;
-        for (CommandContainer<CI> container : registry.values()) {
-            injectDefaultValueProvider(container.getParser());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void injectDefaultValueProvider(CommandLineParser<CI> parser) {
@@ -219,14 +165,7 @@ public class MutableCommandRegistryImpl<CI extends CommandInvocation> implements
 
     @Override
     public void removeCommand(String name) {
-        if (registry.containsKey(name)) {
-            CommandContainer<CI> container = registry.remove(name);
-            ProcessedCommand<? extends Command<CI>, CI> command = container.getParser().getProcessedCommand();
-            for (String alias : command.getAliases()) {
-                aliases.remove(alias);
-            }
-            emit(name, REGISTRATION_ACTION.REMOVED);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private CommandContainerBuilder<CI> getBuilder() {
@@ -237,11 +176,7 @@ public class MutableCommandRegistryImpl<CI extends CommandInvocation> implements
 
     @Override
     public CommandContainer<CI> getCommandByAlias(String alias) throws CommandNotFoundException {
-        if (aliases.containsKey(alias)) {
-            return aliases.get(alias);
-        } else {
-            throw new CommandNotFoundException("Command: named " + alias + " was not found.", alias);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void emit(String name, REGISTRATION_ACTION action) {
@@ -252,12 +187,11 @@ public class MutableCommandRegistryImpl<CI extends CommandInvocation> implements
 
     @Override
     public void addRegistrationListener(CommandRegistrationListener listener) {
-        listeners.add(listener);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void removeRegistrationListener(CommandRegistrationListener listener) {
-        listeners.remove(listener);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

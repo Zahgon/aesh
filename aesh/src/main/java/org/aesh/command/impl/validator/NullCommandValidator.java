@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.validator;
 
 import org.aesh.command.Command;
@@ -28,8 +27,9 @@ import org.aesh.command.validator.CommandValidator;
  * @author Aesh team
  */
 public class NullCommandValidator implements CommandValidator<Command<CommandInvocation>, CommandInvocation> {
+
     @Override
     public void validate(Command<CommandInvocation> command) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

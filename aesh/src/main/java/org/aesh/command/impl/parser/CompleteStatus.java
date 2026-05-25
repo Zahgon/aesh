@@ -25,6 +25,7 @@ package org.aesh.command.impl.parser;
 public class CompleteStatus {
 
     private Status status;
+
     private String value;
 
     public CompleteStatus(Status status, String value) {
@@ -33,14 +34,15 @@ public class CompleteStatus {
     }
 
     public Status status() {
-        return status;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String value() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public enum Status {
+
         SHORT_OPTION,
         LONG_OPTION,
         COMPLETE_OPTION,
@@ -54,9 +56,6 @@ public class CompleteStatus {
 
     @Override
     public String toString() {
-        return "CompleteStatus{" +
-                "status=" + status +
-                ", value='" + value + '\'' +
-                '}';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

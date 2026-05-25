@@ -27,15 +27,25 @@ package org.aesh.command.settings;
 public class SubCommandModeSettingsBuilder {
 
     private boolean enabled = true;
+
     private String exitCommand = "exit";
+
     private String alternativeExitCommand = "..";
+
     private String contextSeparator = ":";
+
     private boolean showContextOnEntry = true;
+
     private boolean showArgumentInPrompt = true;
+
     private String contextCommand = "context";
+
     private String enterMessage = "Entering {name} mode.";
+
     private String exitMessage = null;
+
     private String exitHint = "Type '{exit}' to return.";
+
     private boolean exitOnCtrlC = true;
 
     SubCommandModeSettingsBuilder() {
@@ -48,8 +58,7 @@ public class SubCommandModeSettingsBuilder {
      * @return this builder
      */
     public SubCommandModeSettingsBuilder enabled(boolean enabled) {
-        this.enabled = enabled;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -59,8 +68,7 @@ public class SubCommandModeSettingsBuilder {
      * @return this builder
      */
     public SubCommandModeSettingsBuilder exitCommand(String exitCommand) {
-        this.exitCommand = exitCommand;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -71,8 +79,7 @@ public class SubCommandModeSettingsBuilder {
      * @return this builder
      */
     public SubCommandModeSettingsBuilder alternativeExitCommand(String alternativeExitCommand) {
-        this.alternativeExitCommand = alternativeExitCommand;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -82,8 +89,7 @@ public class SubCommandModeSettingsBuilder {
      * @return this builder
      */
     public SubCommandModeSettingsBuilder contextSeparator(String contextSeparator) {
-        this.contextSeparator = contextSeparator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -93,8 +99,7 @@ public class SubCommandModeSettingsBuilder {
      * @return this builder
      */
     public SubCommandModeSettingsBuilder showContextOnEntry(boolean showContextOnEntry) {
-        this.showContextOnEntry = showContextOnEntry;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -104,8 +109,7 @@ public class SubCommandModeSettingsBuilder {
      * @return this builder
      */
     public SubCommandModeSettingsBuilder showArgumentInPrompt(boolean showArgumentInPrompt) {
-        this.showArgumentInPrompt = showArgumentInPrompt;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -116,8 +120,7 @@ public class SubCommandModeSettingsBuilder {
      * @return this builder
      */
     public SubCommandModeSettingsBuilder contextCommand(String contextCommand) {
-        this.contextCommand = contextCommand;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -128,8 +131,7 @@ public class SubCommandModeSettingsBuilder {
      * @return this builder
      */
     public SubCommandModeSettingsBuilder enterMessage(String enterMessage) {
-        this.enterMessage = enterMessage;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -140,8 +142,7 @@ public class SubCommandModeSettingsBuilder {
      * @return this builder
      */
     public SubCommandModeSettingsBuilder exitMessage(String exitMessage) {
-        this.exitMessage = exitMessage;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -152,8 +153,7 @@ public class SubCommandModeSettingsBuilder {
      * @return this builder
      */
     public SubCommandModeSettingsBuilder exitHint(String exitHint) {
-        this.exitHint = exitHint;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -163,8 +163,7 @@ public class SubCommandModeSettingsBuilder {
      * @return this builder
      */
     public SubCommandModeSettingsBuilder exitOnCtrlC(boolean exitOnCtrlC) {
-        this.exitOnCtrlC = exitOnCtrlC;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -173,9 +172,6 @@ public class SubCommandModeSettingsBuilder {
      * @return the configured settings
      */
     public SubCommandModeSettings build() {
-        return new DefaultSubCommandModeSettings(
-                enabled, exitCommand, alternativeExitCommand, contextSeparator,
-                showContextOnEntry, showArgumentInPrompt, contextCommand,
-                enterMessage, exitMessage, exitHint, exitOnCtrlC);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

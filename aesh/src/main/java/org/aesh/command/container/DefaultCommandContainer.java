@@ -20,7 +20,6 @@
 package org.aesh.command.container;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandException;
 import org.aesh.command.CommandResult;
@@ -52,100 +51,45 @@ public abstract class DefaultCommandContainer<CI extends CommandInvocation> impl
 
     @Override
     public void addLine(ParsedLine aeshLine) {
-        lines().add(aeshLine);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ParsedLine pollLine() {
-        return lines != null ? lines.poll() : null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void emptyLine() {
-        if (lines != null)
-            lines.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public ProcessedCommand<Command<CI>, CI> parseAndPopulate(InvocationProviders invocationProviders,
-            AeshContext aeshContext)
-            throws CommandLineParserException, OptionValidatorException {
-        return parseAndPopulate(invocationProviders, aeshContext, null);
+    public ProcessedCommand<Command<CI>, CI> parseAndPopulate(InvocationProviders invocationProviders, AeshContext aeshContext) throws CommandLineParserException, OptionValidatorException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public ProcessedCommand<Command<CI>, CI> parseAndPopulate(InvocationProviders invocationProviders,
-            AeshContext aeshContext,
-            org.aesh.command.impl.context.CommandContext commandContext)
-            throws CommandLineParserException, OptionValidatorException {
-        if (lines == null || lines.isEmpty())
-            return null;
-        ParsedLine aeshLine = lines.poll();
-        getParser().parse(aeshLine.iterator(), CommandLineParser.Mode.STRICT);
-        if (getParser().getProcessedCommand().parserExceptions().size() > 0
-                && !getParser().getProcessedCommand().hasOptionWithOverrideRequired()) {
-            throw getParser().getProcessedCommand().parserExceptions().get(0);
-        }
-
-        if (getParser().parsedCommand() == null) {
-            throw new CommandLineParserException("Command and/or sub-command is not valid!");
-        }
-        // Use doPopulate to populate the whole command tree and propagate
-        // inherited options from parent to child commands
-        getParser().doPopulate(getParser().getProcessedCommand(), invocationProviders,
-                aeshContext, CommandLineParser.Mode.VALIDATE);
-        return getParser().parsedCommand().getProcessedCommand();
+    public ProcessedCommand<Command<CI>, CI> parseAndPopulate(InvocationProviders invocationProviders, AeshContext aeshContext, org.aesh.command.impl.context.CommandContext commandContext) throws CommandLineParserException, OptionValidatorException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public CommandContainerResult executeCommand(ParsedLine line, InvocationProviders invocationProviders,
-            AeshContext aeshContext,
-            CI commandInvocation)
-            throws CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException,
-            InterruptedException {
-
-        getParser().parse(line.iterator(), CommandLineParser.Mode.STRICT);
-        return executeCommand(invocationProviders, aeshContext, commandInvocation);
+    public CommandContainerResult executeCommand(ParsedLine line, InvocationProviders invocationProviders, AeshContext aeshContext, CI commandInvocation) throws CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException, InterruptedException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private CommandContainerResult executeCommand(InvocationProviders invocationProviders,
-            AeshContext aeshContext,
-            CI commandInvocation)
-            throws CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException,
-            InterruptedException {
-
-        getParser().parsedCommand().getCommandPopulator().populateObject(getParser().parsedCommand().getProcessedCommand(),
-                invocationProviders, aeshContext, CommandLineParser.Mode.VALIDATE);
-        if (getParser().parsedCommand().getProcessedCommand().validator() != null
-                && !getParser().parsedCommand().getProcessedCommand().hasOptionWithOverrideRequired()) {
+    private CommandContainerResult executeCommand(InvocationProviders invocationProviders, AeshContext aeshContext, CI commandInvocation) throws CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException, InterruptedException {
+        getParser().parsedCommand().getCommandPopulator().populateObject(getParser().parsedCommand().getProcessedCommand(), invocationProviders, aeshContext, CommandLineParser.Mode.VALIDATE);
+        if (getParser().parsedCommand().getProcessedCommand().validator() != null && !getParser().parsedCommand().getProcessedCommand().hasOptionWithOverrideRequired()) {
             getParser().parsedCommand().getProcessedCommand().validator().validate(getParser().parsedCommand().getCommand());
         }
-
         CommandResult result = getParser().parsedCommand().getCommand().execute(commandInvocation);
-
         return new CommandContainerResult(getParser().parsedCommand().getProcessedCommand().resultHandler(), result);
     }
 
     @Override
     public String printHelp(String childCommandName) {
-        if (getParser().isGroupCommand() && childCommandName.contains(" ")) {
-            String[] names = childCommandName.split(" ");
-            if (names.length > 1 && names[1].length() > 0) {
-                CommandLineParser current = getParser();
-                for (int i = 1; i < names.length; i++) {
-                    CommandLineParser child = current.getChildParser(names[i]);
-                    if (child != null) {
-                        if (child.isGroupCommand()) {
-                            current = child;
-                        } else
-                            return child.printHelp();
-                    }
-                }
-                if (current != getParser())
-                    return current.printHelp();
-            }
-            return "Child command " + names[1] + " not found.";
-        } else
-            return getParser().printHelp();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

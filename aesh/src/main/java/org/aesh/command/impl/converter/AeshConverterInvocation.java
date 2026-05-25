@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.converter;
 
 import org.aesh.command.converter.ConverterInvocation;
@@ -29,6 +28,7 @@ import org.aesh.console.AeshContext;
 public class AeshConverterInvocation implements ConverterInvocation {
 
     private final String input;
+
     private final AeshContext aeshContext;
 
     public AeshConverterInvocation(String input, AeshContext aeshContext) {
@@ -38,11 +38,11 @@ public class AeshConverterInvocation implements ConverterInvocation {
 
     @Override
     public String getInput() {
-        return input;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AeshContext getAeshContext() {
-        return aeshContext;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

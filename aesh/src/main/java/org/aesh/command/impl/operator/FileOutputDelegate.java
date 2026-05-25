@@ -23,7 +23,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
-
 import org.aesh.console.AeshContext;
 
 /**
@@ -32,6 +31,7 @@ import org.aesh.console.AeshContext;
  * @author Aesh team
  */
 public abstract class FileOutputDelegate extends OutputDelegate {
+
     private final File outputFile;
 
     protected FileOutputDelegate(AeshContext context, String file) {
@@ -45,7 +45,7 @@ public abstract class FileOutputDelegate extends OutputDelegate {
 
     @Override
     protected BufferedWriter buildWriter() throws IOException {
-        return buildWriter(outputFile);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected abstract BufferedWriter buildWriter(File f) throws IOException;

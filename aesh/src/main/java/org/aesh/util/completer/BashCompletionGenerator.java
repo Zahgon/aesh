@@ -34,16 +34,10 @@ public class BashCompletionGenerator implements ShellCompletionGenerator {
 
     @Override
     public String generate(CommandLineParser<? extends CommandInvocation> parser, String programName) {
-        StringBuilder out = new StringBuilder();
-        out.append(generateHeader(programName));
-        out.append(generateMainFunction(parser, programName));
-        generateCommandFunctions(out, parser, programName);
-        out.append(generateFooter(programName));
-        return out.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private void generateCommandFunctions(StringBuilder out,
-            CommandLineParser<? extends CommandInvocation> parser, String prefix) {
+    private void generateCommandFunctions(StringBuilder out, CommandLineParser<? extends CommandInvocation> parser, String prefix) {
         generateCommandFunction(out, parser, prefix);
         if (parser.isGroupCommand()) {
             for (CommandLineParser<? extends CommandInvocation> child : parser.getAllChildParsers()) {
@@ -53,23 +47,19 @@ public class BashCompletionGenerator implements ShellCompletionGenerator {
         }
     }
 
-    private String generateMainFunction(CommandLineParser<? extends CommandInvocation> parser,
-            String programName) {
+    private String generateMainFunction(CommandLineParser<? extends CommandInvocation> parser, String programName) {
         StringBuilder sb = new StringBuilder();
         sb.append("_complete_").append(programName).append("() {").append(NL);
         sb.append("    local cur prev words cword").append(NL);
         sb.append("    _init_completion || return").append(NL);
         sb.append(NL);
-
         if (parser.isGroupCommand()) {
             sb.append("    local subcmd=\"\"").append(NL);
             sb.append("    local i").append(NL);
             sb.append("    for ((i=1; i < cword; i++)); do").append(NL);
             sb.append("        case \"${words[i]}\" in").append(NL);
             for (CommandLineParser<? extends CommandInvocation> child : parser.getAllChildParsers()) {
-                sb.append("            ").append(child.getProcessedCommand().name().toLowerCase())
-                        .append(") subcmd=\"").append(child.getProcessedCommand().name().toLowerCase())
-                        .append("\"; break;;").append(NL);
+                sb.append("            ").append(child.getProcessedCommand().name().toLowerCase()).append(") subcmd=\"").append(child.getProcessedCommand().name().toLowerCase()).append("\"; break;;").append(NL);
             }
             sb.append("        esac").append(NL);
             sb.append("    done").append(NL);
@@ -77,98 +67,77 @@ public class BashCompletionGenerator implements ShellCompletionGenerator {
             sb.append("    case \"$subcmd\" in").append(NL);
             for (CommandLineParser<? extends CommandInvocation> child : parser.getAllChildParsers()) {
                 String childName = child.getProcessedCommand().name().toLowerCase();
-                sb.append("        ").append(childName).append(") _cmd_")
-                        .append(programName).append("_").append(childName).append("; return;;").append(NL);
+                sb.append("        ").append(childName).append(") _cmd_").append(programName).append("_").append(childName).append("; return;;").append(NL);
             }
             sb.append("    esac").append(NL);
             sb.append(NL);
         }
-
         sb.append("    _cmd_").append(programName).append(NL);
         sb.append("}").append(NL).append(NL);
         return sb.toString();
     }
 
-    private void generateCommandFunction(StringBuilder out,
-            CommandLineParser<? extends CommandInvocation> parser, String prefix) {
+    private void generateCommandFunction(StringBuilder out, CommandLineParser<? extends CommandInvocation> parser, String prefix) {
         String funcName = "_cmd_" + prefix;
         out.append(funcName).append("() {").append(NL);
-
         StringBuilder noValueOpts = new StringBuilder();
         StringBuilder valueOpts = new StringBuilder();
         boolean hasFileOption = false;
-
         for (ProcessedOption option : parser.getProcessedCommand().getOptions()) {
             if (option.isProperty())
                 continue;
-
             StringBuilder target = option.hasValue() ? valueOpts : noValueOpts;
-
             target.append(" --").append(option.name());
             if (option.shortName() != null && !option.shortName().isEmpty())
                 target.append(" -").append(option.shortName());
-
             for (String alias : option.getAliases()) {
                 target.append(" --").append(alias);
             }
-
             if (option.isNegatable() && option.getNegatedName() != null) {
                 noValueOpts.append(" --").append(option.getNegatedName());
             }
-
             if (option.isTypeAssignableByResourcesOrFile())
                 hasFileOption = true;
         }
-
         StringBuilder childNames = new StringBuilder();
         if (parser.isGroupCommand()) {
             for (CommandLineParser<? extends CommandInvocation> child : parser.getAllChildParsers()) {
                 childNames.append(" ").append(child.getProcessedCommand().name().toLowerCase());
             }
         }
-
         out.append("    local no_value_opts=\"").append(noValueOpts).append("\"").append(NL);
         out.append("    local value_opts=\"").append(valueOpts).append("\"").append(NL);
         if (childNames.length() > 0)
             out.append("    local subcmds=\"").append(childNames).append("\"").append(NL);
         out.append(NL);
-
         boolean hasValueOptions = false;
         for (ProcessedOption option : parser.getProcessedCommand().getOptions()) {
             if (option.hasValue() && !option.isProperty())
                 hasValueOptions = true;
         }
-
         if (hasValueOptions) {
             out.append("    case \"$prev\" in").append(NL);
             for (ProcessedOption option : parser.getProcessedCommand().getOptions()) {
                 if (!option.hasValue() || option.isProperty())
                     continue;
-
                 StringBuilder pattern = new StringBuilder();
                 pattern.append("--").append(option.name());
                 if (option.shortName() != null && !option.shortName().isEmpty())
                     pattern.append("|-").append(option.shortName());
-                for (String alias : option.getAliases())
-                    pattern.append("|--").append(alias);
-
+                for (String alias : option.getAliases()) pattern.append("|--").append(alias);
                 out.append("        ").append(pattern).append(")").append(NL);
-
                 if (option.isTypeAssignableByResourcesOrFile()) {
                     out.append("            _filedir").append(NL);
                     out.append("            return;;").append(NL);
                 } else if (option.hasAllowedValues() || option.hasDefaultValue() || isBooleanType(option)) {
                     StringBuilder vals = new StringBuilder();
                     if (option.hasAllowedValues())
-                        for (String v : option.getAllowedValues())
-                            vals.append(v).append(" ");
+                        for (String v : option.getAllowedValues()) vals.append(v).append(" ");
                     else
-                        for (String v : option.getDefaultValues())
-                            vals.append(v).append(" ");
+                        for (String v : option.getDefaultValues()) vals.append(v).append(" ");
                     if (isBooleanType(option))
                         vals.append("true false");
-                    out.append("            COMPREPLY=( $(compgen -W \"").append(vals.toString().trim())
-                            .append("\" -- \"$cur\") )").append(NL);
+                    out.append("            COMPREPLY=( $(compgen -W \"").append(vals.toString().trim()).append("\" -- \"$cur\") )").append(NL);
                     out.append("            return;;").append(NL);
                 } else {
                     out.append("            return;;").append(NL);
@@ -177,11 +146,8 @@ public class BashCompletionGenerator implements ShellCompletionGenerator {
             out.append("    esac").append(NL);
             out.append(NL);
         }
-
         if (parser.getProcessedCommand().hasArguments() || parser.getProcessedCommand().hasArgument()) {
-            ProcessedOption arg = parser.getProcessedCommand().hasArguments()
-                    ? parser.getProcessedCommand().getArguments()
-                    : parser.getProcessedCommand().getArgument();
+            ProcessedOption arg = parser.getProcessedCommand().hasArguments() ? parser.getProcessedCommand().getArguments() : parser.getProcessedCommand().getArgument();
             if (arg.isTypeAssignableByResourcesOrFile()) {
                 out.append("    if [[ \"$cur\" != -* ]]; then").append(NL);
                 out.append("        _filedir").append(NL);
@@ -190,7 +156,6 @@ public class BashCompletionGenerator implements ShellCompletionGenerator {
                 out.append(NL);
             }
         }
-
         out.append("    if [[ \"$cur\" == -* ]]; then").append(NL);
         out.append("        COMPREPLY=( $(compgen -W \"$no_value_opts $value_opts\" -- \"$cur\") )").append(NL);
         out.append("    else").append(NL);
@@ -207,46 +172,15 @@ public class BashCompletionGenerator implements ShellCompletionGenerator {
 
     @Override
     public String generateDynamic(CommandLineParser<? extends CommandInvocation> parser, String programName) {
-        return "#!/usr/bin/env bash" + NL +
-                NL +
-                "# Dynamic bash completion for " + programName + " — generated by Aesh." + NL +
-                "# Source this file or place it in /etc/bash_completion.d/" + NL +
-                NL +
-                "_complete_" + programName + "() {" + NL +
-                "    local cur=\"${COMP_WORDS[COMP_CWORD]}\"" + NL +
-                "    local IFS=$'\\n'" + NL +
-                "    # Get completions (strip descriptions after tab for compgen)" + NL +
-                "    local candidates" + NL +
-                "    candidates=$(" + programName + " --aesh-complete -- \"${COMP_WORDS[@]:1}\")" + NL +
-                "    local values" + NL +
-                "    values=$(echo \"$candidates\" | cut -f1)" + NL +
-                "    COMPREPLY=( $(compgen -W \"$values\" -- \"$cur\") )" + NL +
-                "}" + NL +
-                "complete -o default -F _complete_" + programName + " " + programName + NL;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     static boolean isBooleanType(ProcessedOption option) {
-        return option.type() == Boolean.class || option.type() == boolean.class;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private String generateHeader(String programName) {
-        return "#!/usr/bin/env bash" + NL +
-                NL +
-                "# Bash completion for " + programName + " — generated by Aesh." + NL +
-                "# Source this file or place it in /etc/bash_completion.d/" + NL +
-                NL +
-                "# Fallback if bash-completion is not installed" + NL +
-                "type _init_completion &>/dev/null || _init_completion() {" + NL +
-                "    COMPREPLY=()" + NL +
-                "    cur=\"${COMP_WORDS[COMP_CWORD]}\"" + NL +
-                "    prev=\"${COMP_WORDS[COMP_CWORD-1]}\"" + NL +
-                "    words=(\"${COMP_WORDS[@]}\")" + NL +
-                "    cword=$COMP_CWORD" + NL +
-                "}" + NL +
-                NL +
-                "# Fallback if _filedir is not available" + NL +
-                "type _filedir &>/dev/null || _filedir() { COMPREPLY=( $(compgen -f -- \"$cur\") ); }" + NL +
-                NL;
+        return "#!/usr/bin/env bash" + NL + NL + "# Bash completion for " + programName + " — generated by Aesh." + NL + "# Source this file or place it in /etc/bash_completion.d/" + NL + NL + "# Fallback if bash-completion is not installed" + NL + "type _init_completion &>/dev/null || _init_completion() {" + NL + "    COMPREPLY=()" + NL + "    cur=\"${COMP_WORDS[COMP_CWORD]}\"" + NL + "    prev=\"${COMP_WORDS[COMP_CWORD-1]}\"" + NL + "    words=(\"${COMP_WORDS[@]}\")" + NL + "    cword=$COMP_CWORD" + NL + "}" + NL + NL + "# Fallback if _filedir is not available" + NL + "type _filedir &>/dev/null || _filedir() { COMPREPLY=( $(compgen -f -- \"$cur\") ); }" + NL + NL;
     }
 
     private String generateFooter(String programName) {

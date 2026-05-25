@@ -15,9 +15,7 @@ public class DefaultCommandInvocationBuilder implements CommandInvocationBuilder
     }
 
     @Override
-    public DefaultCommandInvocation build(CommandRuntime<DefaultCommandInvocation> runtime,
-            CommandInvocationConfiguration configuration,
-            CommandContainer<DefaultCommandInvocation> commandContainer) {
-        return new DefaultCommandInvocation(runtime, configuration, commandContainer, shell);
+    public DefaultCommandInvocation build(CommandRuntime<DefaultCommandInvocation> runtime, CommandInvocationConfiguration configuration, CommandContainer<DefaultCommandInvocation> commandContainer) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

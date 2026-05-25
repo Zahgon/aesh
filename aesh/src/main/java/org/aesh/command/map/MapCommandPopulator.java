@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import org.aesh.command.Command;
 import org.aesh.command.impl.internal.ProcessedCommand;
 import org.aesh.command.impl.internal.ProcessedOption;
@@ -40,7 +39,6 @@ import org.aesh.console.AeshContext;
 import org.aesh.selector.SelectorType;
 
 /**
- *
  * Populator for MapCommand.
  *
  * @author Aesh team
@@ -48,6 +46,7 @@ import org.aesh.selector.SelectorType;
 public class MapCommandPopulator<O extends Object, CI extends CommandInvocation> implements CommandPopulator<O, CI> {
 
     private final MapCommand<CI> instance;
+
     private final Map<String, String> unknownOptions = new HashMap<>();
 
     MapCommandPopulator(MapCommand<CI> instance) {
@@ -56,101 +55,17 @@ public class MapCommandPopulator<O extends Object, CI extends CommandInvocation>
     }
 
     @Override
-    public void populateObject(ProcessedCommand<Command<CI>, CI> processedCommand,
-            InvocationProviders invocationProviders,
-            AeshContext aeshContext, CommandLineParser.Mode validate)
-            throws CommandLineParserException, OptionValidatorException {
-        if (processedCommand.parserExceptions().size() > 0) {
-            throw processedCommand.parserExceptions().get(0);
-        }
-
-        // Populate with unknown ones first.
-        // Unknown are options passed prior the option provider
-        // was able to compute the set.
-        for (String name : unknownOptions.keySet()) {
-            instance.setValue(name, unknownOptions.get(name));
-        }
-
-        if (processedCommand.getArguments() != null) {
-            if (processedCommand.getArguments().getValues().size() > 0) {
-                List<Object> tmpSet = new ArrayList<>();
-                for (String in : processedCommand.getArguments().getValues()) {
-                    tmpSet.add(processedCommand.getArguments().doConvert(in, invocationProviders,
-                            instance, aeshContext, validate == CommandLineParser.Mode.VALIDATE));
-                }
-                instance.setValue(processedCommand.getArguments().name(), tmpSet);
-            } else if (processedCommand.getArguments().getDefaultValues().size() > 0 &&
-                    processedCommand.getArguments().selectorType() == SelectorType.NO_OP) {
-                List<Object> tmpSet = new ArrayList<>();
-                for (String in : processedCommand.getArguments().getDefaultValues()) {
-                    tmpSet.add(processedCommand.getArguments().doConvert(in, invocationProviders,
-                            instance, aeshContext, validate == CommandLineParser.Mode.VALIDATE));
-                }
-                instance.setValue(processedCommand.getArguments().name(), tmpSet);
-            } else {
-                instance.resetValue(processedCommand.getArguments().name());
-            }
-        }
-
-        if (processedCommand.getArgument() != null) {
-            if (processedCommand.getArgument().getValues().size() > 0) {
-                String val = processedCommand.getArgument().getValue();
-                if (val != null) {
-                    instance.setValue(processedCommand.getArgument().name(),
-                            processedCommand.getArgument().doConvert(val, invocationProviders, instance, aeshContext,
-                                    validate == CommandLineParser.Mode.VALIDATE));
-                } else if (processedCommand.getArgument().getDefaultValues().size() > 0 &&
-                        processedCommand.getArguments().selectorType() == SelectorType.NO_OP) {
-                    instance.setValue(processedCommand.getArgument().name(),
-                            processedCommand.getArgument().getDefaultValues().get(0));
-                } else {
-                    instance.resetValue(processedCommand.getArgument().name());
-                }
-            } else {
-                instance.resetValue(processedCommand.getArgument().name());
-            }
-        }
-
-        // At this point, if no dynamic options have been retrieved it means
-        // that no dynamic options have been provided, so no need to compute the set now.
-        @SuppressWarnings("unchecked")
-        MapProcessedCommand<CommandInvocation> mpc = (MapProcessedCommand) processedCommand;
-        for (ProcessedOption option : mpc.getCurrentOptions()) {
-            // Do not erase the value that would have been set as an unknown option.
-            if (!unknownOptions.containsKey(option.name())) {
-                if (option.getValue() != null) {
-                    instance.setValue(option.name(),
-                            option.doConvert(option.getValue(), invocationProviders,
-                                    instance, aeshContext, validate == CommandLineParser.Mode.VALIDATE));
-                } else if (option.getDefaultValues().size() > 0) {
-                    instance.setValue(option.name(), option.getDefaultValues().get(0));
-                } else {
-                    instance.resetValue(option.name());
-                }
-            }
-        }
-        unknownOptions.clear();
+    public void populateObject(ProcessedCommand<Command<CI>, CI> processedCommand, InvocationProviders invocationProviders, AeshContext aeshContext, CommandLineParser.Mode validate) throws CommandLineParserException, OptionValidatorException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public O getObject() {
-        return (O) instance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void addUnknownOption(String opt) {
-        if (opt.startsWith("--")) {
-            opt = opt.substring(2);
-        } else if (opt.startsWith("-")) {
-            opt = opt.substring(1);
-        }
-        int i = opt.indexOf("=");
-        String name = opt;
-        String value = null;
-        if (i > 0) {
-            name = opt.substring(0, i);
-            value = opt.substring(i + 1);
-        }
-        unknownOptions.put(name, value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

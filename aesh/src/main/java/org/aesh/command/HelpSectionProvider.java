@@ -58,7 +58,7 @@ public interface HelpSectionProvider {
      * @return header text, or null if no header should be shown
      */
     default String getHeader() {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -69,6 +69,6 @@ public interface HelpSectionProvider {
      * @return footer text, or null if no footer should be shown
      */
     default String getFooter() {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

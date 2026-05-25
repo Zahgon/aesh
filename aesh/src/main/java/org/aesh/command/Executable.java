@@ -31,6 +31,6 @@ public interface Executable<T extends CommandInvocation> {
     CommandResult execute(T ic) throws CommandException, InterruptedException;
 
     default boolean canExecuteNext(CommandResult result) {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

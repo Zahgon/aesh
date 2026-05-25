@@ -26,7 +26,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.aesh.command.Command;
 import org.aesh.command.CommandException;
 import org.aesh.command.CommandNotFoundException;
@@ -72,43 +71,36 @@ import org.aesh.parser.ParserStatus;
  *
  * @author Aesh team
  */
-public class AeshCommandRuntime<CI extends CommandInvocation>
-        implements CommandRuntime<CI>, CommandRegistry.CommandRegistrationListener {
+public class AeshCommandRuntime<CI extends CommandInvocation> implements CommandRuntime<CI>, CommandRegistry.CommandRegistrationListener {
 
     private final CommandRegistry<CI> registry;
+
     private final CommandInvocationProvider<CI> commandInvocationProvider;
+
     private final InvocationProviders invocationProviders;
 
     private static final Logger LOGGER = Logger.getLogger(AeshCommandRuntime.class.getName());
+
     private final CommandNotFoundHandler commandNotFoundHandler;
 
     private final CommandResolver<CI> commandResolver;
+
     private final AeshContext ctx;
+
     private final CommandInvocationBuilder<CI> commandInvocationBuilder;
 
     private final boolean parseBrackets;
+
     private final EnumSet<OperatorType> operators;
 
-    public AeshCommandRuntime(AeshContext ctx,
-            CommandRegistry<CI> registry,
-            CommandInvocationProvider<CI> commandInvocationProvider,
-            CommandNotFoundHandler commandNotFoundHandler,
-            CompleterInvocationProvider completerInvocationProvider,
-            ConverterInvocationProvider converterInvocationProvider,
-            ValidatorInvocationProvider validatorInvocationProvider,
-            OptionActivatorProvider optionActivatorProvider,
-            CommandActivatorProvider commandActivatorProvider,
-            CommandInvocationBuilder<CI> commandInvocationBuilder,
-            boolean parseBrackets,
-            EnumSet<OperatorType> operators) {
+    public AeshCommandRuntime(AeshContext ctx, CommandRegistry<CI> registry, CommandInvocationProvider<CI> commandInvocationProvider, CommandNotFoundHandler commandNotFoundHandler, CompleterInvocationProvider completerInvocationProvider, ConverterInvocationProvider converterInvocationProvider, ValidatorInvocationProvider validatorInvocationProvider, OptionActivatorProvider optionActivatorProvider, CommandActivatorProvider commandActivatorProvider, CommandInvocationBuilder<CI> commandInvocationBuilder, boolean parseBrackets, EnumSet<OperatorType> operators) {
         this.ctx = ctx;
         this.registry = registry;
         commandResolver = new AeshCommandResolver<>(registry);
         this.commandInvocationProvider = commandInvocationProvider;
         this.commandNotFoundHandler = commandNotFoundHandler;
         this.commandInvocationBuilder = commandInvocationBuilder;
-        this.invocationProviders = new AeshInvocationProviders(converterInvocationProvider, completerInvocationProvider,
-                validatorInvocationProvider, optionActivatorProvider, commandActivatorProvider);
+        this.invocationProviders = new AeshInvocationProviders(converterInvocationProvider, completerInvocationProvider, validatorInvocationProvider, optionActivatorProvider, commandActivatorProvider);
         processAfterInit();
         registry.addRegistrationListener(this);
         this.parseBrackets = parseBrackets;
@@ -117,66 +109,40 @@ public class AeshCommandRuntime<CI extends CommandInvocation>
 
     @Override
     public CommandRegistry<CI> getCommandRegistry() {
-        return registry;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AeshContext getAeshContext() {
-        return ctx;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandInvocationBuilder<CI> commandInvocationBuilder() {
-        return commandInvocationBuilder;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public InvocationProviders invocationProviders() {
-        return invocationProviders;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public CommandResult executeCommand(String line) throws CommandNotFoundException,
-            CommandLineParserException,
-            CommandValidatorException,
-            CommandException,
-            InterruptedException,
-            IOException {
-
-        Executor<CI> executor;
-        try {
-            executor = buildExecutor(line);
-        } catch (CommandLineParserException e) {
-            throw e;
-        } catch (CommandNotFoundException cmd) {
-            if (commandNotFoundHandler != null) {
-                commandNotFoundHandler.handleCommandNotFound(line,
-                        commandInvocationBuilder.build(this, null, null).getShell());
-            }
-            throw cmd;
-        }
-        return runExecutor(executor);
+    public CommandResult executeCommand(String line) throws CommandNotFoundException, CommandLineParserException, CommandValidatorException, CommandException, InterruptedException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public Executor<CI> buildExecutor(String commandName, String[] args) throws CommandNotFoundException,
-            CommandLineParserException,
-            IOException {
-        return buildExecutorFromArgs(commandName, args);
+    public Executor<CI> buildExecutor(String commandName, String[] args) throws CommandNotFoundException, CommandLineParserException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public CommandResult executeCommand(String commandName, String[] args) throws CommandNotFoundException,
-            CommandLineParserException,
-            CommandValidatorException,
-            CommandException,
-            InterruptedException,
-            IOException {
-        return runExecutor(buildExecutorFromArgs(commandName, args));
+    public CommandResult executeCommand(String commandName, String[] args) throws CommandNotFoundException, CommandLineParserException, CommandValidatorException, CommandException, InterruptedException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private Executor<CI> buildExecutorFromArgs(String commandName, String[] args)
-            throws CommandNotFoundException, CommandLineParserException, IOException {
+    private Executor<CI> buildExecutorFromArgs(String commandName, String[] args) throws CommandNotFoundException, CommandLineParserException, IOException {
         // Build a display string for error messages
         StringBuilder displayLine = new StringBuilder(commandName);
         if (args != null) {
@@ -184,7 +150,6 @@ public class AeshCommandRuntime<CI extends CommandInvocation>
                 displayLine.append(' ').append(arg);
             }
         }
-
         // Create ParsedLine directly from pre-tokenized args, bypassing LineParser
         List<ParsedWord> words = new ArrayList<>();
         words.add(new ParsedWord(commandName, 0));
@@ -195,26 +160,21 @@ public class AeshCommandRuntime<CI extends CommandInvocation>
                 offset += arg.length() + 1;
             }
         }
-        ParsedLine parsedLine = new ParsedLine(displayLine.toString(), words,
-                -1, -1, -1, ParserStatus.OK, "", OperatorType.NONE);
-
+        ParsedLine parsedLine = new ParsedLine(displayLine.toString(), words, -1, -1, -1, ParserStatus.OK, "", OperatorType.NONE);
         try {
-            List<Execution<CI>> executions = Executions.buildExecution(
-                    Collections.singletonList(parsedLine), this);
+            List<Execution<CI>> executions = Executions.buildExecution(Collections.singletonList(parsedLine), this);
             return new Executor<>(executions);
         } catch (CommandLineParserException e) {
             throw e;
         } catch (CommandNotFoundException cmd) {
             if (commandNotFoundHandler != null) {
-                commandNotFoundHandler.handleCommandNotFound(displayLine.toString(),
-                        commandInvocationBuilder.build(this, null, null).getShell());
+                commandNotFoundHandler.handleCommandNotFound(displayLine.toString(), commandInvocationBuilder.build(this, null, null).getShell());
             }
             throw cmd;
         }
     }
 
-    private CommandResult runExecutor(Executor<CI> executor) throws CommandException,
-            CommandValidatorException, CommandLineParserException, InterruptedException {
+    private CommandResult runExecutor(Executor<CI> executor) throws CommandException, CommandValidatorException, CommandLineParserException, InterruptedException {
         Execution exec;
         CommandResult result = null;
         while ((exec = executor.getNextExecution()) != null) {
@@ -250,17 +210,8 @@ public class AeshCommandRuntime<CI extends CommandInvocation>
     }
 
     @Override
-    public CommandResult executeCommand(String... lines) throws CommandNotFoundException, CommandLineParserException,
-            OptionValidatorException, CommandValidatorException, CommandException, InterruptedException, IOException {
-        if (lines == null || lines.length == 0)
-            throw new CommandException("No input lines");
-        CommandResult result = null;
-        for (String line : lines) {
-            result = executeCommand(line);
-            if (result == CommandResult.FAILURE)
-                return result;
-        }
-        return result;
+    public CommandResult executeCommand(String... lines) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException, InterruptedException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void processAfterInit() {
@@ -294,90 +245,50 @@ public class AeshCommandRuntime<CI extends CommandInvocation>
     }
 
     @Override
-    public Executor<CI> buildExecutor(String line) throws CommandNotFoundException,
-            CommandLineParserException, IOException {
-        LOGGER.fine("Command: " + line);
-        List<ParsedLine> lines = new LineParser().parseLine(line, -1, parseBrackets, operators);
-        List<Execution<CI>> executions = Executions.buildExecution(lines, this);
-        return new Executor<>(executions);
+    public Executor<CI> buildExecutor(String line) throws CommandNotFoundException, CommandLineParserException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     CI buildCommandInvocation(CommandInvocationConfiguration config, CommandContainer<CI> commandContainer) {
-        return commandInvocationProvider
-                .enhanceCommandInvocation(commandInvocationBuilder.build(this, config, commandContainer));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     CommandContainer<CI> findCommandContainer(ParsedLine aeshLine) throws CommandNotFoundException {
-        if (aeshLine.words().isEmpty()) {
-            return null;
-        }
-        final String name = aeshLine.firstWord().word();
-        CommandContainer<CI> container = commandResolver.resolveCommand(name, aeshLine.line());
-        if (container == null) {
-            throw new CommandNotFoundException("No command handler for '" + name + "'.", name);
-        }
-        container.addLine(aeshLine);
-        return container;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     void populateAskedOption(ProcessedOption option) {
-        try {
-            option.injectValueIntoField(option.parent().getCommand(), invocationProviders, getAeshContext(), false);
-        } catch (OptionValidatorException e) {
-            LOGGER.log(Level.WARNING,
-                    "Trying to inject value: " + option.getValue() + ", into option: " + option.name() + " failed", e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void registrationAction(String commandName, CommandRegistry.REGISTRATION_ACTION action) {
-        if (action == CommandRegistry.REGISTRATION_ACTION.ADDED) {
-            try {
-                updateCommand(commandName);
-            } catch (Exception e) {
-                LOGGER.log(Level.FINER, "Exception while iterating commands.", e);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void complete(AeshCompleteOperation completeOperation) {
-        if (operators.isEmpty())
-            simpleComplete(completeOperation);
-        else {
-            completeWithOperators(completeOperation);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void completeWithOperators(AeshCompleteOperation completeOperation) {
-        List<ParsedLine> lines = new LineParser()
-                .input(completeOperation.getBuffer())
-                .cursor(completeOperation.getCursor())
-                .parseBrackets(true)
-                .operators(operators)
-                .parseWithOperators();
-
+        List<ParsedLine> lines = new LineParser().input(completeOperation.getBuffer()).cursor(completeOperation.getCursor()).parseBrackets(true).operators(operators).parseWithOperators();
         if (!lines.isEmpty()) {
             for (int i = 0; i < lines.size(); i++) {
                 if (lines.get(i).cursor() > -1) {
                     if (i == 0) {
                         doSimpleComplete(completeOperation, lines.get(i));
                         return;
-                    }
-                    //we need to check the previous line
+                    } else //we need to check the previous line
                     //if it is redirect/append out we should use a file completer
-                    else {
+                    {
                         if (OperatorType.isAppendOrRedirectInOrOut(lines.get(i - 1).operator())) {
                             //do file completion
                             FileOptionCompleter completer = new FileOptionCompleter();
-                            CompleterInvocation invocation = new CompleterData(completeOperation.getContext(),
-                                    lines.get(i).selectedWord().word(), null);
+                            CompleterInvocation invocation = new CompleterData(completeOperation.getContext(), lines.get(i).selectedWord().word(), null);
                             completer.complete(invocation);
                             completeOperation.addCompletionCandidatesTerminalString(invocation.getCompleterValues());
-                            AeshCommandLineCompletionParser.verifyCompleteValue(completeOperation,
-                                    invocation,
-                                    lines.get(i).selectedWord().word(),
-                                    lines.get(i).selectedWord().status(), null);
+                            AeshCommandLineCompletionParser.verifyCompleteValue(completeOperation, invocation, lines.get(i).selectedWord().word(), lines.get(i).selectedWord().status(), null);
                             return;
                         } else {
                             doSimpleComplete(completeOperation, lines.get(i));
@@ -390,41 +301,30 @@ public class AeshCommandRuntime<CI extends CommandInvocation>
             doSimpleComplete(completeOperation, lines.get(lines.size() - 1));
         }
         simpleComplete(completeOperation);
-
     }
 
     private void simpleComplete(AeshCompleteOperation completeOperation) {
-        ParsedLine parsedLine = new LineParser()
-                .input(completeOperation.getBuffer())
-                .cursor(completeOperation.getCursor())
-                .parseBrackets(true)
-                .parse();
-
+        ParsedLine parsedLine = new LineParser().input(completeOperation.getBuffer()).cursor(completeOperation.getCursor()).parseBrackets(true).parse();
         doSimpleComplete(completeOperation, parsedLine);
     }
 
     private void doSimpleComplete(AeshCompleteOperation completeOperation, ParsedLine parsedLine) {
-        if ((parsedLine.selectedIndex() == 0 || //possible command name
-                parsedLine.words().size() == 0) && ParserStatus.okForCompletion(parsedLine.status())) {
+        if ((//possible command name
+        parsedLine.selectedIndex() == 0 || parsedLine.words().size() == 0) && ParserStatus.okForCompletion(parsedLine.status())) {
             commandResolver.getRegistry().completeCommandName(completeOperation, parsedLine);
         }
         if (completeOperation.getCompletionCandidates().size() < 1) {
-
             try (CommandContainer commandContainer = commandResolver.resolveCommand(parsedLine)) {
-
-                commandContainer.getParser()
-                        .complete(completeOperation, parsedLine, invocationProviders);
+                commandContainer.getParser().complete(completeOperation, parsedLine, invocationProviders);
             } catch (CommandNotFoundException ignored) {
             } catch (Exception ex) {
-                LOGGER.log(Level.SEVERE, "Runtime exception when completing: "
-                        + completeOperation, ex);
+                LOGGER.log(Level.SEVERE, "Runtime exception when completing: " + completeOperation, ex);
             }
         }
     }
 
     @Override
     protected void finalize() throws Throwable {
-        registry.removeRegistrationListener(this);
-        super.finalize();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

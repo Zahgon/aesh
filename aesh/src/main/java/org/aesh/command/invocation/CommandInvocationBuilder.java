@@ -28,8 +28,7 @@ import org.aesh.command.impl.context.CommandContext;
  */
 public interface CommandInvocationBuilder<CI extends CommandInvocation> {
 
-    CI build(CommandRuntime<CI> runtime,
-            CommandInvocationConfiguration configuration, CommandContainer<CI> commandContainer);
+    CI build(CommandRuntime<CI> runtime, CommandInvocationConfiguration configuration, CommandContainer<CI> commandContainer);
 
     /**
      * Build a command invocation with a command context for sub-command mode.
@@ -40,11 +39,7 @@ public interface CommandInvocationBuilder<CI extends CommandInvocation> {
      * @param commandContext the command context (may be null)
      * @return the command invocation
      */
-    default CI build(CommandRuntime<CI> runtime,
-            CommandInvocationConfiguration configuration,
-            CommandContainer<CI> commandContainer,
-            CommandContext commandContext) {
-        // Default implementation ignores context for backward compatibility
-        return build(runtime, configuration, commandContainer);
+    default CI build(CommandRuntime<CI> runtime, CommandInvocationConfiguration configuration, CommandContainer<CI> commandContainer, CommandContext commandContext) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

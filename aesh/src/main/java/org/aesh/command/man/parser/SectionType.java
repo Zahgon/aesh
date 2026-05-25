@@ -23,6 +23,7 @@ package org.aesh.command.man.parser;
  * @author Aesh team
  */
 public enum SectionType {
+
     NAME("NAME"),
     SYNOPSIS("SYNOPSIS"),
     DESCRIPTION("DESCRIPTION"),
@@ -40,26 +41,10 @@ public enum SectionType {
     }
 
     public String getType() {
-        return type;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static SectionType getSectionType(String name) {
-        if (NAME.getType().equals(name))
-            return NAME;
-        else if (SYNOPSIS.getType().equals(name))
-            return SYNOPSIS;
-        else if (DESCRIPTION.getType().equals(name))
-            return DESCRIPTION;
-        else if (OPTIONS.getType().equals(name))
-            return OPTIONS;
-        else if (AUTHOR.getType().equals(name))
-            return AUTHOR;
-        else if (RESOURCES.getType().equals(name))
-            return RESOURCES;
-        else if (COPYING.getType().equals(name))
-            return COPYING;
-        else
-            return NOT_SPECIFIED;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -60,21 +60,21 @@ public class Tree {
      * Renders a {@link TreeNode} tree using the default UNICODE style.
      */
     public static String render(TreeNode root) {
-        return render(root, TreeStyle.UNICODE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Renders a {@link TreeNode} tree using the specified style.
      */
     public static String render(TreeNode root, TreeStyle style) {
-        return new Renderer<>(TreeNode::label, TreeNode::children, style, -1).render(root);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Creates a new builder for constructing a typed tree renderer.
      */
     public static <T> Builder<T> builder() {
-        return new Builder<>();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -87,35 +87,8 @@ public class Tree {
      *
      * @param currentDepth the depth of the current node; root starts at -1
      */
-    static <T> void renderTree(StringBuilder sb, T node, Function<T, String> labelFn,
-            Function<T, List<T>> childrenFn, TreeStyle style, int maxDepth,
-            String prefix, boolean isRoot, int currentDepth) {
-        sb.append(labelFn.apply(node));
-        sb.append(System.lineSeparator());
-
-        List<T> children = getChildren(node, childrenFn);
-        for (int i = 0; i < children.size(); i++) {
-            T child = children.get(i);
-            boolean isLast = (i == children.size() - 1);
-            sb.append(prefix);
-            sb.append(isLast ? style.last() : style.branch());
-
-            // Root's children start at depth 0; for non-root nodes, use the current depth
-            int childDepth = isRoot ? 0 : currentDepth;
-            List<T> grandchildren = getChildren(child, childrenFn);
-            if (maxDepth >= 0 && childDepth >= maxDepth && !grandchildren.isEmpty()) {
-                sb.append(labelFn.apply(child));
-                sb.append(System.lineSeparator());
-                String nextPrefix = prefix + (isLast ? style.space() : style.vertical());
-                sb.append(nextPrefix);
-                sb.append("...");
-                sb.append(System.lineSeparator());
-            } else {
-                String nextPrefix = prefix + (isLast ? style.space() : style.vertical());
-                renderTree(sb, child, labelFn, childrenFn, style, maxDepth,
-                        nextPrefix, false, childDepth + 1);
-            }
-        }
+    static <T> void renderTree(StringBuilder sb, T node, Function<T, String> labelFn, Function<T, List<T>> childrenFn, TreeStyle style, int maxDepth, String prefix, boolean isRoot, int currentDepth) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static <T> List<T> getChildren(T node, Function<T, List<T>> childrenFn) {
@@ -128,13 +101,16 @@ public class Tree {
      * Obtained via {@link Builder#build()}.
      */
     public static class Renderer<T> {
+
         private final Function<T, String> labelFn;
+
         private final Function<T, List<T>> childrenFn;
+
         private final TreeStyle style;
+
         private final int maxDepth;
 
-        Renderer(Function<T, String> labelFn, Function<T, List<T>> childrenFn,
-                TreeStyle style, int maxDepth) {
+        Renderer(Function<T, String> labelFn, Function<T, List<T>> childrenFn, TreeStyle style, int maxDepth) {
             this.labelFn = labelFn;
             this.childrenFn = childrenFn;
             this.style = style;
@@ -145,9 +121,7 @@ public class Tree {
          * Renders the tree rooted at the given node.
          */
         public String render(T root) {
-            StringBuilder sb = new StringBuilder();
-            Tree.renderTree(sb, root, labelFn, childrenFn, style, maxDepth, "", true, -1);
-            return sb.toString();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -155,9 +129,13 @@ public class Tree {
      * Builder for constructing {@link Renderer} instances with a fluent API.
      */
     public static class Builder<T> {
+
         private Function<T, String> labelFn;
+
         private Function<T, List<T>> childrenFn;
+
         private TreeStyle style = TreeStyle.UNICODE;
+
         private int maxDepth = -1;
 
         private Builder() {
@@ -167,8 +145,7 @@ public class Tree {
          * Sets the function to extract a display label from each node.
          */
         public Builder<T> label(Function<T, String> labelFn) {
-            this.labelFn = labelFn;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -176,16 +153,14 @@ public class Tree {
          * A null or empty return value indicates a leaf node.
          */
         public Builder<T> children(Function<T, List<T>> childrenFn) {
-            this.childrenFn = childrenFn;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * Sets the visual style for tree connectors.
          */
         public Builder<T> style(TreeStyle style) {
-            this.style = style;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -193,8 +168,7 @@ public class Tree {
          * {@code 0} for root's children only).
          */
         public Builder<T> maxDepth(int maxDepth) {
-            this.maxDepth = maxDepth;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -203,13 +177,7 @@ public class Tree {
          * @throws IllegalStateException if {@code label} or {@code children} is not set
          */
         public Renderer<T> build() {
-            if (labelFn == null) {
-                throw new IllegalStateException("label function must be set");
-            }
-            if (childrenFn == null) {
-                throw new IllegalStateException("children function must be set");
-            }
-            return new Renderer<>(labelFn, childrenFn, style, maxDepth);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

@@ -20,7 +20,6 @@
 package org.aesh.command.impl.parser;
 
 import java.util.regex.Pattern;
-
 import org.aesh.command.impl.internal.OptionType;
 import org.aesh.command.impl.internal.ProcessedOption;
 import org.aesh.command.parser.OptionParser;
@@ -34,43 +33,12 @@ import org.aesh.terminal.utils.Parser;
 public class AeshOptionParser implements OptionParser {
 
     private static final String EQUALS = "=";
+
     private Status status;
 
     @Override
     public void parse(ParsedLineIterator parsedLineIterator, ProcessedOption option) throws OptionParserException {
-        if (option.isProperty()) {
-            processProperty(parsedLineIterator, option);
-        } else {
-            preProcessOption(option, parsedLineIterator);
-            // When fallbackValue is set, the option only accepts values via = syntax.
-            // A bare --option should NOT consume the next word — it uses the fallback.
-            if (option.hasFallbackValue() && option.getValue() == null) {
-                applyOptionalFallback(option);
-                return;
-            }
-            while (status != Status.NULL && parsedLineIterator.hasNextWord()) {
-                String word = parsedLineIterator.peekWord();
-                ProcessedOption nextOption = option.parent().searchAllOptions(word);
-                if (nextOption == null) {
-                    doParse(parsedLineIterator, option);
-                    if (status == null && !option.hasValue()) {
-                        //this might happen if we have an option at the "end" that doesn't accept values
-                        return;
-                    }
-                }
-                //we have something like: --foo --bar eg, two options after another
-                else {
-                    if (option.hasValue() && option.getValue() == null && !option.isOptionalValue()) {
-                        throw new OptionParserException("Option " + option.name() + " was specified, but no value was given.");
-                    }
-                    applyOptionalFallback(option);
-                    return;
-                }
-            }
-            if (option.hasValue() && option.getValue() == null && !option.isOptionalValue())
-                throw new OptionParserException("Option " + option.name() + " was specified, but no value was given.");
-            applyOptionalFallback(option);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void doParse(ParsedLineIterator iterator, ProcessedOption option) throws OptionParserException {
@@ -81,7 +49,6 @@ public class AeshOptionParser implements OptionParser {
     }
 
     private void preProcessOption(ProcessedOption option, ParsedLineIterator iterator) throws OptionParserException {
-
         String word = iterator.peekWord();
         if (word.indexOf(" ") < word.indexOf("="))
             word = Parser.switchSpacesToEscapedSpacesInWord(word);
@@ -102,7 +69,6 @@ public class AeshOptionParser implements OptionParser {
                 status = Status.NULL;
             } else
                 status = Status.OPTION_FOUND;
-
         } else {
             if (word.length() > 2)
                 processOption(option, word.substring(1), option.shortName());
@@ -113,7 +79,6 @@ public class AeshOptionParser implements OptionParser {
             } else
                 status = Status.OPTION_FOUND;
         }
-
         if (status == Status.OPTION_FOUND) {
             if (option.hasValue()) {
                 //active = option;
@@ -145,7 +110,6 @@ public class AeshOptionParser implements OptionParser {
                     // we add the first option
                     option.addValue("true");
                 }
-
                 for (char shortName : rest.toCharArray()) {
                     ProcessedOption currOption = option.parent().findOption(String.valueOf(shortName));
                     if (currOption != null) {
@@ -154,16 +118,14 @@ public class AeshOptionParser implements OptionParser {
                             currOption.addValue("true");
                             //commandLine.addOption(currOption);
                         } else
-                            throw new OptionParserException("Option: -" + shortName +
-                                    " can not be grouped with other options since it need to be given a value");
+                            throw new OptionParserException("Option: -" + shortName + " can not be grouped with other options since it need to be given a value");
                     } else
                         throw new OptionParserException("Option: -" + shortName + " was not found.");
                 }
             } else
                 throw new OptionParserException("Option: - must be followed by a valid operator");
-        }
-        //line contain equals, we need to add a value(s) to the currentOption
-        else {
+        } else //line contain equals, we need to add a value(s) to the currentOption
+        {
             doAddValueToOption(option, line.substring(line.indexOf(EQUALS) + 1));
         }
     }
@@ -175,8 +137,7 @@ public class AeshOptionParser implements OptionParser {
         //we know that the option will accept a value, so we can poll the value
         doAddValueToOption(currOption, iterator.pollWord());
         //lets try to parse the rest of the optionList if there are more
-        while (status != Status.NULL &&
-                iterator.hasNextWord() && iterator.peekWord().charAt(0) == currOption.getValueSeparator()) {
+        while (status != Status.NULL && iterator.hasNextWord() && iterator.peekWord().charAt(0) == currOption.getValueSeparator()) {
             doAddValueToOption(currOption, iterator.pollWord());
         }
         if (currOption.getValueSeparator() != ' ')
@@ -229,8 +190,7 @@ public class AeshOptionParser implements OptionParser {
                 String propertyName = word.substring(name.length());
                 currOption.addProperty(propertyName, currOption.getDefaultValues().get(0));
             } else {
-                throw new OptionParserException(
-                        "Option " + currOption.getDisplayName() + ", must be part of a property");
+                throw new OptionParserException("Option " + currOption.getDisplayName() + ", must be part of a property");
             }
         } else {
             String propertyName = word.substring(name.length(), word.indexOf(EQUALS));
@@ -268,8 +228,7 @@ public class AeshOptionParser implements OptionParser {
     }
 
     private enum Status {
-        NULL,
-        OPTION_FOUND,
-        ACTIVE;
+
+        NULL, OPTION_FOUND, ACTIVE
     }
 }

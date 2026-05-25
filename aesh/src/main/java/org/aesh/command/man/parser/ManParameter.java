@@ -21,7 +21,6 @@ package org.aesh.command.man.parser;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.aesh.terminal.utils.Config;
 import org.aesh.terminal.utils.Parser;
 
@@ -31,7 +30,9 @@ import org.aesh.terminal.utils.Parser;
 public class ManParameter {
 
     final List<String> out = new ArrayList<>();
+
     private static final String argPad = "  ";
+
     private static final String textPad = "    ";
 
     /**
@@ -39,54 +40,24 @@ public class ManParameter {
      * following lines are the description
      */
     public ManParameter parseParams(List<String> input, int columns) {
-        out.add(argPad + ManParserUtil.convertStringToAnsi(input.get(0)));
-        input.remove(0);
-        if (!input.isEmpty()) {
-            StringBuilder builder = new StringBuilder();
-            for (String in : input) {
-                if (in.trim().length() > 0)
-                    builder.append(in.trim()).append(' ');
-            }
-
-            if (builder.length() > 0) {
-                for (String s : Parser.splitBySizeKeepWords(builder.toString(), columns - textPad.length())) {
-                    out.add(textPad + ManParserUtil.convertStringToAnsi(s));
-                }
-            }
-            //add an empty line at the bottom to create a line separator between params
-            if (out.size() > 0)
-                out.add(" ");
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> getAsList() {
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String printToTerminal() {
-        StringBuilder builder = new StringBuilder();
-        for (String s : out)
-            builder.append(s).append(Config.getLineSeparator());
-
-        return builder.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof ManParameter))
-            return false;
-
-        ManParameter that = (ManParameter) o;
-
-        return !(out != null ? !out.equals(that.out) : that.out != null);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return out != null ? out.hashCode() : 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

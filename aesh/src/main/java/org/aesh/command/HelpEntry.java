@@ -28,6 +28,7 @@ package org.aesh.command;
 public class HelpEntry {
 
     private final String name;
+
     private final String description;
 
     public HelpEntry(String name, String description) {
@@ -36,10 +37,10 @@ public class HelpEntry {
     }
 
     public String name() {
-        return name;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String description() {
-        return description;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

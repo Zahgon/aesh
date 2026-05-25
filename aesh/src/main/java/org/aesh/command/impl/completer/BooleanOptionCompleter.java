@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.impl.completer;
 
 import org.aesh.command.completer.CompleterInvocation;
@@ -27,16 +26,9 @@ import org.aesh.command.completer.OptionCompleter;
  * @author Aesh team
  */
 public class BooleanOptionCompleter implements OptionCompleter<CompleterInvocation> {
+
     @Override
     public void complete(CompleterInvocation completerData) {
-        if (completerData.getGivenCompleteValue().length() == 0) {
-            completerData.addCompleterValue("true");
-            completerData.addCompleterValue("false");
-        } else if ("true".startsWith(completerData.getGivenCompleteValue().toLowerCase())) {
-            completerData.addCompleterValue("true");
-
-        } else if ("false".startsWith(completerData.getGivenCompleteValue().toLowerCase())) {
-            completerData.addCompleterValue("false");
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

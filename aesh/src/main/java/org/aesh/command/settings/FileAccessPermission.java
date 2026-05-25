@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.aesh.command.settings;
 
 /**
@@ -26,7 +25,6 @@ package org.aesh.command.settings;
  * <i>readable</i> and <i>writable</i> will be true by default.
  *
  * @author Aesh team
- *
  */
 public class FileAccessPermission {
 
@@ -53,84 +51,83 @@ public class FileAccessPermission {
      * @return the executable
      */
     public boolean isExecutable() {
-        return executable;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @param executable the executable to set
      */
     public void setExecutable(boolean executable) {
-        this.executable = executable;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return the executableOwnerOnly
      */
     public boolean isExecutableOwnerOnly() {
-        return executableOwnerOnly;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @param executableOwnerOnly the executableOwnerOnly to set
      */
     public void setExecutableOwnerOnly(boolean executableOwnerOnly) {
-        this.executableOwnerOnly = executableOwnerOnly;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return the readable
      */
     public boolean isReadable() {
-        return readable;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @param readable the readable to set
      */
     public void setReadable(boolean readable) {
-        this.readable = readable;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return the readableOwnerOnly
      */
     public boolean isReadableOwnerOnly() {
-        return readableOwnerOnly;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @param readableOwnerOnly the readableOwnerOnly to set
      */
     public void setReadableOwnerOnly(boolean readableOwnerOnly) {
-        this.readableOwnerOnly = readableOwnerOnly;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return the writable
      */
     public boolean isWritable() {
-        return writable;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @param writable the writable to set
      */
     public void setWritable(boolean writable) {
-        this.writable = writable;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return the writableOwnerOnly
      */
     public boolean isWritableOwnerOnly() {
-        return writableOwnerOnly;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @param writableOwnerOnly the writableOwnerOnly to set
      */
     public void setWritableOwnerOnly(boolean writableOwnerOnly) {
-        this.writableOwnerOnly = writableOwnerOnly;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

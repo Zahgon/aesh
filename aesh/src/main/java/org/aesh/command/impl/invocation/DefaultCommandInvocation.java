@@ -22,7 +22,6 @@ package org.aesh.command.impl.invocation;
 import java.io.Console;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
 import org.aesh.command.CommandException;
 import org.aesh.command.CommandNotFoundException;
 import org.aesh.command.CommandRuntime;
@@ -54,10 +53,7 @@ public class DefaultCommandInvocation implements CommandInvocation {
 
     private final CommandContainer<DefaultCommandInvocation> commandContainer;
 
-    public DefaultCommandInvocation(CommandRuntime<DefaultCommandInvocation> processor,
-            CommandInvocationConfiguration config,
-            CommandContainer<DefaultCommandInvocation> commandContainer,
-            Shell shell) {
+    public DefaultCommandInvocation(CommandRuntime<DefaultCommandInvocation> processor, CommandInvocationConfiguration config, CommandContainer<DefaultCommandInvocation> commandContainer, Shell shell) {
         this.processor = processor;
         this.config = config;
         this.commandContainer = commandContainer;
@@ -69,199 +65,144 @@ public class DefaultCommandInvocation implements CommandInvocation {
 
     @Override
     public Shell getShell() {
-        return shell;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setPrompt(Prompt prompt) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Prompt getPrompt() {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getHelpInfo(String commandName) {
-        return processor.commandInfo(commandName);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getHelpInfo() {
-        return commandContainer.getParser().parsedCommand().printHelp();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void stop() {
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public KeyAction input() {
-        try {
-            return getShell().read();
-        } catch (InterruptedException ignored) {
-            Thread.currentThread().interrupt();
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public KeyAction input(long timeout, TimeUnit unit) throws InterruptedException {
-        try {
-            return getShell().read(timeout, unit);
-        } catch (InterruptedException ignored) {
-            Thread.currentThread().interrupt();
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String inputLine() {
-        return inputLine(null);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String inputLine(Prompt prompt) {
-        try {
-            return getShell().readLine(prompt);
-        } catch (InterruptedException ignored) {
-            Thread.currentThread().interrupt();
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public void executeCommand(String input) throws CommandNotFoundException,
-            CommandLineParserException,
-            OptionValidatorException,
-            CommandValidatorException,
-            CommandException,
-            InterruptedException,
-            IOException {
-        processor.executeCommand(input);
+    public void executeCommand(String input) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, CommandException, InterruptedException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void print(String msg, boolean paging) {
-        shell.write(msg, paging);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void println(String msg, boolean paging) {
-        shell.writeln(msg, paging);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public Executor<? extends CommandInvocation> buildExecutor(String line) throws CommandNotFoundException,
-            CommandLineParserException,
-            OptionValidatorException,
-            CommandValidatorException,
-            IOException {
-        return processor.buildExecutor(line);
+    public Executor<? extends CommandInvocation> buildExecutor(String line) throws CommandNotFoundException, CommandLineParserException, OptionValidatorException, CommandValidatorException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CommandInvocationConfiguration getConfiguration() {
-        return config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static class DefaultShell implements Shell {
 
         @Override
         public void write(String out, boolean paging) {
-            System.out.print(out);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void writeln(String out, boolean paging) {
-            System.out.println(out);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void write(int[] out) {
-            Console console = System.console();
-            if (console != null) {
-                console.writer().write(Parser.fromCodePoints(out));
-                console.writer().flush();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void write(char out) {
-            System.out.println(out);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public String readLine() {
-            return readLine(new Prompt());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public String readLine(Prompt prompt) {
-            Console console = System.console();
-            if (console != null) {
-                if (prompt != null) {
-                    console.writer().print(Parser.fromCodePoints(prompt.getANSI()));
-                    console.writer().flush();
-                    if (prompt.isMasking()) {
-                        return new String(console.readPassword());
-                    }
-                }
-                return console.readLine();
-            }
-            return null;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public Key read() {
-            return read(null);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public Key read(long timeout, TimeUnit unit) throws InterruptedException {
-            return read(null);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public Key read(Prompt prompt) {
-            Console console = System.console();
-            if (console != null) {
-                try {
-                    if (prompt != null) {
-                        console.writer().print(Parser.fromCodePoints(prompt.getANSI()));
-                        console.writer().flush();
-                    }
-                    int input = console.reader().read();
-                    return Key.getKey(new int[] { input });
-                } catch (IOException e) {
-                    // I/O error reading key, return null
-                }
-            }
-            return null;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean enableAlternateBuffer() {
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean enableMainBuffer() {
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public Size size() {
-            return new Size(1, -1);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void clear() {
-            Console console = System.console();
-            if (console != null) {
-                console.writer().write(Parser.fromCodePoints(ANSI.CLEAR_SCREEN));
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }
